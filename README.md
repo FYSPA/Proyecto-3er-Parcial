@@ -38,4 +38,4 @@ Durante el transcurso del **tercer parcial del quinto semestre**, los estudiante
 Este proyecto ha sido elaborado por los **alumnos del CBTis No. 225**, bajo la orientación del área académica de **Programación**.  
 Todos los derechos reservados © CBTis 225.
 
-![Nod Cat](https://media.tenor.com/YourGifCodeHere/tenor.gif)
+![Nod Cat](assetsGit/nod-cat.gif)
