@@ -1,0 +1,16 @@
+{
+  "name": "proyecto",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "devHost": "astro dev --host"
+  },
+  "dependencies": {
+    "astro": "^5.15.2",
+    "shiki": "^3.14.0"
+  }
+}
