@@ -1,7 +1,7 @@
 ---
 const {title = "Pagina de Juegos"} = Astro.props;
 import { ClientRouter } from "astro:transitions";
-import HeaderComponent from "../components/headerComponents/HeaderComponent.astro"
+
 ---
 
 <!doctype html>
@@ -15,7 +15,6 @@ import HeaderComponent from "../components/headerComponents/HeaderComponent.astr
 		<ClientRouter />
 	</head>
 	<body>
-		<HeaderComponent />
 		<main>
 			<slot />
 		</main>

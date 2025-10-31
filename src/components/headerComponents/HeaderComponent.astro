@@ -1,0 +1,100 @@
+---
+import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
+---
+
+<header>
+    <div class="izquierda-header">
+        <span>Logo</span>
+        <nav>
+            <ul>
+                <li><a href="/aoboutMe">Quienes Somos</a></li>
+                <li><a href="/noticias">Noticias</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="derecha-header">
+        <GlobeAnimated></GlobeAnimated>
+        <div class="contenedor-buscador">
+            <svg class="icono-buscador" xmlns="http://www.w3.org/2000/svg" width="20" height="auto" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="12;0"/></path></g></svg>
+            <input type="text" placeholder="Buscar" class="input-buscador">
+        </div>
+        <a href="/loginPage">Iniciar Sesion</a>
+    </div>
+</header>
+
+
+<style>
+    a{
+        text-decoration: none;
+        color: black;
+    }
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0 50px 0 50px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .izquierda-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .izquierda-header a {
+        text-decoration: none;
+        color: white;
+        transition: 1s color ease;
+    }
+
+    .izquierda-header a:hover {
+        color: red;
+    }
+
+    .izquierda-header ul {
+        display: flex;
+        gap: 30px;
+        list-style-type: none;
+    }
+
+    .derecha-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .input-buscador {
+        border-radius: 30px;
+        border:1px solid rgb(110, 109, 109);
+        background-color: transparent;
+        padding: 5px 38px 5px 10px;
+        margin:10px;
+    }
+    .input-buscador::placeholder{
+        color:white;
+    }
+
+    .contenedor-buscador {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .icono-buscador {
+        position: absolute;
+        right: 195px;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .derecha-header a {
+        background-color: #d13639;
+        padding: 5px 20px 5px 20px;
+        border-radius: 20px;
+    }
+</style>
