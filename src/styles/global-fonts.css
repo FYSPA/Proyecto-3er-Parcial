@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Console-bold';
+  src: url('/fonts/Console-bold') format('woff');
+}
+@font-face {
+  font-family: 'Console-regular';
+  src: url('/fonts/Console-regular') format('woff');
+}

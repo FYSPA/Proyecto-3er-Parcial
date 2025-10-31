@@ -1,5 +1,8 @@
 ---
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
+import SunAnimated from "@components/icons/SunAnimated.astro"
+import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import '@styles/global-fonts.css'
 ---
 
 <header>
@@ -7,12 +10,20 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
         <span>Logo</span>
         <nav>
             <ul>
-                <li><a href="/aoboutMe">Quienes Somos</a></li>
+                <li><a href="/aoboutMe">Quiénes Somos</a></li>
                 <li><a href="/noticias">Noticias</a></li>
             </ul>
         </nav>
     </div>
     <div class="derecha-header">
+        <button id="modoLecturaBtn">
+            <div id="moonIcon">
+                <MoonAnimated />
+            </div>
+            <div id="sunIcon" style="display: none;">
+                <SunAnimated />
+            </div>
+        </button>
         <GlobeAnimated></GlobeAnimated>
         <div class="contenedor-buscador">
             <svg class="icono-buscador" xmlns="http://www.w3.org/2000/svg" width="20" height="auto" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="12;0"/></path></g></svg>
@@ -26,15 +37,21 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
 <style>
     a{
         text-decoration: none;
-        color: black;
     }
     header {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin: 0 50px 0 50px;
+        margin: 20px 50px 20px 50px;
         text-align: center;
         align-items: center;
+        border:1px solid rgba(110, 109, 109, 0.164);
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+        font-family: "Console-regular", sans-serif;
     }
 
     .izquierda-header {
@@ -46,13 +63,32 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
 
     .izquierda-header a {
         text-decoration: none;
-        color: white;
-        transition: 1s color ease;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;  /* Necesario para el ::after */
+        display: inline-block;  /* Para que funcione position: absolute en ::after */
+        transition: all 0.3s ease;  /* Animación suave */
     }
 
     .izquierda-header a:hover {
-        color: red;
+        background-color: #2d313d;
     }
+
+    .izquierda-header a::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;  /* Ajusta la distancia debajo del texto */
+        left: 0;
+        width: 0;  /* Comienza sin ancho */
+        height: 3px;
+        background: linear-gradient(to right, #ff0000, #ff6600);
+        transition: width 0.5s ease;  
+    }
+
+    .izquierda-header a:hover::after {
+        width: 100%;  /* Se expande al hacer hover */
+    }
+
 
     .izquierda-header ul {
         display: flex;
@@ -74,9 +110,6 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
         padding: 5px 38px 5px 10px;
         margin:10px;
     }
-    .input-buscador::placeholder{
-        color:white;
-    }
 
     .contenedor-buscador {
         display: flex;
@@ -85,7 +118,7 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
     }
     .icono-buscador {
         position: absolute;
-        right: 195px;
+        right: 210px;
         width: 20px;
         height: 20px;
         pointer-events: none;
@@ -97,4 +130,64 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
         padding: 5px 20px 5px 20px;
         border-radius: 20px;
     }
+
+     button {
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        position: relative;
+        top: 1px;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    body.modo-oscuro button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    a {
+		color: #000000; /* Azul */
+	}
+
+		/* Tema oscuro */
+	body.modo-oscuro a {
+		color: #ffffff; /* Azul claro */
+	}
 </style>
+
+
+<script type="text/javascript">
+    const boton = document.getElementById('modoLecturaBtn');
+const cuerpo = document.body;
+const moonIcon = document.getElementById('moonIcon');
+const sunIcon = document.getElementById('sunIcon');
+
+boton.addEventListener('click', () => {
+  cuerpo.classList.toggle('modo-oscuro');
+  
+  if (cuerpo.classList.contains('modo-oscuro')) {
+    moonIcon.style.display = 'none';
+    sunIcon.style.display = 'block';
+    localStorage.setItem('tema', 'oscuro');
+  } else {
+    moonIcon.style.display = 'block';
+    sunIcon.style.display = 'none';
+    localStorage.removeItem('tema');
+  }
+});
+
+// Al cargar, revisar el tema guardado
+const temaSaved = localStorage.getItem('tema');
+if (temaSaved === 'oscuro') {
+  cuerpo.classList.add('modo-oscuro');
+  moonIcon.style.display = 'none';
+  sunIcon.style.display = 'block';
+}
+
+
+</script>

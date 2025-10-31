@@ -24,10 +24,26 @@ import HeaderComponent from "../components/headerComponents/HeaderComponent.astr
 
 <style>
 	html {
-		color-scheme: dark light;
+		color-scheme: light;
 	}
+
+	html.modo-oscuro {
+		color-scheme: dark;
+	}
+	
 	body {
+		background-color: #ffffff;
+		color: #000000;
+		transition: background-color 0.3s, color 0.3s;
 		margin: 0;
 		padding: 0;
 	}
+
+	body.modo-oscuro {
+		background-color: #1a1a1a;
+		color: #ffffff;
+		margin: 0;
+		padding: 0;
+	}
+
 </style>
