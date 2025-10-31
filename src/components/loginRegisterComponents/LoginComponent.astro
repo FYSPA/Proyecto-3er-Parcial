@@ -1,3 +1,7 @@
+---
+import '@styles/global-fonts.css'
+import GoogleIcon from "@components/icons/GoogleIcon.astro"
+---
 <main>
     <h1>Login</h1>
     <div class="input-div">
@@ -7,16 +11,62 @@
         <input type="email" name="email" id="email">
         <label for="Password">Password</label>
         <input type="password" name="password" id="password">
+        <span class="">No tienes cuenta? <a href="/LoginRegisterPages/RegisterPage">Crea una nueva</a></span>
+        <span style="text-align: center; margin-top: 20px; font-weight: bold;">Login con Aplicaciones</span>
+        <button class="btn-google">
+            <span class="google-logo">
+                <GoogleIcon />
+            </span>
+            <span class="google-text">Google</span>
+        </button>
+
     </div>
 </main>
 
 <style>
+    a {
+        text-decoration: none;
+        color: red;
+    }
+    .btn-google {
+        margin-top: 10px;
+        height: 35px;
+        border-radius: 10px;
+        box-shadow: 10px 10px 34px 0px rgba(2, 9, 109, 0.75);
+        -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+        background-color: transparent;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .google-text {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: 
+            opacity 0.15s 0.15s,    /* Aparece después de moverse */
+            transform 0.3s;
+        white-space: nowrap;
+        color: white;
+        }
+
+
+        .btn-google:hover .google-text {
+        opacity: 1;
+        transform: translateX(0);
+        }
+
+
     main {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         height: 100vh;
+        font-family: "Console-regular", sans-serif;
     }
 
     .input-div {
@@ -30,5 +80,7 @@
         margin-bottom: 40px;
         border: none;
         padding: 10px;
+        border-radius: 10px;
+        margin-top: 8px;
     }
 </style>
