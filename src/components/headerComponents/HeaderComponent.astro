@@ -2,12 +2,15 @@
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import IconRiot from "@components/icons/IconRiot.astro"
 import '@styles/global-fonts.css'
 ---
 
 <header>
     <div class="izquierda-header">
-        <span>Logo</span>
+        <div class="contenedor-riot">
+            <IconRiot></IconRiot>
+        </div>
         <nav>
             <ul>
                 <li><a href="/aoboutMe">Quiénes Somos</a></li>
@@ -29,7 +32,7 @@ import '@styles/global-fonts.css'
             <svg class="icono-buscador" xmlns="http://www.w3.org/2000/svg" width="20" height="auto" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="12;0"/></path></g></svg>
             <input type="text" placeholder="Buscar" class="input-buscador">
         </div>
-        <a href="/loginPage">Iniciar Sesion</a>
+        <a href="/LoginRegisterPages/loginPage">Iniciar Sesion</a>
     </div>
 </header>
 
@@ -142,10 +145,6 @@ import '@styles/global-fonts.css'
         transition: background-color 0.3s;
     }
 
-    button:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
     body.modo-oscuro button:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
@@ -158,36 +157,61 @@ import '@styles/global-fonts.css'
 	body.modo-oscuro a {
 		color: #ffffff; /* Azul claro */
 	}
+
+    .contenedor-riot {
+        position: relative;
+        left: 30px;
+    }
+
+    .icon-tema {
+        stroke: #444; /* Claro */
+        fill: #444;
+    }
+
+    body.modo-oscuro .icon-tema {
+        stroke: #ffffff; /* Amarillo / color que quieras modo oscuro */
+        fill: #ffffff;
+    }
 </style>
 
 
-<script type="text/javascript">
+<script is:inline>
+    function activarTemaHeader() {
     const boton = document.getElementById('modoLecturaBtn');
-const cuerpo = document.body;
-const moonIcon = document.getElementById('moonIcon');
-const sunIcon = document.getElementById('sunIcon');
+    const cuerpo = document.body;
+    const moonIcon = document.getElementById('moonIcon');
+    const sunIcon = document.getElementById('sunIcon');
 
-boton.addEventListener('click', () => {
-  cuerpo.classList.toggle('modo-oscuro');
-  
-  if (cuerpo.classList.contains('modo-oscuro')) {
-    moonIcon.style.display = 'none';
-    sunIcon.style.display = 'block';
-    localStorage.setItem('tema', 'oscuro');
-  } else {
-    moonIcon.style.display = 'block';
-    sunIcon.style.display = 'none';
-    localStorage.removeItem('tema');
-  }
-});
+    if (!boton || !moonIcon || !sunIcon) return;
 
-// Al cargar, revisar el tema guardado
-const temaSaved = localStorage.getItem('tema');
-if (temaSaved === 'oscuro') {
-  cuerpo.classList.add('modo-oscuro');
-  moonIcon.style.display = 'none';
-  sunIcon.style.display = 'block';
-}
+    // SIEMPRE leer el estado guardado al cargar
+    const temaSaved = localStorage.getItem('tema');
+    if (temaSaved === 'oscuro') {
+        cuerpo.classList.add('modo-oscuro');
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+    } else {
+        cuerpo.classList.remove('modo-oscuro');
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+    }
 
+    // No dupliques listeners
+    boton.onclick = () => {
+        cuerpo.classList.toggle('modo-oscuro');
+        if (cuerpo.classList.contains('modo-oscuro')) {
+        moonIcon.style.display = 'none';
+        sunIcon.style.display = 'block';
+        localStorage.setItem('tema', 'oscuro');
+        } else {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
+        localStorage.removeItem('tema');
+        }
+    };
+    }
 
+    // Para Astro navegación SPA:
+    document.addEventListener('DOMContentLoaded', activarTemaHeader);
+    document.addEventListener('astro:after-swap', activarTemaHeader);
 </script>
