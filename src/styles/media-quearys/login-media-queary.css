@@ -1,0 +1,139 @@
+@media (max-width: 380px) {
+  main {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+    padding-bottom: 0px;
+
+  }
+  .input-div {
+    padding: 15px;
+  }
+  .input-div input {
+    width: 100%;
+    max-width: 250px;
+    height: 28px;
+    margin-bottom: 15px;
+    margin-top: 3px;
+    padding: 6px;
+  }
+  #modoLecturaBtn {
+    left: 100%;
+    width: 35px;
+    padding: 5px;
+  }
+  h1 {
+    font-size: 24px;
+    margin: 10px 0;
+  }
+  .btn-google, .btn-login {
+    height: 28px;
+    font-size: 13px;
+    width: 100%;
+    max-width: 250px;
+  }
+  span {
+    font-size: 12px;
+    margin-top: 8px !important;
+  }
+  .google-logo {
+    left: 15px;
+  }
+  .google-text {
+    left: 0;
+  }
+}
+
+@media (min-width: 381px) and (max-width: 600px) {
+  main {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    padding-bottom: 0px;
+
+  }
+  .input-div {
+    padding: 25px;
+  }
+  .input-div input {
+    width: 100%;
+    max-width: 280px;
+    height: 30px;
+    margin-bottom: 18px;
+    margin-top: 4px;
+    padding: 8px;
+  }
+  #modoLecturaBtn {
+    left: 110%;
+    width: 42px;
+    padding: 7px;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 12px 0;
+  }
+  .btn-google, .btn-login {
+    height: 30px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 280px;
+  }
+  span {
+    font-size: 13px;
+    margin-top: 12px !important;
+  }
+  .google-logo {
+    left: 18px;
+  }
+  .google-text {
+    left: 2px;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  main {
+    margin-top: 35px;
+    margin-bottom: 35px;
+    padding: 25px;
+    padding-bottom: 0px;
+  }
+  .input-div {
+    padding: 35px;
+  }
+  .input-div input {
+    width: 320px;
+    height: 32px;
+    margin-bottom: 22px;
+    margin-top: 5px;
+    padding: 9px;
+  }
+  #modoLecturaBtn {
+    left: 120%;
+    width: 48px;
+    padding: 9px;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 15px 0;
+  }
+  .btn-google, .btn-login {
+    height: 32px;
+    font-size: 15px;
+  }
+  span {
+    font-size: 14px;
+    margin-top: 15px !important;
+  }
+  .google-logo {
+    left: 22px;
+  }
+  .google-text {
+    left: 4px;
+  }
+}
+
+@media (min-width: 901px) {
+  .input-div input {
+    width: 400px;
+  }
+}

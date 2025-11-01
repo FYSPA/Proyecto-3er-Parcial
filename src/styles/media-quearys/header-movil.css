@@ -1,0 +1,131 @@
+/* HAMBURGUESA - OCULTA POR DEFECTO */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: clamp(4px, 0.8vw, 6px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: clamp(5px, 1vw, 8px);
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: clamp(20px, 4vw, 25px);
+    height: 2px;
+    background-color: #000000;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* MENÚ MÓVIL */
+.nav-mobile {
+    display: none;
+    flex-direction: column;
+    gap: clamp(12px, 2vw, 20px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: clamp(80px, 20vw, 100px) clamp(20px, 5vw, 30px);
+    z-index: 999;
+    overflow-y: auto;
+    animation: slideInLeft 0.3s ease;
+}
+
+.nav-mobile.active {
+    display: flex;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.nav-mobile a {
+    text-decoration: none;
+    padding: clamp(12px, 2vw, 15px);
+    border-radius: 10px;
+    font-size: clamp(14px, 3vw, 18px);
+    color: #000000;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.nav-mobile a:hover {
+    background-color: rgba(209, 54, 57, 0.1);
+    color: #d13639;
+}
+
+.btn-login-mobile {
+    background-color: #d13639 !important;
+    color: white !important;
+    text-align: center;
+    font-weight: bold;
+    margin-top: clamp(10px, 2vw, 20px);
+}
+
+.btn-login-mobile:hover {
+    background-color: #a52a2d !important;
+}
+
+/* DARK MODE */
+:root.modo-oscuro .hamburger span {
+    background-color: #ffffff;
+}
+
+:root.modo-oscuro .nav-mobile {
+    background: rgba(26, 26, 26, 0.95);
+}
+
+:root.modo-oscuro .nav-mobile a {
+    color: #ffffff;
+}
+
+/* ========================================
+   MOSTRAR MENÚ MÓVIL SOLO EN CELULARES
+   ======================================== */
+
+/* Móviles pequeños (< 380px) */
+@media (max-width: 380px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* Teléfonos (381px - 600px) */
+@media (min-width: 381px) and (max-width: 600px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+/* Tablets en adelante: OCULTAR MENÚ MÓVIL */
+@media (min-width: 601px) {
+    .hamburger {
+        display: none !important;
+    }
+    
+    .nav-mobile {
+        display: none !important;
+    }
+}

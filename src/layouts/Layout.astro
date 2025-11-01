@@ -30,7 +30,7 @@ import HeaderComponent from "../components/headerComponents/HeaderComponent.astr
 	html.modo-oscuro {
 		color-scheme: dark;
 	}
-	
+
 	body {
 		background-color: #ffffff;
 		color: #000000;
@@ -45,5 +45,42 @@ import HeaderComponent from "../components/headerComponents/HeaderComponent.astr
 		margin: 0;
 		padding: 0;
 	}
+
+	/* Móviles pequeños (< 380px) */
+	@media (max-width: 380px) {
+		html {
+			font-size: 12px;
+		}
+		
+		body {
+			overflow-x: hidden;
+		}
+	}
+
+	/* Teléfonos (381px - 600px) */
+	@media (min-width: 381px) and (max-width: 600px) {
+		html {
+			font-size: 13px;
+		}
+		
+		body {
+			overflow-x: hidden;
+		}
+	}
+
+	/* Tablets (601px - 900px) */
+	@media (min-width: 601px) and (max-width: 900px) {
+		html {
+			font-size: 14px;
+		}
+	}
+
+	/* Desktop (901px+) */
+	@media (min-width: 901px) {
+		html {
+			font-size: 16px;
+		}
+	}
+
 
 </style>

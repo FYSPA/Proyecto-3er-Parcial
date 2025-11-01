@@ -1,34 +1,156 @@
-<main>
-    <h1>Login</h1>
-    <div class="input-div">
-        <label for="Email">Email</label>
-        <input type="text" name="name" id="name">
-        <label for="Email">Email</label>
-        <input type="email" name="email" id="email">
-        <label for="Password">Password</label>
-        <input type="password" name="password" id="password">
-    </div>
-</main>
+---
+import '@styles/global-fonts.css'
+import GoogleIcon from "@components/icons/GoogleIcon.astro"
+import SunAnimated from "@components/icons/SunAnimated.astro"
+import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import '@styles/media-quearys/login-media-queary.css'
+---
+<body>
+    <main>
+        <h1 class="title">Registrate</h1>
+        <div class="input-div">
+            <button id="modoLecturaBtn">
+                <div id="moonIcon">
+                    <MoonAnimated />
+                </div>
+                <div id="sunIcon" style="display: none;">
+                    <SunAnimated />
+                </div>
+            </button>
+            <label for="Email">Email</label>
+            <input type="text" name="name" id="name">
+            <label for="Email">Email</label>
+            <input type="email" name="email" id="email">
+            <label for="Password">Password</label>
+            <input type="password" name="password" id="password">
+            <span class="">Ya tienes Cuenta? <a href="/LoginRegisterPages/LoginPage">Inicia Sesión</a></span>
+            <span style="text-align: center; margin-top: 20px; font-weight: bold;">Registrate con Aplicaciones</span>
+            <button class="btn-google">
+                <span class="google-logo">
+                    <GoogleIcon />
+                </span>
+                <span class="google-text">Google</span>
+            </button>
+            <button class="btn-login">Registrate</button>
+        </div>
+    </main>
 
-<style>
-    main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        height: 100vh;
-    }
+    <style>
+        .title{
+            position: relative;
+            top: 30px;
+        }
+        .btn-google {
+            margin-top: 10px;
+            height: 35px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 34px 0px rgba(2, 9, 109, 0.75);
+            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        .google-text {
+            opacity: 0;
+            transition:
+                opacity 0.18s 0.12s,
+                transform 0.36s cubic-bezier(.45,1.6,.7,1);
+            white-space: nowrap;
+            color: white;
+            margin-left: 8px;
+            pointer-events: none;
+            position: relative;
+            left: 5px;
+        }
+        .google-logo {
+            position: relative;
+            left: 25px;
+        }
 
-    .input-div {
-        display: flex;
-        flex-direction: column;
-        padding: 40px;
-    }
-    .input-div input {
-        width: 400px;
-        height: 20px;
-        margin-bottom: 40px;
-        border: none;
-        padding: 10px;
-    }
-</style>
+        .btn-google:hover .google-logo {
+            transform: translateX(-24px); /* Mueve el logo a la izquierda */
+        }
+
+        .btn-google:hover .google-text {
+            opacity: 1;
+            transform: translateX(-20px);
+            pointer-events: auto;
+        }
+
+
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 80vh;
+            font-family: "Consola-regular", sans-serif;
+            background: rgba(255, 255, 255, 0.116);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(6.6px);
+            -webkit-backdrop-filter: blur(6.6px);
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .input-div {
+            display: flex;
+            flex-direction: column;
+            padding-left: 40px;
+            padding-right: 40px;
+            
+        }
+        .input-div input {
+            width: 400px;
+            height: 20px;
+            margin-bottom: 20px;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 8px;
+        }
+
+        a {
+            color: #ff0000;
+            text-decoration: underline;
+        }
+
+        #modoLecturaBtn {
+            background-color: rgb(128, 128, 128);
+            border: none;
+            border-radius: 20px;
+            position: relative;
+            left: 90%;
+            height: auto;
+            width: 50px;
+            padding: 10px;
+            top: -70px;
+        }
+
+        .btn-login {
+            margin-top: 30px;
+            height: 35px;
+            border-radius: 10px;
+            box-shadow: 10px 10px 34px 0px rgba(2, 9, 109, 0.75);
+            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+        }
+    </style>
+    <script type="module" src="/scripts/color-scheame.js"></script>
+
+</body>

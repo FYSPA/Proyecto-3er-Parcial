@@ -4,5 +4,172 @@ import LoginComponent from "@components/loginRegisterComponents/LoginComponent.a
 ---
 
 <LayoutRegLogi title="Login">
-    <LoginComponent />
+    <body>
+        <div class="background-pattern"></div>
+        <div class="diamond-lines"></div>
+        <LoginComponent />
+    </body>
 </LayoutRegLogi>
+
+<style>
+    :root {
+        --primary-color: #83827e9d;
+        --text-color: #ffffff; 
+        --input-bg: #222222; 
+        --input-border-focus: #555555; 
+        --background-solid: #000000;
+        
+        /* Colores de la ola */
+        --wave-color-1: #888688;
+        --wave-color-2: #000000;
+        --wave-color-3: #6e6e6c;
+        
+        --pattern-size: 60px;
+        --line-thickness: 2px;
+        --form-width: 350px;
+    }
+
+    /* Base responsiva con zoom support */
+    html {
+        font-size: clamp(14px, 2.5vw, 16px); /* Escala con viewport */
+        -webkit-text-size-adjust: 100%; /* Evita zoom automático en mobile */
+    }
+
+    /* 1. Fondo negro sólido y centrado */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: var(--background-solid); 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        color: var(--text-color); 
+        padding: clamp(10px, 3vw, 20px); /* Padding responsivo */
+    }
+
+    /* Animación de la ola de color */
+    @keyframes color-wave {
+        0% {
+            background-position: 0% 50%;
+        }
+        100% {
+            background-position: 100% 50%;
+        }
+    }
+
+    /* 2. Capa de Patrón y Ola Animada */
+    .diamond-lines {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+        
+        /* Fondo con la OLA ANIMADA */
+        background: linear-gradient(
+            -45deg, 
+            var(--wave-color-1), 
+            var(--wave-color-2), 
+            var(--wave-color-3), 
+            var(--wave-color-1)
+        );
+        background-size: 400% 400%;
+        animation: color-wave 10s ease infinite alternate;
+
+        /* Máscara de Rombos */
+        mask-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><polyline points="0,30 30,0 60,30 30,60 0,30" fill="none" stroke="white" stroke-width="2.5"/><polyline points="30,0 60,30 30,60 0,30" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/></svg>');
+        
+        -webkit-mask-image: url('data:image/svg+xml;utf8,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><polyline points="0,30 30,0 60,30 30,60 0,30" fill="none" stroke="white" stroke-width="2.5"/><polyline points="30,0 60,30 30,60 0,30" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5"/></svg>');
+        
+        mask-repeat: repeat;
+        -webkit-mask-repeat: repeat;
+        mask-size: clamp(40px, 8vw, 60px); /* Pattern size responsivo */
+        -webkit-mask-size: clamp(40px, 8vw, 60px);
+    }
+
+    /* Responsive para tablets y pantallas medianas */
+    @media (max-width: 768px) {
+        :root {
+            --form-width: calc(100vw - 40px); /* Ancho adaptable */
+            --pattern-size: clamp(40px, 6vw, 50px);
+        }
+
+        body {
+            padding: clamp(10px, 5vw, 20px);
+            min-height: 100vh;
+        }
+
+        .diamond-lines {
+            position: fixed;
+        }
+    }
+
+    /* Responsive para móviles pequeños */
+    @media (max-width: 480px) {
+        :root {
+            --form-width: calc(100vw - 30px);
+            --pattern-size: 35px;
+        }
+
+        html {
+            font-size: clamp(12px, 3vw, 14px);
+        }
+
+        body {
+            padding: 10px;
+            justify-content: flex-start;
+            padding-top: clamp(20px, 10vh, 40px);
+        }
+
+        .diamond-lines {
+            mask-size: 35px 35px;
+            -webkit-mask-size: 35px 35px;
+        }
+    }
+
+    /* Ultra-responsive para pantallas muy pequeñas */
+    @media (max-width: 320px) {
+        :root {
+            --form-width: calc(100vw - 20px);
+            --pattern-size: 30px;
+        }
+
+        html {
+            font-size: 12px;
+        }
+    }
+
+    /* Soporte para pantallas grandes (desktop) */
+    @media (min-width: 1200px) {
+        :root {
+            --form-width: 400px;
+        }
+
+        body {
+            padding: 40px;
+        }
+    }
+
+    /* Optimización para orientación landscape en móviles */
+    @media (max-height: 500px) and (orientation: landscape) {
+        body {
+            min-height: auto;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+    }
+
+    /* Evitar scroll horizontal */
+    @media (max-width: 480px) {
+        * {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+    }
+</style>

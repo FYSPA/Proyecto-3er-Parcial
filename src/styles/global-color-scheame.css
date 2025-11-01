@@ -1,0 +1,12 @@
+/* 
+Este css es importante para los iconos del header, 
+al cambiar de tema se cambie el contrario del color,
+si se quita, dejara de cambiar de color el icon y se perdera por el fondo
+*/
+.icon-tema {
+  color: #000 !important;
+}
+
+body.modo-oscuro .icon-tema {
+  color: #fff !important;
+}

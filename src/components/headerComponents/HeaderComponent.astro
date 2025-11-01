@@ -3,215 +3,185 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
 import IconRiot from "@components/icons/IconRiot.astro"
+import SearchAnimated from "@components/icons/SearchAnimated.astro"
+import HeaderComponentMovil from "./HeaderComponentMovil.astro"
 import '@styles/global-fonts.css'
+import '@styles/global-color-scheame.css'
+import '@styles/media-quearys/header-media-queary.css'
 ---
 
-<header>
-    <div class="izquierda-header">
-        <div class="contenedor-riot">
-            <IconRiot></IconRiot>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="/aoboutMe">Quiénes Somos</a></li>
-                <li><a href="/noticias">Noticias</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="derecha-header">
-        <button id="modoLecturaBtn">
-            <div id="moonIcon">
-                <MoonAnimated />
+<body>
+    <header>
+        <div class="izquierda-header">
+            <div class="contenedor-riot">
+                <IconRiot></IconRiot>
             </div>
-            <div id="sunIcon" style="display: none;">
-                <SunAnimated />
-            </div>
-        </button>
-        <GlobeAnimated></GlobeAnimated>
-        <div class="contenedor-buscador">
-            <svg class="icono-buscador" xmlns="http://www.w3.org/2000/svg" width="20" height="auto" viewBox="0 0 24 24"><g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke-dasharray="40" stroke-dashoffset="40" d="M10.76 13.24c-2.34 -2.34 -2.34 -6.14 0 -8.49c2.34 -2.34 6.14 -2.34 8.49 0c2.34 2.34 2.34 6.14 0 8.49c-2.34 2.34 -6.14 2.34 -8.49 0Z"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.5s" values="40;0"/></path><path stroke-dasharray="12" stroke-dashoffset="12" d="M10.5 13.5l-7.5 7.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="12;0"/></path></g></svg>
-            <input type="text" placeholder="Buscar" class="input-buscador">
+            <nav>
+                <ul>
+                    <li><a href="/aoboutMe">Quiénes Somos</a></li>
+                    <li><a href="/noticias">Noticias</a></li>
+                </ul>
+            </nav>
         </div>
-        <a href="/LoginRegisterPages/loginPage">Iniciar Sesion</a>
-    </div>
-</header>
+        <div class="derecha-header">
+            <button id="modoLecturaBtn">
+                <div id="moonIcon">
+                    <MoonAnimated />
+                </div>
+                <div id="sunIcon" style="display: none;">
+                    <SunAnimated />
+                </div>
+            </button>
+            <GlobeAnimated></GlobeAnimated>
+            <div class="contenedor-buscador">
+                <div class="icono-buscador">
+                    <SearchAnimated />
+                </div>
+                <input type="text" placeholder="Buscar" class="input-buscador">
+            </div>
+            <a href="/LoginRegisterPages/LoginPage">Iniciar Sesion</a>
+        </div>
+    </header>
+    <HeaderComponentMovil />
 
-
-<style>
-    a{
-        text-decoration: none;
-    }
-    header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin: 20px 50px 20px 50px;
-        text-align: center;
-        align-items: center;
-        border:1px solid rgba(110, 109, 109, 0.164);
-        padding: 10px;
-        border-radius: 20px;
-        box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-        -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-        font-family: "Console-regular", sans-serif;
-    }
-
-    .izquierda-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .izquierda-header a {
-        text-decoration: none;
-        padding: 10px;
-        border-radius: 10px;
-        position: relative;  /* Necesario para el ::after */
-        display: inline-block;  /* Para que funcione position: absolute en ::after */
-        transition: all 0.3s ease;  /* Animación suave */
-    }
-
-    .izquierda-header a:hover {
-        background-color: #2d313d;
-    }
-
-    .izquierda-header a::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;  /* Ajusta la distancia debajo del texto */
-        left: 0;
-        width: 0;  /* Comienza sin ancho */
-        height: 3px;
-        background: linear-gradient(to right, #ff0000, #ff6600);
-        transition: width 0.5s ease;  
-    }
-
-    .izquierda-header a:hover::after {
-        width: 100%;  /* Se expande al hacer hover */
-    }
-
-
-    .izquierda-header ul {
-        display: flex;
-        gap: 30px;
-        list-style-type: none;
-    }
-
-    .derecha-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .input-buscador {
-        border-radius: 30px;
-        border:1px solid rgb(110, 109, 109);
-        background-color: transparent;
-        padding: 5px 38px 5px 10px;
-        margin:10px;
-    }
-
-    .contenedor-buscador {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .icono-buscador {
-        position: absolute;
-        right: 210px;
-        width: 20px;
-        height: 20px;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .derecha-header a {
-        background-color: #d13639;
-        padding: 5px 20px 5px 20px;
-        border-radius: 20px;
-    }
-
-     button {
-        background-color: transparent;
-        cursor: pointer;
-        border: none;
-        position: relative;
-        top: 1px;
-        padding: 10px;
-        border-radius: 8px;
-        transition: background-color 0.3s;
-    }
-
-    body.modo-oscuro button:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    a {
-		color: #000000; /* Azul */
-	}
-
-		/* Tema oscuro */
-	body.modo-oscuro a {
-		color: #ffffff; /* Azul claro */
-	}
-
-    .contenedor-riot {
-        position: relative;
-        left: 30px;
-    }
-
-    .icon-tema {
-        stroke: #444; /* Claro */
-        fill: #444;
-    }
-
-    body.modo-oscuro .icon-tema {
-        stroke: #ffffff; /* Amarillo / color que quieras modo oscuro */
-        fill: #ffffff;
-    }
-</style>
-
-
-<script is:inline>
-    function activarTemaHeader() {
-    const boton = document.getElementById('modoLecturaBtn');
-    const cuerpo = document.body;
-    const moonIcon = document.getElementById('moonIcon');
-    const sunIcon = document.getElementById('sunIcon');
-
-    if (!boton || !moonIcon || !sunIcon) return;
-
-    // SIEMPRE leer el estado guardado al cargar
-    const temaSaved = localStorage.getItem('tema');
-    if (temaSaved === 'oscuro') {
-        cuerpo.classList.add('modo-oscuro');
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-    } else {
-        cuerpo.classList.remove('modo-oscuro');
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-    }
-
-    // No dupliques listeners
-    boton.onclick = () => {
-        cuerpo.classList.toggle('modo-oscuro');
-        if (cuerpo.classList.contains('modo-oscuro')) {
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-        localStorage.setItem('tema', 'oscuro');
-        } else {
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-        localStorage.removeItem('tema');
+    <style>
+        a{
+            text-decoration: none;
         }
-    };
-    }
+        header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 20px 50px 20px 50px;
+            text-align: center;
+            align-items: center;
+            border:1px solid rgba(110, 109, 109, 0.164);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            font-family: "Consola-regular", sans-serif;
+        }
 
-    // Para Astro navegación SPA:
-    document.addEventListener('DOMContentLoaded', activarTemaHeader);
-    document.addEventListener('astro:after-swap', activarTemaHeader);
-</script>
+        .izquierda-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .izquierda-header a {
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;  /* Necesario para el ::after */
+            display: inline-block;  /* Para que funcione position: absolute en ::after */
+            transition: all 0.3s ease;  /* Animación suave */
+        }
+
+        .izquierda-header a:hover {
+            background-color: #2d313d;
+            color: white;
+        }
+
+        .izquierda-header a::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;  /* Ajusta la distancia debajo del texto */
+            left: 0;
+            width: 0;  /* Comienza sin ancho */
+            height: 3px;
+            background: linear-gradient(to right, #ff0000, #ff6600);
+            transition: width 0.5s ease;  
+        }
+
+        .izquierda-header a:hover::after {
+            width: 100%;  /* Se expande al hacer hover */
+        }
+
+
+        .izquierda-header ul {
+            display: flex;
+            gap: 30px;
+            list-style-type: none;
+        }
+
+        .derecha-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .input-buscador {
+            border-radius: 30px;
+            border:1px solid rgb(110, 109, 109);
+            background-color: transparent;
+            padding: 5px 38px 5px 10px;
+            margin:10px;
+        }
+
+        .contenedor-buscador {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .icono-buscador {
+            position: absolute;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .derecha-header a {
+            background-color: #d13639;
+            padding: 5px 20px 5px 20px;
+            border-radius: 20px;
+        }
+
+        button {
+            background-color: transparent;
+            cursor: pointer;
+            border: none;
+            position: relative;
+            top: 1px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        body.modo-oscuro button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        a {
+            color: #000000;
+        }
+
+        body.modo-oscuro a {
+            color: #ffffff;
+        }
+
+        input {
+            color: #000000;
+        }
+
+        body.modo-oscuro input {
+            color: #ffffff;
+        }
+
+        .contenedor-riot {
+            position: relative;
+            left: 30px;
+        }
+
+    </style>
+
+    <script type="module" src="/scripts/color-scheame.js"></script>
+
+</body>

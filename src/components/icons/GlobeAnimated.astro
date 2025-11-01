@@ -3,6 +3,7 @@
     <!-- BOTÓN con icono y DIV para el widget oculto de Google -->
     <button id="btn-globo">
         <svg
+            class="icon-tema"
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="auto"
@@ -10,7 +11,7 @@
         >
             <g
                 fill="none"
-                stroke="#ffffff"
+                stroke="currentColor"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
@@ -86,6 +87,7 @@
                 </path>
             </g>
         </svg>
+
     </button>
 
     <div id="menu-idiomas" class="menu-opciones">
@@ -162,49 +164,7 @@
         }
     </style>
 
-    <script type="text/javascript">
-        // Google Translate
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'es',
-                includedLanguages: 'es,en,fr,it,de,pt',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-            }, 'google_translate_element');
-
-            // Después de que Google cree el widget, mueve el select al menú
-            setTimeout(function() {
-                var combo = document.querySelector('.goog-te-combo');
-                var menuIdiomas = document.getElementById('menu-idiomas');
-                if (combo && menuIdiomas && !menuIdiomas.contains(combo)) {
-                    menuIdiomas.appendChild(combo);
-                    console.log('Select movido al menú');
-                }
-            }, 500);
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const btnGlobo = document.getElementById('btn-globo');
-            const menuIdiomas = document.getElementById('menu-idiomas');
-
-            if (btnGlobo && menuIdiomas) {
-                btnGlobo.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const isOpen = menuIdiomas.style.display === 'block';
-                    menuIdiomas.style.display = isOpen ? 'none' : 'block';
-                });
-
-                document.addEventListener('click', function(e) {
-                    if (
-                        menuIdiomas.style.display === 'block' &&
-                        !btnGlobo.contains(e.target) &&
-                        !menuIdiomas.contains(e.target)
-                    ) {
-                        menuIdiomas.style.display = 'none';
-                    }
-                });
-            }
-        });
-    </script>
+    <script type="module" src="/scripts/menu-idiomas.js"></script>
 
 <!-- Script externo de Google Translate -->
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
