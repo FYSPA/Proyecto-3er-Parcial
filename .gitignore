@@ -1,14 +1,13 @@
 # build output
 dist/
 
-
 # generated types
 .astro/
-
 
 # dependencies
 node_modules/
 
+# NO incluyas backend/vendor/ aquí - queremos subir vendor
 
 # logs
 npm-debug.log*
@@ -17,42 +16,29 @@ yarn-error.log*
 pnpm-debug.log*
 error.log
 
-
 # environment variables
 .env
 .env.production
 
-
 # macOS-specific files
 .DS_Store
-
 
 # jetbrains setting folder
 .idea/
 
-
-# ===== NUEVO: Backend PHP =====
-# PHP vendor (composer)
-backend/vendor/
-backend/composer.lock
-
-
+# ===== Backend PHP =====
 # PHP QR codes generados
 backend/qrcodes/
 
-
-# PHP phpqrcode library (opcional, pero recomendado)
+# PHP phpqrcode library
 backend/phpqrcode/
-
 
 # PHP sessions y cache
 *.php~
 .cache/
 
-
 # IDE adicionales
 .vscode/
-
 
 # Windows
 Thumbs.db
