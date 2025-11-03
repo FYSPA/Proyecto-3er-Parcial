@@ -3,20 +3,28 @@ import '@styles/global-fonts.css'
 import GoogleIcon from "@components/icons/GoogleIcon.astro"
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import BackAnimated from "@components/icons/BackAnimated.astro"
 import '@styles/media-quearys/login-media-queary.css'
 ---
 <body>
     <main>
         <h1 class="title">Registrate</h1>
         <div class="input-div">
-            <button id="modoLecturaBtn">
-                <div id="moonIcon">
-                    <MoonAnimated />
-                </div>
-                <div id="sunIcon" style="display: none;">
-                    <SunAnimated />
-                </div>
-            </button>
+            <div class="seccion-utils">
+                <a href="/mainPage">
+                    <button class="btn-back">
+                        <BackAnimated />
+                    </button>
+                </a>
+                <button id="modoLecturaBtn">
+                    <div id="moonIcon">
+                        <MoonAnimated />
+                    </div>
+                    <div id="sunIcon" style="display: none;">
+                        <SunAnimated />
+                    </div>
+                </button>
+            </div>
             <label for="Email">Email</label>
             <input type="text" name="name" id="name">
             <label for="Email">Email</label>
@@ -98,6 +106,7 @@ import '@styles/media-quearys/login-media-queary.css'
             -webkit-backdrop-filter: blur(6.6px);
             margin-top: 50px;
             margin-bottom: 50px;
+            padding-bottom: 30px;
         }
 
         .input-div {
@@ -122,16 +131,31 @@ import '@styles/media-quearys/login-media-queary.css'
             text-decoration: underline;
         }
 
+        .seccion-utils {
+            position:relative;
+            top: -70px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
         #modoLecturaBtn {
             background-color: rgb(128, 128, 128);
             border: none;
             border-radius: 20px;
-            position: relative;
-            left: 90%;
             height: auto;
             width: 50px;
             padding: 10px;
-            top: -70px;
+            cursor: pointer;
+        }
+
+        .btn-back {
+            background-color: rgb(128, 128, 128);
+            border: none;
+            border-radius: 20px;
+            height: auto;
+            width: 50px;
+            padding: 10px;
+            cursor: pointer;
         }
 
         .btn-login {

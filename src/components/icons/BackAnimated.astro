@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="auto" viewBox="0 0 512 512">
+  <!-- Flecha izquierda animada (una sola vez) -->
+  <path
+    id="chevron"
+    fill="none"
+    stroke="#ffffff"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="32"
+    d="M112 160L48 224L112 288"
+  >
+    <animateTransform
+      attributeName="transform"
+      type="translate"
+      values="0 0; 20 0; 0 0"
+      keyTimes="0; 0.6; 1"
+      dur="1.2s"
+      fill="freeze"
+      repeatCount="1"
+    />
+  </path>
+
+  <!-- Línea principal animada con stroke-dasharray (una sola vez) -->
+  <path
+    id="main"
+    fill="none"
+    stroke="#ffffff"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="32"
+    d="M64 224h294c58.76 0 106 49.33 106 108v20"
+    stroke-dasharray="600"
+    stroke-dashoffset="600"
+  >
+    <animate
+      attributeName="stroke-dashoffset"
+      from="600"
+      to="0"
+      dur="1.2s"
+      fill="freeze"
+      repeatCount="1"
+    />
+  </path>
+</svg>
