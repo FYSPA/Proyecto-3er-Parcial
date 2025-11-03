@@ -9,14 +9,14 @@ import '@styles/media-quearys/login-media-queary.css'
 <body>
     <main>
         <h1 class="title">Login</h1>
-        <div class="input-div">
+        <form id="loginForm" class="input-div">
             <div class="seccion-utils">
                 <a href="/mainPage">
-                    <button class="btn-back">
+                    <button class="btn-back" type="button">
                         <BackAnimated />
                     </button>
                 </a>
-                <button id="modoLecturaBtn">
+                <button id="modoLecturaBtn" type="button">
                     <div id="moonIcon">
                         <MoonAnimated />
                     </div>
@@ -25,22 +25,28 @@ import '@styles/media-quearys/login-media-queary.css'
                     </div>
                 </button>
             </div>
-            <label for="Email">Email</label>
-            <input type="text" name="name" id="name">
-            <label for="Email">Email</label>
-            <input type="email" name="email" id="email">
-            <label for="Password">Password</label>
-            <input type="password" name="password" id="password">
-            <span class="">No tienes cuenta? <a href="/LoginRegisterPages/RegisterPage">Crea una nueva</a></span>
-            <span style="text-align: center; margin-top: 20px; font-weight: bold;">Login con Aplicaciones</span>
-            <button class="btn-google">
+            
+            <label for="email">Email</label>
+            <input type="email" name="correo" id="email" required>
+            
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required>
+            
+            <div id="errorDiv" style="display: none; background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px;"></div>
+            <div id="loadingDiv" style="display: none; text-align: center; color: #667eea; margin: 10px 0;">Verificando...</div>
+            
+            <span class="">¿No tienes cuenta? <a href="/LoginRegisterPages/RegisterPage">Regístrate</a></span>
+            <span style="text-align: center; margin-top: 20px; font-weight: bold;">O inicia con</span>
+            
+            <button class="btn-google" type="button">
                 <span class="google-logo">
                     <GoogleIcon />
                 </span>
                 <span class="google-text">Google</span>
             </button>
-            <button class="btn-login">Login</button>
-        </div>
+            
+            <button class="btn-login" type="submit" id="submitBtn">Iniciar Sesión</button>
+        </form>
     </main>
 
     <style>
@@ -81,7 +87,7 @@ import '@styles/media-quearys/login-media-queary.css'
         }
 
         .btn-google:hover .google-logo {
-            transform: translateX(-24px); /* Mueve el logo a la izquierda */
+            transform: translateX(-24px);
         }
 
         .btn-google:hover .google-text {
@@ -89,8 +95,6 @@ import '@styles/media-quearys/login-media-queary.css'
             transform: translateX(-20px);
             pointer-events: auto;
         }
-
-
 
         main {
             display: flex;
@@ -114,8 +118,8 @@ import '@styles/media-quearys/login-media-queary.css'
             flex-direction: column;
             padding-left: 40px;
             padding-right: 40px;
-            
         }
+        
         .input-div input {
             width: 400px;
             height: 20px;
@@ -138,6 +142,7 @@ import '@styles/media-quearys/login-media-queary.css'
             justify-content: space-between;
             width: 100%;
         }
+        
         #modoLecturaBtn {
             background-color: rgb(128, 128, 128);
             border: none;
@@ -174,7 +179,92 @@ import '@styles/media-quearys/login-media-queary.css'
             gap: 12px;
             font-size: 20px;
         }
-    </style>
-    <script type="module" src="/scripts/color-scheame.js"></script>
 
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+
+    <script is:inline>
+        function initLogin() {
+            const form = document.getElementById('loginForm');
+            if (!form) {
+                console.log('Formulario de login no encontrado');
+                return;
+            }
+
+            console.log('Formulario de login encontrado');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log('Enviando login...');
+
+                const correo = form.querySelector('input[name="correo"]').value;
+                const password = form.querySelector('input[name="password"]').value;
+
+                if (!correo || !password) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+
+                const submitBtn = document.getElementById('submitBtn');
+                const loadingDiv = document.getElementById('loadingDiv');
+                const errorDiv = document.getElementById('errorDiv');
+
+                submitBtn.disabled = true;
+                loadingDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+
+                const formData = new FormData();
+                formData.append('correo', correo);
+                formData.append('password', password);
+
+                try {
+                    console.log('Haciendo POST a login.php...');
+                    const res = await fetch('http://localhost:8000/login.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    console.log('Respuesta status:', res.status);
+                    const json = await res.json();
+                    console.log('JSON:', json);
+
+                    if (json.success) {
+                        console.log('Login exitoso! Guardando datos y redirigiendo...');
+                        localStorage.setItem('user_id', json.user_id);
+                        localStorage.setItem('user_nombre', json.user_nombre);
+                        localStorage.setItem('user_correo', json.user_correo);
+                        localStorage.setItem('logged_in', 'true');
+
+                        setTimeout(() => {
+                            window.location.href = '/MainPageLogeado/landingMainPage';
+                        }, 500);
+                    } else {
+                        console.log('Error:', json.message);
+                        errorDiv.textContent = json.message || 'Email o contraseña incorrectos';
+                        errorDiv.style.display = 'block';
+                        submitBtn.disabled = false;
+                    }
+                } catch (err) {
+                    console.error('Excepción:', err);
+                    errorDiv.textContent = 'Error: ' + err.message;
+                    errorDiv.style.display = 'block';
+                    submitBtn.disabled = false;
+                } finally {
+                    loadingDiv.style.display = 'none';
+                }
+            });
+        }
+
+        // Intentar inicializar
+        if (document.getElementById('loginForm')) {
+            initLogin();
+        } else {
+            document.addEventListener('astro:page-load', initLogin);
+        }
+    </script>
+
+    <script type="module" src="/scripts/color-scheame.js"></script>
 </body>

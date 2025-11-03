@@ -1,0 +1,40 @@
+---
+const userId = Astro.url.searchParams.get('user');
+const nombre = Astro.url.searchParams.get('nombre');
+const correo = Astro.url.searchParams.get('correo');
+
+if (!userId) {
+  return Astro.redirect('/LoginRegisterPages/LoginPage');
+}
+---
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Exitoso</title>
+</head>
+<body>
+    <h1>✅ Login exitoso</h1>
+    <p>Redirigiendo a mainPage...</p>
+
+    <script type="text/javascript">
+        const userId = new URLSearchParams(window.location.search).get('user');
+        const nombre = new URLSearchParams(window.location.search).get('nombre');
+        const correo = new URLSearchParams(window.location.search).get('correo');
+
+        if (userId) {
+            // Guardar en localStorage
+            localStorage.setItem('user_id', userId);
+            localStorage.setItem('user_nombre', nombre);
+            localStorage.setItem('user_correo', correo);
+            localStorage.setItem('logged_in', 'true');
+
+            // Redirigir
+            setTimeout(() => {
+                window.location.href = '/MainPageLogeado/landingMainPage';
+            }, 500);
+        } else {
+            window.location.href = '/LoginRegisterPages/LoginPage';
+        }
+    </script>
+</body>
+</html>

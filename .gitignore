@@ -1,24 +1,58 @@
 # build output
 dist/
 
+
 # generated types
 .astro/
 
+
 # dependencies
 node_modules/
+
 
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+error.log
+
 
 # environment variables
 .env
 .env.production
 
+
 # macOS-specific files
 .DS_Store
 
+
 # jetbrains setting folder
 .idea/
+
+
+# ===== NUEVO: Backend PHP =====
+# PHP vendor (composer)
+backend/vendor/
+backend/composer.lock
+
+
+# PHP QR codes generados
+backend/qrcodes/
+
+
+# PHP phpqrcode library (opcional, pero recomendado)
+backend/phpqrcode/
+
+
+# PHP sessions y cache
+*.php~
+.cache/
+
+
+# IDE adicionales
+.vscode/
+
+
+# Windows
+Thumbs.db
