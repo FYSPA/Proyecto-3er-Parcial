@@ -1,31 +1,31 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 require __DIR__ . '/vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
     $mail = new PHPMailer(true);
     
     try {
-        // Configuración del servidor SMTP (Gmail)
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'fernandosuarezflores05@gmail.com'; //email en cual se usa para manda el corre
-        $mail->Password = 'paxkyyqhllixplcx';//contraseña de google apps password 
+        $mail->Username = 'fernandosuarezflores05@gmail.com';
+        $mail->Password = 'paxkyyqhllixplcx';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         
-        // Configuración del correo -- nombre del google app password
-        $mail->setFrom('suarezflores05@gamil.com', 'CorreoProyecto');
-        $mail->addAddress($destinatario, $nombre); //se importa el addAddress las variables destinatario y nombre
+        $mail->setFrom('fernandosuarezflores05@gmail.com', 'CorreoProyecto');
+        $mail->addAddress($destinatario, $nombre);
         
         $mail->isHTML(true);
-        $mail->CharSet = 'UTF-8'; //que se pueda colocar acentos 'ñ' y otros tipos de caractares
-        $mail->Subject = 'Bienvenido - Tu código de acceso'; // se coloca el titulo del email
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'Bienvenido - Tu código de acceso';
         
-        // diseño del email
         $mail->Body = "
             <html>
             <head>
@@ -48,7 +48,7 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
                         <p>Tu cuenta ha sido creada exitosamente. Puedes iniciar sesión de dos formas:</p>
                         
                         <div class='qr-section'>
-                            <h2>📱 Escanea este código QR</h2>
+                            <h2>Escanea este código QR</h2>
                             <img src='cid:qrimage' alt='Código QR' style='max-width: 250px;'>
                             <p style='color: #666; font-size: 14px;'>Escanea con tu cámara para iniciar sesión automáticamente</p>
                         </div>
@@ -70,7 +70,6 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
             </html>
         ";
         
-        // Adjuntar imagen QR
         $mail->addEmbeddedImage($ruta_qr, 'qrimage');
         
         $mail->send();
@@ -80,4 +79,3 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         return false;
     }
 }
-?>

@@ -32,3 +32,12 @@ $protocolo = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 
 $dominio = $_SERVER['HTTP_HOST'];
 
 $qrUrl = "$protocolo://$dominio/login_qr.php?code=" . urlencode($codigo_acceso);
+
+
+<VirtualHost *:80>
+    ServerName localhost
+    ProxyPreserveHost On
+    ProxyPass /phpmyadmin !
+    ProxyPass / http://localhost:4321/
+    ProxyPassReverse / http://localhost:4321/
+</VirtualHost>
