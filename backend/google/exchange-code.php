@@ -23,8 +23,8 @@ try {
 
     $postData = http_build_query([
         'code' => $code,
-        'client_id' => '173744872751-h1e1j2d4c58p00gcguut3vebja2n9sjd.apps.googleusercontent.com',
-        'client_secret' => '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',
+        'client_id' => getenv('GOOGLE_CLIENT_ID'),
+        'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),
         'redirect_uri' => 'http://localhost:4321',
         'grant_type' => 'authorization_code'
     ]);
