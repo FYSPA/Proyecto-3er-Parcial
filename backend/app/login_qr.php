@@ -89,7 +89,7 @@ if ($result->num_rows > 0) {
 </head>
 <body>
     <div class="container">
-        <h1>✅ Sesión iniciada</h1>
+        <h1>Sesión iniciada</h1>
         <div class="spinner"></div>
         <p>Redirigiendo...</p>
     </div>

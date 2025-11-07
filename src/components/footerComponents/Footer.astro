@@ -1,0 +1,168 @@
+---
+import SocialXAnimated from "@components/icons/SocialXAnimated.astro"
+import SocialInstagramAnimated from "@components/icons/SocialInstagramAnimated.astro"
+import SocialFacebookAnimated from "@components/icons/SocialFacebookAnimated.astro"
+import '@styles/global-color-scheame.css'
+---
+
+<footer class="main-footer">
+    <div class="footer-content">
+        <div class="footer-links">
+            <div class="VGS">[Logo]</div> 
+
+            <div class="top-links">
+                <a href="#">PRENSA</a>
+                <a href="#">SEGURIDAD</a>
+                <a href="#">LEGAL</a>
+                <a href="#">AVISO DE PRIVACIDAD</a>
+                <a href="#">TÉRMINOS DE SERVICIO</a>
+                <a href="#">ASISTENCIA AL JUGADOR</a>
+                <a href="#">VERIFICAR EN LÍNEA</a>
+            </div>
+        </div>
+        
+        <hr class="footer-divider">
+
+        <div class="footer-info">
+            <div class="footer-social">
+                <a href="" aria-label="X ">
+                    <SocialXAnimated />
+                </a> 
+                <a href="#" aria-label="Instagram">
+                    <SocialInstagramAnimated />
+                </a>
+                <a href="#" aria-label="Facebook">
+                    <SocialFacebookAnimated />
+                </a>
+            </div>
+            <span class="copyright">
+                © 2025 VGS, Inc. Todos los derechos reservados.
+            </span>
+            <a href="#" class="back-to-top">IR AL INICIO ▲</a>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* --- ESTILOS GENERALES --- */
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    :global(body.modo-oscuro) a {
+        color: #ffffff;
+    }
+
+    /* --- ESTILOS DEL PIE DE PÁGINA (FOOTER) --- */
+
+    .main-footer {
+        width: 100%;
+        padding: 20px 0 10px 0;
+        margin: 0;
+        position: relative;
+        font-size: 0.85em;
+        border-top: 1px solid #d136395b;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding-bottom: 15px;
+        gap: 15px;
+    }
+
+    .VGS {
+        font-size: 1.5em;
+        color: var(--footer-link-color);
+        padding-right: 30px;
+        flex-shrink: 0;
+    }
+
+    .top-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px 30px;
+        flex-grow: 1;
+        margin-right: 20px;
+        align-items: center;
+    }
+
+    .footer-links a {
+        color: var(--footer-link-color);
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        white-space: nowrap;
+        transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+        color: var(--primary-color);
+    }
+
+    /* --- ESTILOS DE ÍCONOS SOCIALES (SVG) --- */
+
+    .footer-social {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .footer-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    .footer-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+    }
+
+    .footer-info a {
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .back-to-top {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* Media Query para pantallas pequeñas */
+    @media (max-width: 768px) {
+        .footer-links {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .top-links {
+            margin-right: 0;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .footer-social {
+            width: 100%;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+        .footer-info {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+</style>

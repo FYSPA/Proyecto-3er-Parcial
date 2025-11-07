@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error.log');
+ini_set('error_log', __DIR__ . '/../error.log');
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
@@ -30,7 +30,7 @@ try {
     $nombre = $_POST['nombre'] ?? '';
     $correo = $_POST['correo'] ?? '';
     $password = $_POST['password'] ?? '';
-    $host_frontend = $_POST['host_frontend'] ?? 'localhost'; // ✅ RECIBIR HOST
+    $host_frontend = $_POST['host_frontend'] ?? 'localhost';
 
     if (empty($nombre) || empty($correo) || empty($password)) {
         throw new Exception('Campos requeridos');
@@ -65,15 +65,15 @@ try {
     flush();
     
     try {
-        require_once __DIR__ . '/phpqrcode/qrlib.php';
+        require_once __DIR__ . '/../phpqrcode/qrlib.php';
         
-        $dir = __DIR__ . '/qrcodes/';
+        $dir = __DIR__ . '/../qrcodes/';
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
 
         $host_para_qr = $host_frontend === 'localhost' ? gethostbyname(gethostname()) : $host_frontend;
-        $qrUrl = 'http://' . $host_para_qr . ':8000/login_qr.php?code=' . urlencode($codigo_acceso);
+        $qrUrl = 'http://' . $host_para_qr . ':8000/app/login_qr.php?code=' . urlencode($codigo_acceso);
 
         error_log("QR URL generada: $qrUrl (host original: $host_frontend, convertido a: $host_para_qr)");
         

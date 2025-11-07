@@ -219,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 formData.append('codigo', codigo);
 
                 console.log('Enviando código a api-login.php...');
-                const response = await fetch('http://localhost:8000/api-login.php', {
+                const response = await fetch('http://localhost:8000/app/api-login.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                     localStorage.setItem('user_correo', data.user_correo);
                     localStorage.setItem('logged_in', 'true');
 
-                    mostrarExito('✅ Código verificado correctamente');
+                    mostrarExito('Código verificado correctamente');
                     
                     setTimeout(() => {
                         console.log('Redirigiendo a mainPage...');

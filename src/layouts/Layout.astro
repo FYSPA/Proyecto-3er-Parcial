@@ -2,85 +2,105 @@
 const {title = "Pagina de Juegos"} = Astro.props;
 import { ClientRouter } from "astro:transitions";
 import HeaderComponent from "../components/headerComponents/HeaderComponent.astro"
+import Footer from "@components/footerComponents/Footer.astro";
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		<ClientRouter />
-	</head>
-	<body>
-		<HeaderComponent />
-		<main>
-			<slot />
-		</main>
-	</body>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body>
+        <HeaderComponent />
+        <main>
+            <slot />
+        </main>
+        <Footer />
+    </body>
 </html>
 
-<style>
-	html {
-		color-scheme: light;
-	}
+<style is:global>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-	html.modo-oscuro {
-		color-scheme: dark;
-	}
+    html {
+        color-scheme: light;
+        height: 100%;
+    }
 
-	body {
-		background-color: #ffffff;
-		color: #000000;
-		transition: background-color 0.3s, color 0.3s;
-		margin: 0;
-		padding: 0;
-	}
+    html.modo-oscuro {
+        color-scheme: dark;
+    }
 
-	body.modo-oscuro {
-		background-color: #1a1a1a;
-		color: #ffffff;
-		margin: 0;
-		padding: 0;
-	}
+    body {
+        background-color: #ffffff;
+        color: #000000;
+        transition: background-color 0.3s, color 0.3s;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
 
-	/* Móviles pequeños (< 380px) */
-	@media (max-width: 380px) {
-		html {
-			font-size: 12px;
-		}
-		
-		body {
-			overflow-x: hidden;
-		}
-	}
+    body.modo-oscuro {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
 
-	/* Teléfonos (381px - 600px) */
-	@media (min-width: 381px) and (max-width: 600px) {
-		html {
-			font-size: 13px;
-		}
-		
-		body {
-			overflow-x: hidden;
-		}
-	}
+    main {
+        flex: 1;
+    }
 
-	/* Tablets (601px - 900px) */
-	@media (min-width: 601px) and (max-width: 900px) {
-		html {
-			font-size: 14px;
-		}
-	}
+    header {
+        flex-shrink: 0;
+    }
 
-	/* Desktop (901px+) */
-	@media (min-width: 901px) {
-		html {
-			font-size: 16px;
-		}
-	}
+    footer {
+        flex-shrink: 0;
+    }
 
+    /* Móviles pequeños (< 380px) */
+    @media (max-width: 380px) {
+        html {
+            font-size: 12px;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+    }
 
+    /* Teléfonos (381px - 600px) */
+    @media (min-width: 381px) and (max-width: 600px) {
+        html {
+            font-size: 13px;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+    }
+
+    /* Tablets (601px - 900px) */
+    @media (min-width: 601px) and (max-width: 900px) {
+        html {
+            font-size: 14px;
+        }
+    }
+
+    /* Desktop (901px+) */
+    @media (min-width: 901px) {
+        html {
+            font-size: 16px;
+        }
+    }
 </style>
