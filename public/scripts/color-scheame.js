@@ -1,4 +1,4 @@
-const CLIENT_ID = '173744872751-h1e1j2d4c58p00gcguut3vebja2n9sjd.apps.googleusercontent.com';
+const CLIENT_ID = '173744872751-9mrennmah063ulu8mn2c3m4n875rb1j7.apps.googleusercontent.com';
 
 // ============ TEMA OSCURO ============
 function activarTemaHeader() {
@@ -36,7 +36,7 @@ function activarTemaHeader() {
 
 // ============ GOOGLE SIGN-IN ============
 window.handleCodeResponse = function(response) {
-    console.log('✅ Respuesta recibida:', response);
+    console.log(' Respuesta recibida:', response);
     
     const apiHost = window.location.hostname === 'localhost' 
         ? 'http://localhost:8000'
@@ -88,7 +88,7 @@ window.handleCodeResponse = function(response) {
 
 function initGoogleSignIn() {
     if (window.google?.accounts?.oauth2) {
-        console.log('✅ Google OAuth2 disponible');
+        console.log(' Google OAuth2 disponible');
         
         try {
             let codeClient = window.google.accounts.oauth2.initCodeClient({
@@ -99,19 +99,19 @@ function initGoogleSignIn() {
                 callback: window.handleCodeResponse
             });
             
-            console.log('✅ CodeClient inicializado');
+            console.log(' CodeClient inicializado');
             
             const btn = document.querySelector('#btn-google');
             if (btn) {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    console.log('🔐 Pidiendo code a Google...');
+                    console.log(' Pidiendo code a Google...');
                     codeClient.requestCode();
                 });
-                console.log('✅ Event listener agregado al botón');
+                console.log(' Event listener agregado al botón');
             }
         } catch (error) {
-            console.error('❌ Error inicializando OAuth2:', error);
+            console.error(' Error inicializando OAuth2:', error);
         }
     }
 }

@@ -10,7 +10,9 @@
     "devHost": "astro dev --host"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.0",
     "astro": "^5.15.2",
+    "dotenv": "^17.2.3",
     "shiki": "^3.14.0"
   }
 }

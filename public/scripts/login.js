@@ -1,66 +1,77 @@
-function initRegister() {
-            const form = document.getElementById('registerForm');
-            if (!form) return;
+function initLogin() {
+    const form = document.getElementById('loginForm');
+    if (!form) {
+        console.log('Formulario de login no encontrado');
+        return;
+    }
 
-            console.log('Formulario de Registro encontrado');
+    console.log('Formulario de login encontrado');
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Enviando login...');
 
-                const nombre = form.querySelector('input[name="nombre"]').value;
-                const correo = form.querySelector('input[name="correo"]').value;
-                const password = form.querySelector('input[name="password"]').value;
+        const correo = form.querySelector('input[name="correo"]').value;
+        const password = form.querySelector('input[name="password"]').value;
 
-                console.log('Datos:', { nombre, correo});
-                console.log('Host:', window.location.hostname);
+        if (!correo || !password) {
+            alert('Por favor completa todos los campos');
+            return;
+        }
 
-                const apiHost = window.location.hostname === 'localhost' 
-                    ? 'http://localhost:8000'
-                    : `http://${window.location.hostname}:8000`;
+        const submitBtn = document.getElementById('submitBtn');
+        const loadingDiv = document.getElementById('loadingDiv');
+        const errorDiv = document.getElementById('errorDiv');
 
-                console.log('📡 API Host:', apiHost);
+        submitBtn.disabled = true;
+        loadingDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
 
-                // Crear FormData CORRECTAMENTE
-                const fd = new FormData();
-                fd.append('nombre', nombre);
-                fd.append('correo', correo);
-                fd.append('password', password);
-                fd.append('host_frontend', window.location.hostname);
+        const formData = new FormData();
+        formData.append('correo', correo);
+        formData.append('password', password);
 
-                console.log('FormData creado con host:', window.location.hostname);
-
-                try {
-                    const res = await fetch(apiHost + '/app/registro.php', {
-                        method: 'POST',
-                        body: fd
-                    });
-
-                    console.log('Status:', res.status);
-                    const json = await res.json();
-                    console.log('Respuesta:', json);
-
-                    if (json.success) {
-                        console.log('Éxito! Yendo a verificación...');
-                        
-                        const verifUrl = apiHost.replace(':8000', '') + ':8000/login_qr.php?code=' + json.codigo_acceso;
-                        console.log('URL verificación:', verifUrl);
-                        
-                        setTimeout(() => {
-                            window.location.href = apiHost + '/app/verificacion.php';
-                        }, 500);
-                    } else {
-                        console.error('Error:', json.message);
-                        alert(json.message || 'Error');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    alert('Error: ' + err.message);
-                }
+        try {
+            console.log('Haciendo POST a login.php...');
+            const res = await fetch('http://localhost:8000/login.php', {
+                method: 'POST',
+                body: formData
             });
-        }
 
-        if (document.getElementById('registerForm')) {
-            initRegister();
-        } else {
-            document.addEventListener('astro:page-load', initRegister);
+            console.log('Respuesta status:', res.status);
+            const json = await res.json();
+            console.log('JSON:', json);
+
+            if (json.success) {
+                console.log('Login exitoso! Guardando datos y redirigiendo...');
+                localStorage.setItem('user_id', json.user_id);
+                localStorage.setItem('user_nombre', json.user_nombre);
+                localStorage.setItem('user_correo', json.user_correo);
+                localStorage.setItem('logged_in', 'true');
+
+                setTimeout(() => {
+                    window.location.href = '/MainPageLogeado/landingMainPage';
+                }, 500);
+            } else {
+                console.log('Error:', json.message);
+                errorDiv.textContent = json.message || 'Email o contraseña incorrectos';
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+            }
+        } catch (err) {
+            console.error('Excepción:', err);
+            errorDiv.textContent = 'Error: ' + err.message;
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = false;
+        } finally {
+            loadingDiv.style.display = 'none';
         }
+    });
+}
+
+// Intentar inicializar
+if (document.getElementById('loginForm')) {
+    initLogin();
+} else {
+    document.addEventListener('astro:page-load', initLogin);
+}
