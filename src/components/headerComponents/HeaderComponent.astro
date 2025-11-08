@@ -2,7 +2,6 @@
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
-import IconRiot from "@components/icons/IconRiot.astro"
 import SearchAnimated from "@components/icons/SearchAnimated.astro"
 import HeaderComponentMovil from "./HeaderComponentMovil.astro"
 import '@styles/global-fonts.css'
@@ -13,8 +12,8 @@ import '@styles/media-quearys/header-media-queary.css'
 <body>
     <header>
         <div class="izquierda-header">
-            <div class="contenedor-riot">
-                <IconRiot></IconRiot>
+            <div class="contenedor-logo">
+                <img src="/logoVGS.svg" alt="LogoVGS">
             </div>
             <nav>
                 <ul>
@@ -75,9 +74,9 @@ import '@styles/media-quearys/header-media-queary.css'
             text-decoration: none;
             padding: 10px;
             border-radius: 10px;
-            position: relative;  /* Necesario para el ::after */
-            display: inline-block;  /* Para que funcione position: absolute en ::after */
-            transition: all 0.3s ease;  /* Animación suave */
+            position: relative;  
+            display: inline-block;  
+            transition: all 0.3s ease;
         }
 
         .izquierda-header a:hover {
@@ -175,11 +174,23 @@ import '@styles/media-quearys/header-media-queary.css'
             color: #ffffff;
         }
 
-        .contenedor-riot {
+        .contenedor-logo {
             position: relative;
             left: 30px;
             margin-right: 50px;
+            width: 100px;
+            height: 50px; 
+            overflow: visible; 
         }
+
+        .contenedor-logo img {
+            width: 200px;
+            height: auto;
+            position: relative;
+            top: -20px;
+            left: -50px; 
+        }
+
 
     </style>
 

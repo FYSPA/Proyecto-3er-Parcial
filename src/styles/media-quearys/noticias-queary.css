@@ -1,0 +1,33 @@
+@media (max-width: 768px) {
+    .news-section {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+    }
+    
+    /* En vista móvil, ambos ocupan la única columna (grid-column: 1 / -1) */
+    .news-main-article, .news-sidebar {
+        grid-column: auto; 
+    }
+
+    .news-sidebar {
+        flex-direction: row; 
+        flex-wrap: wrap; 
+        justify-content: center;
+    }
+
+    .news-sidebar-item {
+        width: calc(50% - 15px); 
+    }
+
+    .games-grid, .esports-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    h2 {
+        font-size: 1.5em;
+    }
+    .news-sidebar-item {
+        width: 100%; 
+    }
+}

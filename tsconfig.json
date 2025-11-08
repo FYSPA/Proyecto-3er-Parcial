@@ -11,6 +11,7 @@
       "@styles/*": ["src/styles/*"],
       "@backend/*": ["backend/*"],
       "@public/*": ["public/*"],
+      "@scripts/*": ["scripts/*"]
     }
   }
 }

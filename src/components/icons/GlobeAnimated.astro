@@ -1,6 +1,13 @@
 <body>
-    <div id="google_translate_element" style="display: none;"></div>
-    <!-- BOTÓN con icono y DIV para el widget oculto de Google -->
+    <div id="google_translate_element"></div>
+    <div id="menu-idiomas" class="menu-opciones">
+        <a href="#" class="lang-link" data-lang="es">Español</a>
+        <a href="#" class="lang-link" data-lang="en">English</a>
+        <a href="#" class="lang-link" data-lang="fr">Français</a>
+        <a href="#" class="lang-link" data-lang="it">Italiano</a>
+        <a href="#" class="lang-link" data-lang="de">Deutsch</a>
+        <a href="#" class="lang-link" data-lang="pt">Português</a>
+    </div>
     <button id="btn-globo">
         <svg
             class="icon-tema"
@@ -126,14 +133,15 @@
             right: 370px;
             background: #222;
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             z-index: 99;
             min-width: 120px;
+            height: 250px;
             padding: 8px 0;
-            height: 300px;
         }
 
-        .goog-te-combo {
+        .menu-opciones .lang-link {
+            display: block;
             color: #fff !important;
             background: transparent !important;
             border: none !important;
@@ -143,30 +151,34 @@
             width: 100% !important;
             box-sizing: border-box !important;
             transition: background 0.2s;
+            text-decoration: none;
         }
-        .goog-te-combo:hover {
+        .menu-opciones .lang-link:hover {
             background: #444 !important;
         }
-        .goog-te-combo option {
-            background: #222 !important;
-            color: #fff !important;
+
+        #google_translate_element {
+            position: absolute !important;
+            top: -9999px !important;
+            left: -9999px !important;
+            height: 1px !important;
+            width: 1px !important;
+            overflow: hidden !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
         }
 
-        .goog-te-banner-frame, .goog-te-menu-frame, .skiptranslate {
+        .goog-te-banner-frame,
+        .goog-te-menu-frame,
+        .skiptranslate {
             display: none !important;
         }
-        .goog-te-gadget {
-            background: none !important;
-            border: none !important;
-            font-family: inherit !important;
-            padding: 0 !important;
-            margin: 0 !important;
+
+        body {
+            top: 0 !important;
         }
     </style>
 
     <script type="module" src="/scripts/menu-idiomas.js"></script>
-
-<!-- Script externo de Google Translate -->
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
+</body>
 </body>

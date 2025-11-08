@@ -1,0 +1,135 @@
+@media (max-width: 768px) {
+    h1 {
+        font-size: 48px;
+        padding-bottom: 30px;
+    }
+
+    p {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .contenedor-main {
+        min-height: 450px;
+        width: 95%;
+        margin: 30px auto;
+    }
+
+    .contenedor-contenido {
+        padding: 100px 30px 0px 30px;
+    }
+
+    .contenedor-btn {
+        width: 150px;
+    }
+
+    .btn-jugar {
+        width: 100%;
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .slide-indicador {
+        bottom: 20px;
+        gap: 10px;
+    }
+
+    .slide-circulo {
+        width: 10px;
+        height: 10px;
+        border: 1.5px solid white;
+        font-size: 16px;
+    }
+}
+
+/* RESPONSIVE - MÓVILES (480px y menos) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 32px;
+        padding-bottom: 20px;
+    }
+
+    p {
+        width: 100%;
+        font-size: 13px;
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    .contenedor-main {
+        min-height: 300px;
+        width: 100%;
+        margin: 20px 0;
+        border-radius: 5px;
+    }
+
+    .contenedor-contenido {
+        padding: 60px 20px 0px 20px;
+    }
+
+    .contenedor-btn {
+        width: 120px;
+        margin-top: 8px;
+    }
+
+    .btn-jugar {
+        width: 100%;
+        height: 45px;
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .slide-indicador {
+        bottom: 15px;
+        gap: 8px;
+    }
+
+    .slide-circulo {
+        width: 8px;
+        height: 8px;
+        border: 1px solid white;
+        font-size: 14px;
+    }
+
+    .slide-circulo:hover {
+        transform: scale(1.1);
+    }
+}
+
+/* RESPONSIVE - MÓVILES MUY PEQUEÑOS (menos de 360px) */
+@media (max-width: 360px) {
+    h1 {
+        font-size: 24px;
+        padding-bottom: 15px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .contenedor-main {
+        min-height: 250px;
+    }
+
+    .contenedor-contenido {
+        padding: 50px 15px 0px 15px;
+    }
+
+    .btn-jugar {
+        height: 40px;
+        font-size: 11px;
+    }
+
+    .slide-indicador {
+        bottom: 10px;
+        gap: 6px;
+    }
+
+    .slide-circulo {
+        width: 6px;
+        height: 6px;
+    }
+}

@@ -14,12 +14,12 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'fernandosuarezflores05@gmail.com';
-        $mail->Password = 'paxkyyqhllixplcx';
+        $mail->Username = 'vgsofficialmx@gmail.com';
+        $mail->Password = 'lfyhwoeovhlmerwk';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         
-        $mail->setFrom('fernandosuarezflores05@gmail.com', 'CorreoProyecto');
+        $mail->setFrom('vgsofficialmx@gmail.com', 'VGS');
         $mail->addAddress($destinatario, $nombre);
         
         $mail->isHTML(true);
