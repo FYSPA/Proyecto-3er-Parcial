@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         }
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea 0%, #8b8b8bff 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -239,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                     
                     setTimeout(() => {
                         console.log('Redirigiendo a mainPage...');
-                        window.location.href = 'http://localhost:4321/MainPageLogeado/landingMainPage';
+                        window.location.href = 'http://localhost:4321/dashboardpage/Dashboard';
                     }, 1500);
                 } else {
                     console.log('Error:', data.message);

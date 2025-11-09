@@ -1,29 +1,20 @@
 <?php
 ob_start();
 ob_clean();
-// Headers CORS
+
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+header('Access-Control-Allow-Origin: http://localhost:4321');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Manejar preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password_db = "";
-$dbname = "db_qr";
 
-$conn = new mysqli($servername, $username, $password_db, $dbname);
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Error de conexión a BD']);
-    exit();
-}
+// Conexión centralizada a base de datos
+require_once __DIR__ . '/../config/db.php';
 
 $correo = $_POST['correo'] ?? '';
 $password = $_POST['password'] ?? '';
@@ -57,3 +48,4 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 $conn->close();
+?>

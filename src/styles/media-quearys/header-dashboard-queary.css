@@ -1,0 +1,14 @@
+@media (max-width: 768px) {
+    header {
+        width: calc(100% - 70px);
+        left: 70px;
+    }
+
+    .header-content {
+        padding: 0 1rem;
+    }
+
+    .izquierda-header span {
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,266 @@
+---
+// src/components/Sidebar.astro
+---
+
+<aside class="sidebar">
+  <!-- Logo o branding -->
+  <div class="sidebar-header">
+    <img src="/logoVGS.svg" alt="LogoVGS" style="width: 60px; height: auto;">
+  </div>
+
+  <!-- Navegación -->
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="/" class="nav-item" title="Inicio">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span class="label">Inicio</span>
+        </a>
+      </li>
+      <li>
+        <a href="/dashboard" class="nav-item" title="Dashboard">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span class="label">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="/perfil" class="nav-item" title="Perfil">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          <span class="label">Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="/configuracion" class="nav-item" title="Configuración">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-16.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"></path>
+          </svg>
+          <span class="label">Configuración</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Footer del sidebar -->
+  <div class="sidebar-footer">
+    <a href="/logout" class="nav-item logout" title="Cerrar sesión">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      <span class="label">Salir</span>
+    </a>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 100vh;
+    background-color: #1a1a1a;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, border-right-color 0.3s ease;
+  }
+
+  body.modo-claro .sidebar {
+    background-color: #f5f5f5;
+    border-right-color: #ddd;
+  }
+
+  body.modo-oscuro .sidebar {
+    background-color: #1a1a1a;
+    border-right-color: #333;
+  }
+
+  .sidebar-header {
+    padding: 1.5rem 0;
+    text-align: center;
+    border-bottom: 1px solid #333;
+    transition: border-color 0.3s ease;
+  }
+
+  body.modo-claro .sidebar-header {
+    border-bottom-color: #ddd;
+  }
+
+  body.modo-oscuro .sidebar-header {
+    border-bottom-color: #333;
+  }
+
+  .sidebar-header h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+
+  body.modo-claro .sidebar-header h1 {
+    color: #333;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+  }
+
+  .sidebar-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar-nav li {
+    margin: 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    color: #999;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .nav-item:hover {
+    color: #fff;
+    background-color: #252525;
+  }
+
+  body.modo-claro .nav-item:hover {
+    background-color: #e0e0e0;
+    color: #333;
+  }
+
+  .nav-item.active {
+    color: #fff;
+    background-color: #252525;
+    border-left: 3px solid #4CAF50;
+  }
+
+  body.modo-claro .nav-item.active {
+    color: #333;
+    background-color: #e0e0e0;
+    border-left-color: #4CAF50;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .label {
+    font-size: 0.65rem;
+    text-align: center;
+    max-width: 70px;
+    word-break: break-word;
+    color: inherit;
+  }
+
+  .sidebar-footer {
+    padding: 1rem 0;
+    border-top: 1px solid #333;
+    transition: border-color 0.3s ease;
+  }
+
+  body.modo-claro .sidebar-footer {
+    border-top-color: #ddd;
+  }
+
+  body.modo-oscuro .sidebar-footer {
+    border-top-color: #333;
+  }
+
+  .nav-item.logout {
+    color: #ff6b6b;
+  }
+
+  .nav-item.logout:hover {
+    background-color: #ff6b6b;
+    color: #fff;
+  }
+
+  /* Tooltip al pasar el mouse */
+  .nav-item::before {
+    content: attr(title);
+    position: absolute;
+    left: 100%;
+    margin-left: 0.5rem;
+    background-color: #333;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1001;
+  }
+
+  body.modo-claro .nav-item::before {
+    background-color: #ddd;
+    color: #333;
+  }
+
+  .nav-item:hover::before {
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 70px;
+    }
+
+    .label {
+      font-size: 0.6rem;
+      max-width: 60px;
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>
+
+<script>
+  // Marcar el enlace activo según la ruta actual
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
+
+  navItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (href === currentPath || (currentPath === '/' && href === '/')) {
+      item.classList.add('active');
+    }
+  });
+</script>

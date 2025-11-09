@@ -9,17 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$servername = "localhost";
-$username = "root";
-$password_db = "";
-$dbname = "db_qr";
-
-$conn = new mysqli($servername, $username, $password_db, $dbname);
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Error de conexión a BD']);
-    exit();
-}
+// Conexión centralizada a base de datos
+require_once __DIR__ . '/../config/db.php';
 
 $codigo = $_POST['codigo'] ?? '';
 

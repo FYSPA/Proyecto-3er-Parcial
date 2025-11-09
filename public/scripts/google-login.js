@@ -1,42 +1,8 @@
 const CLIENT_ID = '173744872751-9mrennmah063ulu8mn2c3m4n875rb1j7.apps.googleusercontent.com';
 
-// ============ TEMA OSCURO ============
-function activarTemaHeader() {
-    const boton = document.getElementById('modoLecturaBtn');
-    const cuerpo = document.body;
-    const moonIcon = document.getElementById('moonIcon');
-    const sunIcon = document.getElementById('sunIcon');
-
-    if (!boton || !moonIcon || !sunIcon) return;
-
-    const temaSaved = localStorage.getItem('tema');
-    if (temaSaved === 'oscuro') {
-        cuerpo.classList.add('modo-oscuro');
-        moonIcon.style.display = 'none';
-        sunIcon.style.display = 'block';
-    } else {
-        cuerpo.classList.remove('modo-oscuro');
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-    }
-
-    boton.onclick = () => {
-        cuerpo.classList.toggle('modo-oscuro');
-        if (cuerpo.classList.contains('modo-oscuro')) {
-            moonIcon.style.display = 'none';
-            sunIcon.style.display = 'block';
-            localStorage.setItem('tema', 'oscuro');
-        } else {
-            moonIcon.style.display = 'block';
-            sunIcon.style.display = 'none';
-            localStorage.removeItem('tema');
-        }
-    };
-}
-
 // ============ GOOGLE SIGN-IN ============
 window.handleCodeResponse = function(response) {
-    console.log(' Respuesta recibida:', response);
+    console.log('✓ Respuesta recibida:', response);
     
     const apiHost = window.location.hostname === 'localhost' 
         ? 'http://localhost:8000'
@@ -48,16 +14,31 @@ window.handleCodeResponse = function(response) {
         btn.style.opacity = '0.6';
     }
 
-    fetch(apiHost + '/google/exchange-code.php', {
+    // Debug: Verifica que el code existe
+    if (!response.code) {
+        console.error('ERROR: response.code no existe', response);
+        alert('Error: No se recibió el code de Google');
+        if (btn) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+        return;
+    }
+
+    console.log('Enviando code:', response.code);
+
+    fetch('http://localhost:8000/exchange-code.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: response.code })
     })
     .then(res => {
+        console.log('Respuesta del servidor:', res.status);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
     })
     .then(data => {
+        console.log('Datos recibidos:', data);
         if (data.success) {
             localStorage.setItem('user_id', data.user_id);
             localStorage.setItem('user_nombre', data.user_nombre);
@@ -65,10 +46,10 @@ window.handleCodeResponse = function(response) {
             localStorage.setItem('logged_in', 'true');
             
             setTimeout(() => {
-                window.location.href = '/MainPageLogeado/landingMainPage';
+                window.location.href = '/dashboardpage/Dashboard';
             }, 100);
         } else {
-            console.error('Error:', data.message);
+            console.error('Error del servidor:', data.message);
             alert('Error: ' + (data.message || 'Error desconocido'));
             if (btn) {
                 btn.disabled = false;
@@ -77,7 +58,7 @@ window.handleCodeResponse = function(response) {
         }
     })
     .catch(err => {
-        console.error('Error:', err);
+        console.error('Error en fetch:', err);
         alert('Error: ' + err.message);
         if (btn) {
             btn.disabled = false;
@@ -88,7 +69,7 @@ window.handleCodeResponse = function(response) {
 
 function initGoogleSignIn() {
     if (window.google?.accounts?.oauth2) {
-        console.log(' Google OAuth2 disponible');
+        console.log('✓ Google OAuth2 disponible');
         
         try {
             let codeClient = window.google.accounts.oauth2.initCodeClient({
@@ -99,26 +80,29 @@ function initGoogleSignIn() {
                 callback: window.handleCodeResponse
             });
             
-            console.log(' CodeClient inicializado');
+            console.log('✓ CodeClient inicializado');
             
             const btn = document.querySelector('#btn-google');
             if (btn) {
                 btn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    console.log(' Pidiendo code a Google...');
+                    console.log('✓ Pidiendo code a Google...');
                     codeClient.requestCode();
                 });
-                console.log(' Event listener agregado al botón');
+                console.log('✓ Event listener agregado al botón');
+            } else {
+                console.error('ERROR: Botón #btn-google no encontrado');
             }
         } catch (error) {
-            console.error(' Error inicializando OAuth2:', error);
+            console.error('ERROR inicializando OAuth2:', error);
         }
+    } else {
+        console.error('ERROR: Google OAuth2 NO está disponible');
     }
 }
 
-// ============ INICIALIZAR AMBOS ============
 function initAll() {
-    activarTemaHeader();
+    console.log('Inicializando Google Sign-In...');
     initGoogleSignIn();
 }
 

@@ -1,18 +1,24 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../', '.env.local');
-$dotenv->load();
-header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Origin: http://localhost:4321');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit(0);
+    http_response_code(200);
+    exit();
 }
 
-error_reporting(0);
-ini_set('display_errors', 0);
+require __DIR__ . '/../vendor/autoload.php';
+
+$envPath = __DIR__ . '/../../.env';
+if (!file_exists($envPath)) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => "Archivo .env NO existe en: $envPath"]);
+    exit;
+}
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load(); // ← load() en lugar de safeLoad()
 
 try {
     $input = file_get_contents('php://input');
@@ -23,11 +29,19 @@ try {
     }
     
     $code = $data['code'];
+    
+    // Usa $_ENV en lugar de getenv()
+    $client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
+    $client_secret = $_ENV['GOOGLE_CLIENT_SECRET'] ?? null;
+
+    if (!$client_id || !$client_secret) {
+        throw new Exception('Credenciales no cargadas. CLIENT_ID=' . ($client_id ?: 'NULL') . ', SECRET=' . ($client_secret ?: 'NULL'));
+    }
 
     $postData = http_build_query([
         'code' => $code,
-        'client_id' => getenv('GOOGLE_CLIENT_ID'),
-        'client_secret' => getenv('GOOGLE_CLIENT_SECRET'),
+        'client_id' => $client_id,
+        'client_secret' => $client_secret,
         'redirect_uri' => 'http://localhost:4321',
         'grant_type' => 'authorization_code'
     ]);
@@ -61,7 +75,7 @@ try {
     $email = $userInfo['email'];
     $nombre = $userInfo['name'] ?? 'Usuario';
     
-    $conn = new mysqli('localhost', 'root', '', 'db_qr');
+    require_once __DIR__ . '/../config/db.php';  // conexión centralizada
     
     $stmt = $conn->prepare('SELECT id, nombre, correo FROM usuarios WHERE correo = ?');
     $stmt->bind_param('s', $email);
@@ -71,7 +85,7 @@ try {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         echo json_encode(['success' => true, 'user_id' => $user['id'], 'user_nombre' => $user['nombre'], 'user_correo' => $user['correo']]);
-    }  else {
+    } else {
         $id = uniqid('user_');
         $codigo_acceso = bin2hex(random_bytes(8));
         $pass = password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT);
@@ -80,8 +94,8 @@ try {
         $insert->bind_param('sssss', $id, $nombre, $email, $pass, $codigo_acceso);
         
         if (!$insert->execute()) {
-            if ($insert->errno === 1062) { // Error de DUPLICATE
-                throw new Exception('Ya existe una cuenta con este correo. Por favor inicia sesión.');
+            if ($insert->errno === 1062) {
+                throw new Exception('Ya existe una cuenta con este correo.');
             } else {
                 throw new Exception('Error creando usuario: ' . $insert->error);
             }
@@ -89,6 +103,7 @@ try {
         
         echo json_encode(['success' => true, 'user_id' => $id, 'user_nombre' => $nombre, 'user_correo' => $email]);
     }
+    
     $conn->close();
 
 } catch (Exception $e) {

@@ -1,0 +1,104 @@
+---
+// src/layouts/Layout.astro
+const {title = "Pagina de Juegos"} = Astro.props;
+import { ClientRouter } from "astro:transitions";
+import Sidebar from "@components/dashboardComponents/Sidebar.astro";
+import HeaderComponentDashboard from "@components/headerComponents/HeaderComponentDashboard.astro";
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml+ico" href="/logoVGS.ico" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+        <ClientRouter />
+    </head>
+    <body>
+        <Sidebar />
+        <HeaderComponentDashboard />
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
+
+<style is:global>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light dark;
+    overflow-y: hidden;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #000000;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    margin-left: 80px;
+    margin-top: 70px;
+  }
+
+  body.modo-oscuro {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  body.modo-claro {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  main {
+    min-height: calc(100vh - 70px);
+    padding: 2rem;
+  }
+
+  /* Móviles pequeños (< 380px) */
+  @media (max-width: 380px) {
+    html {
+      font-size: 12px;
+    }
+    
+    body {
+      overflow-x: hidden;
+      margin-left: 70px;
+    }
+  }
+
+  /* Teléfonos (381px - 600px) */
+  @media (min-width: 381px) and (max-width: 600px) {
+    html {
+      font-size: 13px;
+    }
+    
+    body {
+      overflow-x: hidden;
+      margin-left: 70px;
+    }
+  }
+
+  /* Tablets (601px - 900px) */
+  @media (min-width: 601px) and (max-width: 900px) {
+    html {
+      font-size: 14px;
+    }
+  }
+
+  /* Desktop (901px+) */
+  @media (min-width: 901px) {
+    html {
+      font-size: 16px;
+    }
+  }
+</style>
