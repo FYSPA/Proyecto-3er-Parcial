@@ -1,199 +1,193 @@
 ---
-import GlobeAnimated from "@components/icons/GlobeAnimated.astro"
-import SunAnimated from "@components/icons/SunAnimated.astro"
-import MoonAnimated from "@components/icons/MoonAnimated.astro"
-import SearchAnimated from "@components/icons/SearchAnimated.astro"
-import HeaderComponentMovil from "./HeaderComponentMovil.astro"
-import '@styles/global-fonts.css'
-import '@styles/global-color-scheame.css'
-import '@styles/media-quearys/header-media-queary.css'
+import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
+import SunAnimated from "@components/icons/SunAnimated.astro";
+import MoonAnimated from "@components/icons/MoonAnimated.astro";
+import SearchAnimated from "@components/icons/SearchAnimated.astro";
+import HeaderComponentMovil from "./HeaderComponentMovil.astro";
+import "@styles/global-fonts.css";
+import "@styles/global-color-scheame.css";
+import "@styles/media-quearys/header-media-queary.css";
 ---
 
-<body>
-    <header>
-        <div class="izquierda-header">
-            <div class="contenedor-logo">
-                <img src="/logoVGS.svg" alt="LogoVGS">
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="/aoboutMe">Quiénes Somos</a></li>
-                    <li><a href="/noticias">Noticias</a></li>
-                </ul>
-            </nav>
+<header>
+    <div class="izquierda-header">
+        <div class="contenedor-logo">
+            <img src="/logoVGS.svg" alt="LogoVGS" />
         </div>
-        <div class="derecha-header">
-            <button id="modoLecturaBtn">
-                <div id="moonIcon">
-                    <MoonAnimated />
-                </div>
-                <div id="sunIcon" style="display: none;">
-                    <SunAnimated />
-                </div>
-            </button>
-            <GlobeAnimated></GlobeAnimated>
-            <div class="contenedor-buscador">
-                <div class="icono-buscador">
-                    <SearchAnimated />
-                </div>
-                <input type="text" placeholder="Buscar" class="input-buscador">
+        <nav>
+            <ul>
+                <li><a href="/aoboutMe">Quiénes Somos</a></li>
+                <li><a href="/noticias">Noticias</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="derecha-header">
+        <button id="modoLecturaBtn">
+            <div id="moonIcon">
+                <MoonAnimated />
             </div>
-            <a href="/LoginRegisterPages/LoginPage">Iniciar Sesion</a>
+            <div id="sunIcon" style="display: none;">
+                <SunAnimated />
+            </div>
+        </button>
+        <GlobeAnimated />
+        <div class="contenedor-buscador">
+            <div class="icono-buscador">
+                <SearchAnimated />
+            </div>
+            <input type="text" placeholder="Buscar" class="input-buscador" />
         </div>
-    </header>
-    <HeaderComponentMovil />
+        <a href="/LoginRegisterPages/LoginPage">Iniciar Sesion</a>
+    </div>
+</header>
+<HeaderComponentMovil />
 
-    <style>
-        a{
-            text-decoration: none;
-        }
-        header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 20px 50px 20px 50px;
-            text-align: center;
-            align-items: center;
-            border:1px solid rgba(110, 109, 109, 0.164);
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-            font-family: "Consola-regular", sans-serif;
-        }
+<style>
+    a {
+        text-decoration: none;
+    }
+    header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 20px 50px 20px 50px;
+        text-align: center;
+        align-items: center;
+        border: 1px solid rgba(110, 109, 109, 0.164);
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
+        -webkit-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
+        font-family: "Consola-regular", sans-serif;
+    }
 
-        .izquierda-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
+    .izquierda-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .izquierda-header a {
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 10px;
-            position: relative;  
-            display: inline-block;  
-            transition: all 0.3s ease;
-        }
+    .izquierda-header a {
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
 
-        .izquierda-header a:hover {
-            background-color: #2d313d;
-            color: white;
-        }
+    .izquierda-header a:hover {
+        background-color: #2d313d;
+        color: white;
+    }
 
-        .izquierda-header a::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;  /* Ajusta la distancia debajo del texto */
-            left: 0;
-            width: 0;  /* Comienza sin ancho */
-            height: 3px;
-            background: linear-gradient(to right, #ff0000, #ff6600);
-            transition: width 0.5s ease;  
-        }
+    .izquierda-header a::after {
+        content: "";
+        position: absolute;
+        bottom: -10px; /* Ajusta la distancia debajo del texto */
+        left: 0;
+        width: 0; /* Comienza sin ancho */
+        height: 3px;
+        background: linear-gradient(to right, #ff0000, #ff6600);
+        transition: width 0.5s ease;
+    }
 
-        .izquierda-header a:hover::after {
-            width: 100%;  /* Se expande al hacer hover */
-        }
+    .izquierda-header a:hover::after {
+        width: 100%; /* Se expande al hacer hover */
+    }
 
+    .izquierda-header ul {
+        display: flex;
+        gap: 30px;
+        list-style-type: none;
+    }
 
-        .izquierda-header ul {
-            display: flex;
-            gap: 30px;
-            list-style-type: none;
-        }
+    .derecha-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
 
-        .derecha-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+    .input-buscador {
+        border-radius: 30px;
+        border: 1px solid rgb(110, 109, 109);
+        background-color: transparent;
+        padding: 5px 38px 5px 10px;
+        margin: 10px;
+    }
 
-        .input-buscador {
-            border-radius: 30px;
-            border:1px solid rgb(110, 109, 109);
-            background-color: transparent;
-            padding: 5px 38px 5px 10px;
-            margin:10px;
-        }
+    .contenedor-buscador {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .icono-buscador {
+        position: absolute;
+        right: 20px;
+        width: 15px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 1;
+    }
 
-        .contenedor-buscador {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        .icono-buscador {
-            position: absolute;
-            right: 20px;
-            width: 15px;
-            height: 20px;
-            pointer-events: none;
-            z-index: 1;
-        }
+    .derecha-header a {
+        background-color: #d13639;
+        padding: 5px 20px 5px 20px;
+        border-radius: 20px;
+    }
 
-        .derecha-header a {
-            background-color: #d13639;
-            padding: 5px 20px 5px 20px;
-            border-radius: 20px;
-        }
+    button {
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        position: relative;
+        top: 1px;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
 
-        button {
-            background-color: transparent;
-            cursor: pointer;
-            border: none;
-            position: relative;
-            top: 1px;
-            padding: 10px;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
+    body.modo-oscuro button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 
-        body.modo-oscuro button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
+    a {
+        color: #000000;
+    }
 
-        a {
-            color: #000000;
-        }
+    body.modo-oscuro a {
+        color: #ffffff;
+    }
 
-        body.modo-oscuro a {
-            color: #ffffff;
-        }
+    input {
+        color: #000000;
+    }
 
-        input {
-            color: #000000;
-        }
+    body.modo-oscuro input {
+        color: #ffffff;
+    }
 
-        body.modo-oscuro input {
-            color: #ffffff;
-        }
+    .contenedor-logo {
+        position: relative;
+        left: 30px;
+        margin-right: 50px;
+        width: 100px;
+        height: 50px;
+        overflow: visible;
+    }
 
-        .contenedor-logo {
-            position: relative;
-            left: 30px;
-            margin-right: 50px;
-            width: 100px;
-            height: 50px; 
-            overflow: visible; 
-        }
+    .contenedor-logo img {
+        width: 200px;
+        height: auto;
+        position: relative;
+        top: -20px;
+        left: -50px;
+    }
+</style>
 
-        .contenedor-logo img {
-            width: 200px;
-            height: auto;
-            position: relative;
-            top: -20px;
-            left: -50px; 
-        }
-
-
-    </style>
-
-    <script type="module" src="/scripts/color-scheme.js"></script>
-
-</body>
+<script type="module" src="/scripts/color-scheme.js"></script>
