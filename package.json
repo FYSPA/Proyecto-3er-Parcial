@@ -3,14 +3,15 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "astro dev --config astro.config.dev.mjs",
+    "build:prod": "astro build --config astro.config.prod.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "devHost": "astro dev --host"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.0",
+    "@astrojs/vercel": "^9.0.0",
     "astro": "^5.15.2",
     "dotenv": "^17.2.3",
     "shiki": "^3.14.0"
