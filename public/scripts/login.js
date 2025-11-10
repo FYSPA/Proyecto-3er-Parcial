@@ -50,7 +50,7 @@ function initLogin() {
                 localStorage.setItem('logged_in', 'true');
 
                 setTimeout(() => {
-                    window.location.href = '/MainPageLogeado/landingMainPage';
+                    window.location.href = '/dashboardpage/Dashboard';
                 }, 500);
             } else {
                 console.log('Error:', json.message);

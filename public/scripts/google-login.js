@@ -38,13 +38,19 @@ window.handleCodeResponse = function(response) {
         return res.json();
     })
     .then(data => {
+        console.log(data);
         console.log('Datos recibidos:', data);
+        console.log('user_photo del servidor:', data.user_photo);
         if (data.success) {
             localStorage.setItem('user_id', data.user_id);
             localStorage.setItem('user_nombre', data.user_nombre);
             localStorage.setItem('user_correo', data.user_correo);
             localStorage.setItem('logged_in', 'true');
             
+            if (data.user_photo) {
+                localStorage.setItem('user_photo', data.user_photo);
+            }
+
             setTimeout(() => {
                 window.location.href = '/dashboardpage/Dashboard';
             }, 100);
