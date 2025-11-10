@@ -1,104 +1,111 @@
 <body>
-    <div id="google_translate_element"></div>
-    <div id="menu-idiomas" class="menu-opciones">
-        <a href="#" class="lang-link" data-lang="es">Español</a>
-        <a href="#" class="lang-link" data-lang="en">English</a>
-        <a href="#" class="lang-link" data-lang="fr">Français</a>
-        <a href="#" class="lang-link" data-lang="it">Italiano</a>
-        <a href="#" class="lang-link" data-lang="de">Deutsch</a>
-        <a href="#" class="lang-link" data-lang="pt">Português</a>
-    </div>
-    <button id="btn-globo">
-        <svg
-            class="icon-tema"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-        >
-            <g
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+    <div class="menu-container">
+        <div id="google_translate_element"></div>
+        <div id="menu-idiomas" class="menu-opciones">
+            <a href="#" class="lang-link" data-lang="es">Español</a>
+            <a href="#" class="lang-link" data-lang="en">English</a>
+            <a href="#" class="lang-link" data-lang="fr">Français</a>
+            <a href="#" class="lang-link" data-lang="it">Italiano</a>
+            <a href="#" class="lang-link" data-lang="de">Deutsch</a>
+            <a href="#" class="lang-link" data-lang="pt">Português</a>
+        </div>
+        <button id="btn-globo">
+            <svg
+                class="icon-tema"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
             >
-                <!-- Animar el círculo principal -->
-                <circle
-                    cx="12"
-                    cy="12"
-                    r="9"
-                    stroke-dasharray="56.52"
-                    stroke-dashoffset="56.52"
+                <g
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
                 >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        from="56.52"
-                        to="0"
-                        dur="0.5s"
-                        fill="freeze"></animate>
-                </circle>
-                <!-- Animar las líneas horizontales -->
-                <path
-                    stroke-dasharray="22"
-                    stroke-dashoffset="22"
-                    d="M3.6 15h16.8"
-                >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        from="22"
-                        to="0"
-                        dur="0.3s"
-                        begin="0.5s"
-                        fill="freeze"></animate>
-                </path>
-                <path
-                    stroke-dasharray="22"
-                    stroke-dashoffset="22"
-                    d="M3.6 9h16.8"
-                >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        from="22"
-                        to="0"
-                        dur="0.3s"
-                        begin="0.8s"
-                        fill="freeze"></animate>
-                </path>
-                <!-- Animar los meridianos -->
-                <path
-                    stroke-dasharray="18"
-                    stroke-dashoffset="18"
-                    d="M11.5 3a17 17 0 0 0 0 18"
-                >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        from="18"
-                        to="0"
-                        dur="0.4s"
-                        begin="1.1s"
-                        fill="freeze"></animate>
-                </path>
-                <path
-                    stroke-dasharray="18"
-                    stroke-dashoffset="18"
-                    d="M12.5 3a17 17 0 0 1 0 18"
-                >
-                    <animate
-                        attributeName="stroke-dashoffset"
-                        from="18"
-                        to="0"
-                        dur="0.4s"
-                        begin="1.3s"
-                        fill="freeze"></animate>
-                </path>
-            </g>
-        </svg>
+                    <!-- Animar el círculo principal -->
+                    <circle
+                        cx="12"
+                        cy="12"
+                        r="9"
+                        stroke-dasharray="56.52"
+                        stroke-dashoffset="56.52"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="56.52"
+                            to="0"
+                            dur="0.5s"
+                            fill="freeze"></animate>
+                    </circle>
+                    <!-- Animar las líneas horizontales -->
+                    <path
+                        stroke-dasharray="22"
+                        stroke-dashoffset="22"
+                        d="M3.6 15h16.8"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="22"
+                            to="0"
+                            dur="0.3s"
+                            begin="0.5s"
+                            fill="freeze"></animate>
+                    </path>
+                    <path
+                        stroke-dasharray="22"
+                        stroke-dashoffset="22"
+                        d="M3.6 9h16.8"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="22"
+                            to="0"
+                            dur="0.3s"
+                            begin="0.8s"
+                            fill="freeze"></animate>
+                    </path>
+                    <!-- Animar los meridianos -->
+                    <path
+                        stroke-dasharray="18"
+                        stroke-dashoffset="18"
+                        d="M11.5 3a17 17 0 0 0 0 18"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="18"
+                            to="0"
+                            dur="0.4s"
+                            begin="1.1s"
+                            fill="freeze"></animate>
+                    </path>
+                    <path
+                        stroke-dasharray="18"
+                        stroke-dashoffset="18"
+                        d="M12.5 3a17 17 0 0 1 0 18"
+                    >
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            from="18"
+                            to="0"
+                            dur="0.4s"
+                            begin="1.3s"
+                            fill="freeze"></animate>
+                    </path>
+                </g>
+            </svg>
 
-    </button>
+        </button>
+    </div>
 
     <!-- ESTILOS -->
     <style>
+        .menu-container {
+            position: relative;
+            display: inline-block;
+        }
+
         button {
             background-color: transparent;
             border: none;
@@ -125,8 +132,8 @@
         .menu-opciones {
             display: none;
             position: absolute;
-            top: 40px;
-            right: 370px;
+            top: 40px; /* abajo del botón */
+            right: 0;  /* alineado derecho de su contenedor */
             background: #222;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -135,6 +142,7 @@
             height: 250px;
             padding: 8px 0;
         }
+
 
         .menu-opciones .lang-link {
             display: block;
@@ -164,8 +172,14 @@
             visibility: hidden !important;
         }
 
-        .goog-te-banner-frame,
-        .goog-te-menu-frame,
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+
         .skiptranslate {
             display: none !important;
         }
@@ -173,6 +187,7 @@
         body {
             top: 0 !important;
         }
+
     </style>
 
     <script type="module" src="/scripts/menu-idiomas.js"></script>

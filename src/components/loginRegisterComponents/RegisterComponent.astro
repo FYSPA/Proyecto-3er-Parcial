@@ -1,8 +1,7 @@
-        ---
+---
 import '@styles/global-fonts.css'
 import GoogleIcon from "@components/icons/GoogleIcon.astro"
-import SunAnimated from "@components/icons/SunAnimated.astro"
-import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
 import BackAnimated from "@components/icons/BackAnimated.astro"
 import '@styles/media-quearys/login-media-queary.css'
 ---
@@ -16,14 +15,9 @@ import '@styles/media-quearys/login-media-queary.css'
                         <BackAnimated />
                     </button>
                 </a>
-                <button id="modoLecturaBtn" type="button">
-                    <div id="moonIcon">
-                        <MoonAnimated />
-                    </div>
-                    <div id="sunIcon" style="display: none;">
-                        <SunAnimated />
-                    </div>
-                </button>
+                <div class=btn-globe>
+                    <GlobeAnimated />
+                </div>
             </div>
             
             <label for="name">Nombre</label>
@@ -150,15 +144,6 @@ import '@styles/media-quearys/login-media-queary.css'
             justify-content: space-between;
             width: 100%;
         }
-        #modoLecturaBtn {
-            background-color: rgb(128, 128, 128);
-            border: none;
-            border-radius: 20px;
-            height: auto;
-            width: 50px;
-            padding: 10px;
-            cursor: pointer;
-        }
 
         .btn-back {
             background-color: rgb(128, 128, 128);
@@ -168,6 +153,16 @@ import '@styles/media-quearys/login-media-queary.css'
             width: 50px;
             padding: 10px;
             cursor: pointer;
+        }
+
+        .btn-globe {
+            background-color: rgb(128, 128, 128);
+            border: none;
+            border-radius: 20px;
+            height: auto;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
         }
 
         .btn-login {
