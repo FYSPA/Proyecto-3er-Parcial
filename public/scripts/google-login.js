@@ -42,13 +42,20 @@ window.handleCodeResponse = function(response) {
         console.log('Datos recibidos:', data);
         console.log('user_photo del servidor:', data.user_photo);
         if (data.success) {
+            // Guardar en localStorage
             localStorage.setItem('user_id', data.user_id);
             localStorage.setItem('user_nombre', data.user_nombre);
             localStorage.setItem('user_correo', data.user_correo);
             localStorage.setItem('logged_in', 'true');
             
+            // También guardar en sessionStorage para la protección de rutas
+            sessionStorage.setItem('user_id', data.user_id);
+            sessionStorage.setItem('user_nombre', data.user_nombre);
+            sessionStorage.setItem('user_correo', data.user_correo);
+            
             if (data.user_photo) {
                 localStorage.setItem('user_photo', data.user_photo);
+                sessionStorage.setItem('user_photo', data.user_photo);
             }
 
             setTimeout(() => {

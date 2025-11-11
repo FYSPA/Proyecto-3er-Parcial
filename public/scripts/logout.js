@@ -8,9 +8,11 @@ function logout() {
     sessionStorage.removeItem('user_photo');
 
     // Limpiar localStorage (opcional)
+    localStorage.removeItem('user_id');
     localStorage.removeItem('user_nombre');
     localStorage.removeItem('user_correo');
     localStorage.removeItem('user_photo');
+    localStorage.removeItem('logged_in');
 
     // Redirigir al login
     window.location.href = '/LoginRegisterPages/LoginPage';

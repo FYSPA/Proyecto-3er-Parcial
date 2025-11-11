@@ -44,10 +44,16 @@ function initLogin() {
 
             if (json.success) {
                 console.log('Login exitoso! Guardando datos y redirigiendo...');
+                // Guardar en localStorage
                 localStorage.setItem('user_id', json.user_id);
                 localStorage.setItem('user_nombre', json.user_nombre);
                 localStorage.setItem('user_correo', json.user_correo);
                 localStorage.setItem('logged_in', 'true');
+                
+                // También guardar en sessionStorage para la protección de rutas
+                sessionStorage.setItem('user_id', json.user_id);
+                sessionStorage.setItem('user_nombre', json.user_nombre);
+                sessionStorage.setItem('user_correo', json.user_correo);
 
                 setTimeout(() => {
                     window.location.href = '/dashboardpage/Dashboard';

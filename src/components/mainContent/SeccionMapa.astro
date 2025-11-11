@@ -1,0 +1,180 @@
+---
+import puntosDeInteres from '../../scripts-src/mapa-puntos.js'
+---
+
+<h2>Nuestras Ubicaciones</h2>
+
+<section class="seccion-mapa">
+  <div class="controles-mapa">
+    <div class="botones-ubicacion">
+      {puntosDeInteres.map((punto, index) => (
+        <button 
+          class="btn-ubicacion" 
+          data-lat={punto.lat} 
+          data-lng={punto.lng}
+          data-nombre={punto.nombre}
+          data-direccion={punto.direccion}
+          data-descripcion={punto.descripcion}
+        >
+          <span class="icono">{punto.icono}</span>
+          <span class="texto">
+            <strong>{punto.nombre}</strong>
+            <br>
+            <small>{punto.direccion}</small>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+  
+  <div class="mapa-contenedor">
+    <iframe
+      id="mapa-dinamico"
+      src={`https://www.google.com/maps?q=${puntosDeInteres[0].lat},${puntosDeInteres[0].lng}&output=embed&z=15`}
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Mapa VGS - Puntos de Interés"
+      class="mapa-iframe"
+    >
+    </iframe>
+  </div>
+
+</section>
+
+<script is:inline>
+  // Función para cambiar la ubicación del mapa
+  function cambiarUbicacion(lat, lng, nombre, direccion, descripcion) {
+    const iframe = document.getElementById('mapa-dinamico');
+    const nuevaSrc = `https://www.google.com/maps?q=${lat},${lng}&output=embed&z=16`;
+    iframe.src = nuevaSrc;
+    
+    // Actualizar información
+    document.getElementById('nombre-ubicacion').textContent = nombre;
+    document.getElementById('direccion-ubicacion').textContent = direccion;
+    document.getElementById('descripcion-ubicacion').textContent = descripcion;
+    
+    // Añadir animación
+    iframe.style.opacity = '0.7';
+    setTimeout(() => {
+      iframe.style.opacity = '1';
+    }, 300);
+  }
+  
+  // Agregar event listeners a los botones
+  document.addEventListener('DOMContentLoaded', function() {
+    const botones = document.querySelectorAll('.btn-ubicacion');
+    botones.forEach(boton => {
+      boton.addEventListener('click', function() {
+        // Remover clase activa de todos los botones
+        botones.forEach(b => b.classList.remove('activo'));
+        // Añadir clase activa al botón clickeado
+        this.classList.add('activo');
+        
+        const lat = parseFloat(this.dataset.lat);
+        const lng = parseFloat(this.dataset.lng);
+        const nombre = this.dataset.nombre;
+        const direccion = this.dataset.direccion;
+        const descripcion = this.dataset.descripcion;
+        
+        cambiarUbicacion(lat, lng, nombre, direccion, descripcion);
+      });
+    });
+    
+    // Activar el primer botón por defecto
+    botones[0].classList.add('activo');
+  });
+</script>
+
+<style>
+    h2 {
+        max-width: 900px;
+        margin: 0 auto 20px auto;
+        padding: 0 16px;
+        text-align: left;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .seccion-mapa {
+        max-width: 900px;
+        margin: 40px auto;
+        margin-top: 0px;
+        padding: 0 16px;
+        width: 100%;
+    }
+
+    .mapa-contenedor {
+        position: relative;
+        width: 100%;
+        height: 100px;
+        padding-bottom: 56.25%;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .mapa-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .botones-ubicacion {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .botones-ubicacion button {
+        height: auto;
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        background-color: #f9f9f9;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .botones-ubicacion button:hover {
+        background-color: #e8e8e8;
+    }
+
+    /* Media queries para diferentes tamaños de pantalla */
+    @media (max-width: 768px) {
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding: 0 12px;
+        }
+        
+        .mapa-contenedor {
+            padding-bottom: 75%; /* Relación de aspecto 4:3 en móviles */
+        }
+        
+        .seccion-mapa {
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .mapa-contenedor {
+            padding-bottom: 60%; /* Relación de aspecto intermedia para tablets */
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .mapa-contenedor {
+            max-height: 500px;
+            padding-bottom: 45%; /* Más ancho en pantallas grandes */
+        }
+    }
+</style>

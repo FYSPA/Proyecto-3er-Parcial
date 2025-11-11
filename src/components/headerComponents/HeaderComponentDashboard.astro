@@ -2,8 +2,9 @@
 // src/components/Header.astro
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
-import '@styles/global-color-scheame.css'
+import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
 import SettingsAnimated from "@components/icons/SettingsAnimated.astro"
+import '@styles/global-color-scheame.css'
 ---
 
 <header>
@@ -14,6 +15,7 @@ import SettingsAnimated from "@components/icons/SettingsAnimated.astro"
     </div>
 
     <div class="derecha-header">
+      <GlobeAnimated />
       <button id="modoLecturaBtn" class="btn-tema" title="Cambiar tema">
         <div id="moonIcon">
           <MoonAnimated />

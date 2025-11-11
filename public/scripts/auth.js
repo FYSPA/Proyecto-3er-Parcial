@@ -1,7 +1,7 @@
-// auth.js
+// auth.js - Versión compatible con módulos y script inline
 
 // Función para manejar login (guardar datos del usuario)
-export async function loginHandler(response) {
+async function loginHandler(response) {
   try {
     const result = await fetch('/api/exchange-code.php', {
       method: 'POST',
@@ -20,6 +20,8 @@ export async function loginHandler(response) {
       if (data.user_photo) {
         sessionStorage.setItem('user_photo', data.user_photo);
       }
+      // También guardar en localStorage para persistencia
+      localStorage.setItem('user_id', data.user_id);
       localStorage.setItem('user_nombre', data.user_nombre);
       localStorage.setItem('user_correo', data.user_correo);
       if (data.user_photo) {
@@ -35,17 +37,28 @@ export async function loginHandler(response) {
 }
 
 // Función para limpiar datos y redirigir en logout
-export function logout() {
+function logout() {
   sessionStorage.clear();
   localStorage.clear();
   window.location.href = '/LoginRegisterPages/LoginPage'; // cambia si usas otra ruta para login
 }
 
 // Inicializa evento de logout en botón si existe
-const btnLogout = document.getElementById('logoutBtn');
-if (btnLogout) {
-  btnLogout.addEventListener('click', e => {
-    e.preventDefault();
-    logout();
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  const btnLogout = document.getElementById('logoutBtn');
+  if (btnLogout) {
+    btnLogout.addEventListener('click', e => {
+      e.preventDefault();
+      logout();
+    });
+  }
+});
+
+// Hacer las funciones disponibles globalmente para uso inline
+window.loginHandler = loginHandler;
+window.logout = logout;
+
+// Exportar para uso como módulo si es posible (no causará error si no se usa como módulo)
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { loginHandler, logout };
 }

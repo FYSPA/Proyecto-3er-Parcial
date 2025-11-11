@@ -1,0 +1,132 @@
+---
+// Importar SOLO los datos desde JavaScript (no el código del navegador)
+import { gameData, getGameData } from '../../scripts-src/cardgame.js';
+
+// Props del componente
+interface Props {
+    gameIndex?: number;
+}
+
+const { gameIndex = 0 } = Astro.props;
+
+// Obtener datos del juego
+const gameInfo = getGameData(gameIndex);
+
+// Desestructurar los datos del juego
+const { img, title, description, link } = gameInfo;
+
+// Generar ID único para el componente
+const gameId = 'game-' + Math.random().toString(36).substr(2, 9);
+---
+
+<div class="card-game" id={gameId} data-game-index={gameIndex}>
+    <div class="img-game">
+        <img src={img} alt={title} class="game-image">
+    </div>
+    <div class="contenedor-abajo">
+        <div class="card-game-header">
+            <span class="card-game-title">
+                {title}
+            </span>
+        </div>
+        <div class="card-game-content">
+            <p class="card-game-description">
+                {description}
+            </p>
+        </div>
+        <div class="card-game-footer">
+            <a href={link}>
+                <button class="btn-show">
+                    ver
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card-game {
+        width: 300px;
+        height: 400px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        border: 1px solid #eeeeee61;
+    }
+
+    .contenedor-abajo {
+        padding: 16px;
+    }
+
+    .img-game {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+        margin-bottom: 12px;
+        padding: 0;
+        box-shadow: 4px -30px 44px 5px rgba(0,0,0,0.75) inset;
+        -webkit-box-shadow: 4px -30px 44px 5px rgba(0,0,0,0.75) inset;
+        -moz-box-shadow: 4px -30px 44px 5px rgba(0,0,0,0.75) inset;
+    }
+
+    .img-game img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;  /* Esto es importante: cubre el área sin deformar */
+    }
+
+    .card-game-header {
+        margin-bottom: 8px;
+    }
+
+    span {
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card-game-content {
+        flex-grow: 1;
+        margin-bottom: 12px;
+    }
+
+    .card-game-description {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;  /* Limita a 3 líneas */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    button {
+        padding: 12px 24px;
+        border-radius: 8px;
+        border: none;
+        background-color: #007bff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        margin-top: auto;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+    a{
+        text-decoration: none;
+    }
+</style>
+
+
+<!-- Script del navegador con is:inline para evitar procesamiento -->
+<script is:inline src="/src/scripts-src/cardgame-client.js"></script>

@@ -1,0 +1,19 @@
+---
+import CardGame from './CardGame.astro';
+import { gameData, getGameData } from '../../scripts-src/cardgame.js';
+---
+
+<div class="games-container">
+    {gameData.map((_, index) => (
+        <CardGame gameIndex={index} />
+    ))}
+</div>
+
+<style>
+    .games-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+</style>
+
