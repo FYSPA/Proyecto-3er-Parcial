@@ -3,7 +3,7 @@
 import SunAnimated from "@components/icons/SunAnimated.astro"
 import MoonAnimated from "@components/icons/MoonAnimated.astro"
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
-import SettingsAnimated from "@components/icons/SettingsAnimated.astro"
+import MenuUserModal from "@components/dashboardComponents/MenuUserModal.astro"
 import '@styles/global-color-scheame.css'
 ---
 
@@ -15,7 +15,7 @@ import '@styles/global-color-scheame.css'
     </div>
 
     <div class="derecha-header">
-      <GlobeAnimated />
+      <GlobeAnimated variant="desktop"/>
       <button id="modoLecturaBtn" class="btn-tema" title="Cambiar tema">
         <div id="moonIcon">
           <MoonAnimated />
@@ -24,12 +24,14 @@ import '@styles/global-color-scheame.css'
           <SunAnimated />
         </div>
       </button>
-      <SettingsAnimated />
-      <div class="user-circle" id="userAvatar" title="Perfil de usuario">
-        <img class="avatar-img" id="avatarImg" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
-      </div>
+      <button class="btn-user" id="user-btn-profile">
+        <div class="user-circle" id="userAvatar" title="Perfil de usuario">
+          <img class="avatar-img" id="avatarImg" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+        </div>
+      </button>
     </div>
   </div>
+  <MenuUserModal />
 </header>
 
 <style>
@@ -137,7 +139,6 @@ import '@styles/global-color-scheame.css'
     display: block;
   }
 
-
   .user-name {
     max-width: 80px;
     overflow: hidden;
@@ -145,54 +146,36 @@ import '@styles/global-color-scheame.css'
     white-space: nowrap;
     display: block;
     text-transform: lowercase;
-    
+  }
+
+  .btn-user {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    padding: 0;
   }
 
 
 </style>
 
 <script type="module" src="/scripts/color-scheme.js"></script>
-
+<script type="module" src="/scripts/user-date.js"></script>
 <script is:inline>
-  // Cargar datos del usuario desde sessionStorage o localStorage
-  function cargarDatosUsuario() {
-    let userName = sessionStorage.getItem('user_nombre') || localStorage.getItem('user_nombre');
-    let userPhoto = sessionStorage.getItem('user_photo') || localStorage.getItem('user_photo');
-    const greeting = document.getElementById('userGreeting');
-    const avatarImg = document.getElementById('avatarImg');
-
-    if (greeting && userName) {
-      greeting.textContent = `${userName}`;
-    }
-
-    // Fallback universal de avatar
-    if (avatarImg) {
-      function setAvatarIniciales() {
-        if (userName) {
-          const initials = userName.split(' ').map(n => n[0]).join('');
-          avatarImg.src = `https://ui-avatars.com/api/?name=${initials}&background=4CAF50&color=fff&font-size=0.4&bold=true`;
-        } else {
-          avatarImg.src = `https://ui-avatars.com/api/?name=User&background=4CAF50&color=fff&font-size=0.4&bold=true`;
-        }
+  // Abrir el menú flotante al hacer click en el botón
+  const userBtnProfile = document.getElementById('user-btn-profile');
+  userBtnProfile?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window.openUserMenu?.();
+    
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.user-circle')) {
+        window.closeUserMenu?.();
       }
-
-      if (userPhoto && userPhoto !== 'null') {
-        if (userPhoto.startsWith('/uploads/')) {
-          avatarImg.src = `http://localhost:8000${userPhoto}`;
-        } else {
-          avatarImg.src = userPhoto;
-        }
-        avatarImg.onerror = function () {
-          setAvatarIniciales();
-        };
-      } else {
-        setAvatarIniciales();
-      }
-    }
-  }
-
-  // Ejecutar cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
-  cargarDatosUsuario();
-
+    });
+  });
 </script>

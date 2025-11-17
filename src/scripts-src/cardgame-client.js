@@ -27,9 +27,7 @@ function updateCardGame(cardElement, gameInfo) {
 }
 
 // Función para inicializar CardGames
-function initializeCardGames() {
-    console.log('CardGame JavaScript cargado correctamente');
-}
+function initializeCardGames() {}
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', initializeCardGames);

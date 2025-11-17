@@ -30,7 +30,7 @@ function initRegister() {
         console.log('FormData creado con host:', window.location.hostname);
 
         try {
-            const res = await fetch(apiHost + '/app/registro.php', {
+            const res = await fetch(apiHost + '/registro.php', {
                 method: 'POST',
                 body: fd
             });
@@ -46,7 +46,7 @@ function initRegister() {
                 console.log('URL verificación:', verifUrl);
 
                 setTimeout(() => {
-                    window.location.href = apiHost + '/app/verificacion.php';
+                    window.location.href = apiHost + '/verificacion.php';
                 }, 500);
             } else {
                 console.error('Error:', json.message);

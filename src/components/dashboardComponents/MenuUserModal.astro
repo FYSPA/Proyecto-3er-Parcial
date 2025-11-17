@@ -1,0 +1,179 @@
+---
+import '@styles/global-color-scheame.css'
+---
+
+<div class="user-menu-modal" id="userMenuModal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="user-name" id="userGreeting">(User)</span>
+      <div class="user-circle" id="userAvatar" title="Perfil de usuario">
+        <img class="avatar-img" id="avatarImg" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+      </div>
+      <button class="close-btn" id="closeMenuBtn">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Aquí va el contenido de tu menú -->
+      <ul class="menu-list">
+        <li><a href="/perfil">Ver Perfil</a></li>
+        <li><a href="/configuracion">Configuración</a></li>
+        <li><a href="/logout">Cerrar Sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .user-menu-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+  }
+
+  .user-menu-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+    background-color: #fff;
+  }
+
+  body.modo-oscuro .modal-content {
+    background-color: #333;
+    color: #fff;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+  }
+
+  .close-btn:hover {
+    color: black;
+  }
+
+  body.modo-oscuro .close-btn:hover {
+    color: #fff;
+  }
+  
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  body.modo-oscuro .menu-list a {
+    color: #fff;
+  }
+
+  .menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu-list li {
+    margin-bottom: 10px;
+  }
+
+  .menu-list a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+
+  .menu-list a:hover {
+    background-color: #50505057;
+  }
+
+  body.modo-oscuro .menu-list a:hover {
+    background-color: #555;
+  }
+</style>
+
+<script type="module" src="/scripts/color-scheme.js"></script>
+<script type="module" src="/scripts/user-date.js"></script>
+<script is:inline>
+  const modal = document.getElementById('userMenuModal');
+  const closeBtn = document.getElementById('closeMenuBtn');
+  const backdrop = document.querySelector('.modal-backdrop');
+
+  // Función para abrir el modal
+  window.openUserMenu = function() {
+    modal?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Función para cerrar el modal
+  window.closeUserMenu = function() {
+    modal?.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  };
+
+  // Cerrar al hacer click en el botón X
+  closeBtn?.addEventListener('click', () => {
+    window.closeUserMenu();
+  });
+
+  // Cerrar al hacer click en el backdrop
+  backdrop?.addEventListener('click', () => {
+    window.closeUserMenu();
+  });
+
+  // Cerrar al presionar ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeUserMenu();
+    }
+  });
+</script>

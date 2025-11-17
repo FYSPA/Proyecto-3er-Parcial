@@ -3,7 +3,8 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
 import SunAnimated from "@components/icons/SunAnimated.astro";
 import MoonAnimated from "@components/icons/MoonAnimated.astro";
 import SearchAnimated from "@components/icons/SearchAnimated.astro";
-import HeaderComponentMovil from "./HeaderComponentMovil.astro";
+import HeaderComponentMovil from "@components/headerComponents/HeaderComponentMovil.astro";
+import VoiceAnimated from "@components/icons/VoiceAnimated.astro";
 import "@styles/global-fonts.css";
 import "@styles/global-color-scheame.css";
 import "@styles/media-quearys/header-media-queary.css";
@@ -16,8 +17,33 @@ import "@styles/media-quearys/header-media-queary.css";
         </div>
         <nav>
             <ul>
-                <li><a href="/aoboutMe">Quiénes Somos</a></li>
-                <li><a href="/noticias">Noticias</a></li>
+                <li class="menu-item">
+                    <button type="button">
+                        Quiénes Somos
+                        <span class="icono-flecha">▼</span> 
+                        <div class="contenedor-opciones">
+                            <a class="opcion" href="/QuiénesSomos">test1</a>
+                            <a class="opcion" href="/Bibliografía">test2</a>
+                        </div>
+                    </button>
+                </li>
+
+                <li><button type="button" onclick="mostrarSeccion('noticias')">
+                    Noticias
+                    <span class="icono-flecha">▼</span>
+                    <div class="contenedor-opciones">
+                        <a class="opcion" href="/Noticias">Más Noticias</a>
+                        <a class="opcion" href="/Blog">Nuestro Blog</a>
+                    </div>
+                </button></li>
+
+                <li><button type="button" onclick="mostrarSeccion('mapa')">
+                    Nuestras Ubicaciones
+                    <span class="icono-flecha">▼</span>
+                    <div class="contenedor-opciones">
+                        <a class="opcion" onclick="mostrarSeccion('mapa')">Más Ubicaciones</a>
+                    </div>
+                </button></li>
             </ul>
         </nav>
     </div>
@@ -30,12 +56,13 @@ import "@styles/media-quearys/header-media-queary.css";
                 <SunAnimated />
             </div>
         </button>
-        <GlobeAnimated />
+        <GlobeAnimated variant="desktop" />
         <div class="contenedor-buscador">
+            <button id="start-btn"><VoiceAnimated /></button>
             <div class="icono-buscador">
                 <SearchAnimated />
             </div>
-            <input type="text" placeholder="Buscar" class="input-buscador" />
+            <input type="text" placeholder="Buscar" class="input-buscador" id="transcription"/>
         </div>
         <a href="/LoginRegisterPages/LoginPage">Iniciar Sesion</a>
     </div>
@@ -60,6 +87,7 @@ import "@styles/media-quearys/header-media-queary.css";
         -webkit-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
         font-family: "Consola-regular", sans-serif;
+        background-color: #ffffff;
     }
 
     .izquierda-header {
@@ -69,21 +97,22 @@ import "@styles/media-quearys/header-media-queary.css";
         align-items: center;
     }
 
-    .izquierda-header a {
+    .izquierda-header button {
         text-decoration: none;
         padding: 10px;
         border-radius: 10px;
         position: relative;
         display: inline-block;
         transition: all 0.3s ease;
+        font-size: 16px;
     }
 
-    .izquierda-header a:hover {
+    .izquierda-header button:hover {
         background-color: #2d313d;
         color: white;
     }
 
-    .izquierda-header a::after {
+    .izquierda-header button::after {
         content: "";
         position: absolute;
         bottom: -10px; /* Ajusta la distancia debajo del texto */
@@ -94,7 +123,7 @@ import "@styles/media-quearys/header-media-queary.css";
         transition: width 0.5s ease;
     }
 
-    .izquierda-header a:hover::after {
+    .izquierda-header button:hover::after {
         width: 100%; /* Se expande al hacer hover */
     }
 
@@ -156,6 +185,14 @@ import "@styles/media-quearys/header-media-queary.css";
         background-color: rgba(255, 255, 255, 0.1);
     }
 
+    button {
+        color: #000000;
+    }
+
+    body.modo-oscuro button {
+        color: #ffffff;
+    }
+
     a {
         color: #000000;
     }
@@ -164,12 +201,17 @@ import "@styles/media-quearys/header-media-queary.css";
         color: #ffffff;
     }
 
+
     input {
         color: #000000;
     }
 
     body.modo-oscuro input {
         color: #ffffff;
+    }
+
+    body.modo-oscuro header{
+        background-color: #1a1a1a;
     }
 
     .contenedor-logo {
@@ -188,6 +230,100 @@ import "@styles/media-quearys/header-media-queary.css";
         top: -20px;
         left: -50px;
     }
-</style>
 
+    .izquierda-header button:hover .contenedor-opciones {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .izquierda-header button:hover .opcion {
+        display: block;
+    }
+
+    .contenedor-opciones:hover {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .contenedor-opciones:hover .opcion {
+        display: block;
+    }
+
+    .contenedor-opciones {
+        position: absolute;
+        top: 150%;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(110, 109, 109, 0.164);
+        min-width: 150px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .opcion {
+        z-index: 10;
+        display: none;
+        cursor: pointer;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s, padding 0.2s;
+    }
+
+    .opcion:hover {
+        background-color: #000000c5;
+        border-radius: 10px;
+    }
+
+    #start-btn {
+        background-color: transparent;
+        cursor: pointer;
+        padding: 7px;
+    }
+</style>
 <script type="module" src="/scripts/color-scheme.js"></script>
+<script is:inline>
+    function mostrarSeccion(valor) {
+        const esRuta = typeof valor === 'string' && valor.startsWith('/');
+        if (esRuta) {
+            window.location.href = valor;
+            return;
+        }
+        const id = valor;
+        const enMain = window.location.pathname.toLowerCase().includes('/mainpage');
+        if (enMain) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            } else {
+                window.location.href = `/mainPage#${id}`;
+            }
+        } else {
+            window.location.href = `/mainPage#${id}`;
+        }
+    }
+
+    document.addEventListener('astro:page-load', () => {
+        const hash = window.location.hash.replace('#', '');
+        if (hash) {
+            const el = document.getElementById(hash);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    });
+</script>
+<script type="module" src="/scripts/voz.js"></script>

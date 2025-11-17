@@ -73,7 +73,7 @@ try {
         }
 
         $host_para_qr = $host_frontend === 'localhost' ? gethostbyname(gethostname()) : $host_frontend;
-        $qrUrl = 'http://' . $host_para_qr . ':8000/app/login_qr.php?code=' . urlencode($codigo_acceso);
+        $qrUrl = 'http://' . $host_para_qr . ':8000/login_qr.php?code=' . urlencode($codigo_acceso);
 
         error_log("QR URL generada: $qrUrl (host original: $host_frontend, convertido a: $host_para_qr)");
         

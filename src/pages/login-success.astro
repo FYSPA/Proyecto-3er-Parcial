@@ -28,9 +28,8 @@ if (!userId) {
             localStorage.setItem('user_correo', correo);
             localStorage.setItem('logged_in', 'true');
 
-            // Redirigir
             setTimeout(() => {
-                window.location.href = '/MainPageLogeado/landingMainPage';
+                window.location.href = '/dashboardpage/Dashboard';
             }, 500);
         } else {
             window.location.href = '/LoginRegisterPages/LoginPage';

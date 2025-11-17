@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificación de Código</title>
+    <link rel="favicon" href="/logoVGS.ico">
     <style>
         * {
             margin: 0;
@@ -22,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         }
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #8b8b8bff 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 </head>
 <body>
     <div class="container">
-        <h1>📱 Verificación de Código</h1>
+        <h1>Verificación de Código</h1>
         <p class="info-text">Escanea el código QR enviado a tu correo o ingresa el código manualmente</p>
         
         <div class="instructions">
@@ -219,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 formData.append('codigo', codigo);
 
                 console.log('Enviando código a api-login.php...');
-                const response = await fetch('http://localhost:8000/app/api-login.php', {
+                const response = await fetch('http://localhost:8000/api-login.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -229,18 +229,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 console.log('Datos recibidos:', data);
 
                 if (data.success) {
-                    console.log('Código válido, guardando datos...');
-                    localStorage.setItem('user_id', data.user_id);
-                    localStorage.setItem('user_nombre', data.user_nombre);
-                    localStorage.setItem('user_correo', data.user_correo);
-                    localStorage.setItem('logged_in', 'true');
-
                     mostrarExito('Código verificado correctamente');
-                    
+                    const front = 'http://localhost:4321';
+                    const url = front + '/login-success?user=' + encodeURIComponent(data.user_id) + '&nombre=' + encodeURIComponent(data.user_nombre) + '&correo=' + encodeURIComponent(data.user_correo);
                     setTimeout(() => {
-                        console.log('Redirigiendo a mainPage...');
-                        window.location.href = 'http://localhost:4321/dashboardpage/Dashboard';
-                    }, 1500);
+                        window.location.href = url;
+                    }, 800);
                 } else {
                     console.log('Error:', data.message);
                     mostrarError(data.message || 'Código no válido');

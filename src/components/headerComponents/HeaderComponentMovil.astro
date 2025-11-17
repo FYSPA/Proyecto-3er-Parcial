@@ -1,19 +1,34 @@
 ---
 import '@styles/global-fonts.css'
 import '@styles/media-quearys/header-movil.css'
+import MoonAnimated from '@components/icons/MoonAnimated.astro'
+import SunAnimated from '@components/icons/SunAnimated.astro'
+import "@styles/global-color-scheame.css";
+import GlobeAnimated from '@components/icons/GlobeAnimated.astro'
 ---
 
-<!-- HAMBURGUESA (SOLO MÓVILES) -->
 <button class="hamburger" id="hamburger" aria-label="Menú">
     <span></span>
     <span></span>
     <span></span>
 </button>
 
-<!-- MENÚ MÓVIL (completamente separado) -->
 <nav class="nav-mobile" id="navMobile">
     <a href="/aoboutMe">Quiénes Somos</a>
     <a href="/noticias">Noticias</a>
+    <span>Cambio de Tema</span>
+    <button id="modoLecturaBtn">
+        <div id="moonIcon">
+            <MoonAnimated />
+        </div>
+        <div id="sunIcon" style="display: none;">
+            <SunAnimated />
+        </div>
+    </button>
+    <span>Idioma</span>
+    <div class="container-globe">
+    <GlobeAnimated variant="mobile" />
+    </div>
     <a href="/LoginRegisterPages/LoginPage" class="btn-login-mobile">Iniciar Sesión</a>
 </nav>
 
@@ -22,31 +37,69 @@ import '@styles/media-quearys/header-movil.css'
     .hamburger {
         color: white;
     }
+
+    #modoLecturaBtn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        -moz-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .container-globe {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        -moz-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        padding: 5px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;    
+    }
 </style>
 
 <script type="text/javascript">
     const hamburger = document.getElementById('hamburger');
     const navMobile = document.getElementById('navMobile');
-
-    // Toggle menú al hacer clic en hamburguesa
+    function lockScroll() {
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${y}px`;
+        document.body.style.width = '100%';
+    }
+    function unlockScroll() {
+        const y = parseInt((document.body.style.top || '0').replace('px','')) * -1;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, y);
+    }
     hamburger?.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navMobile.classList.toggle('active');
+        const active = hamburger.classList.toggle('active');
+        navMobile.classList.toggle('active', active);
+        if (active) lockScroll(); else unlockScroll();
     });
-
-    // Cerrar menú al hacer clic en un link
     navMobile?.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             hamburger.classList.remove('active');
             navMobile.classList.remove('active');
+            unlockScroll();
         });
     });
-
-    // Cerrar menú si se hace clic fuera
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('button') && !e.target.closest('.nav-mobile')) {
-            hamburger?.classList.remove('active');
-            navMobile?.classList.remove('active');
+        if (!e.target.closest('#hamburger') && !e.target.closest('.nav-mobile')) {
+            if (hamburger?.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navMobile?.classList.remove('active');
+                unlockScroll();
+            }
         }
     });
 </script>
+<script type="module" src="/scripts/color-scheme.js"></script>

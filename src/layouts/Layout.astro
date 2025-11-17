@@ -1,6 +1,6 @@
 ---
 const {title = "Pagina de Juegos"} = Astro.props;
-import { ClientRouter } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";   
 import HeaderComponent from "../components/headerComponents/HeaderComponent.astro"
 import Footer from "@components/footerComponents/Footer.astro";
 ---
@@ -33,6 +33,7 @@ import Footer from "@components/footerComponents/Footer.astro";
         box-sizing: border-box;
     }
 
+
     html {
         color-scheme: light;
         height: 100%;
@@ -42,7 +43,7 @@ import Footer from "@components/footerComponents/Footer.astro";
         color-scheme: dark;
     }
 
-    body {
+  body {
         background-color: #ffffff;
         color: #000000;
         transition: background-color 0.3s, color 0.3s;
@@ -51,7 +52,7 @@ import Footer from "@components/footerComponents/Footer.astro";
         min-height: 100vh;
         margin: 0;
         padding: 0;
-    }
+  }
 
     body.modo-oscuro {
         background-color: #1a1a1a;

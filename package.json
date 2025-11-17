@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev --config astro.config.dev.mjs",
+    "build": "astro build --config astro.config.prod.mjs",
     "build:prod": "astro build --config astro.config.prod.mjs",
     "preview": "astro preview",
     "astro": "astro",

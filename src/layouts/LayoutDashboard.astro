@@ -1,7 +1,6 @@
 ---
 // src/layouts/Layout.astro
 const {title = "Pagina de Juegos"} = Astro.props;
-import { ClientRouter } from "astro:transitions";
 import Sidebar from "@components/dashboardComponents/Sidebar.astro";
 import HeaderComponentDashboard from "@components/headerComponents/HeaderComponentDashboard.astro";
 ---
@@ -14,7 +13,6 @@ import HeaderComponentDashboard from "@components/headerComponents/HeaderCompone
         <link rel="icon" type="image/svg+xml+ico" href="/logoVGS.ico" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
-        <ClientRouter />
         <script is:inline src="/scripts/auth-check.js"></script>
     </head>
     <body>

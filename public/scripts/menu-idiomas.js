@@ -21,10 +21,13 @@ function resetGoogleTranslate() {
 resetGoogleTranslate();
 
 // Cargar Google Translate
-const script = document.createElement('script');
-script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-script.async = true;
-document.head.appendChild(script);
+if (!window.__googleTranslateLoaded) {
+  const script = document.createElement('script');
+  script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  script.async = true;
+  document.head.appendChild(script);
+  window.__googleTranslateLoaded = true;
+}
 
 window.googleTranslateElementInit = function() {
     new google.translate.TranslateElement({
@@ -52,37 +55,29 @@ function changeLanguage(langCode) {
 }
 
 function setupMenu() {
-    const btn = document.getElementById('btn-globo');
-    const menu = document.getElementById('menu-idiomas');
-
-    if (!btn || !menu) {
-        return;
-    }
-
-    // Click en botón
+  const containers = document.querySelectorAll('.menu-container');
+  containers.forEach(container => {
+    const btn = container.querySelector('[id="btn-globo"]');
+    const menu = container.querySelector('[id="menu-idiomas"]');
+    if (!btn || !menu) return;
     btn.onclick = (e) => {
-        e.stopPropagation();
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      e.stopPropagation();
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     };
-
-    // Click fuera cierra
-    document.onclick = (e) => {
-        if (menu.style.display === 'block' && 
-            !btn.contains(e.target) && 
-            !menu.contains(e.target)) {
-            menu.style.display = 'none';
-        }
-    };
-
-    // Seleccionar idioma
-    menu.querySelectorAll('.lang-link').forEach(link => {
-        link.onclick = (e) => {
-            e.preventDefault();
-            const lang = link.getAttribute('data-lang');
-            changeLanguage(lang);
-            menu.style.display = 'none';
-        };
+    document.addEventListener('click', (e) => {
+      if (menu.style.display === 'block' && !btn.contains(e.target) && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+      }
     });
+    menu.querySelectorAll('.lang-link').forEach(link => {
+      link.onclick = (e) => {
+        e.preventDefault();
+        const lang = link.getAttribute('data-lang');
+        changeLanguage(lang);
+        menu.style.display = 'none';
+      };
+    });
+  });
 }
 
 // Ejecutar
@@ -94,6 +89,6 @@ if (document.readyState === 'loading') {
 
 // Para Astro - resetear en cada navegación
 document.addEventListener('astro:page-load', () => {
-    resetGoogleTranslate();
-    setTimeout(setupMenu, 200);
+  resetGoogleTranslate();
+  setTimeout(setupMenu, 200);
 });

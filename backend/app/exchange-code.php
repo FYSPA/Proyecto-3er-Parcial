@@ -1,62 +1,92 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:4321');
+// exchange-code.php (en backend/app/)
+header('Content-Type: application/json; charset=utf-8');
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+if ($origin) {
+    if ($origin === 'http://localhost:4321' || $origin === 'http://localhost:3000') {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    } else {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    }
+} else {
+    header('Access-Control-Allow-Origin: http://localhost:4321');
+}
+header('Vary: Origin');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+header('Access-Control-Allow-Credentials: true');
+
+// Manejo de errores
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Error PHP: ' . $errstr,
+        'file' => basename($errfile),
+        'line' => $errline
+    ]);
+    exit;
+});
+
+set_exception_handler(function($exception) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Excepción: ' . $exception->getMessage()
+    ]);
+    exit;
+});
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
-
-require __DIR__ . '/../vendor/autoload.php';
-
-$envPath = __DIR__ . '/../../.env';
-if (!file_exists($envPath)) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => "Archivo .env NO existe en: $envPath"]);
+    if ($origin) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    }
+    header('Access-Control-Max-Age: 86400');
+    http_response_code(204);
     exit;
 }
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
-$dotenv->load();
-
-// Función para descargar la imagen de Google al servidor
-function descargarImagen($url, $destino) {
-    $ch = curl_init($url);
-    $fp = fopen($destino, 'wb');
-    curl_setopt($ch, CURLOPT_FILE, $fp);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
-    $success = curl_exec($ch);
-    curl_close($ch);
-    fclose($fp);
-    return $success;
-}
-
 try {
+    require_once __DIR__ . '/../vendor/autoload.php';
+    
+    // Desde backend/app/ subimos 3 niveles a raíz (Proyecto-3er-Parcial/)
+    $envPath = __DIR__ . '/../../.env';
+    if (!file_exists($envPath)) {
+        throw new Exception("Archivo .env NO existe en: $envPath");
+    }
+
+    // Cargar variables de .env desde la raíz
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+    $dotenv->safeLoad();
+
+    // ========== IMPORTAR DB ==========
+    require_once __DIR__ . '/../config/db.php';
+
+    // Recibir y validar el code de Google
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
-
-    if (!$data || !isset($data['code'])) {
+    $code = null;
+    if (is_array($data) && isset($data['code'])) {
+        $code = $data['code'];
+    } else if (isset($_POST['code'])) {
+        $code = $_POST['code'];
+    }
+    if (!$code) {
         throw new Exception('Code no recibido');
     }
-
-    $code = $data['code'];
-
     $client_id = $_ENV['GOOGLE_CLIENT_ID'] ?? null;
     $client_secret = $_ENV['GOOGLE_CLIENT_SECRET'] ?? null;
-
+    
     if (!$client_id || !$client_secret) {
-        throw new Exception('Credenciales no cargadas. CLIENT_ID=' . ($client_id ?: 'NULL') . ', SECRET=' . ($client_secret ?: 'NULL'));
+        throw new Exception('Credenciales de Google no configuradas en .env');
     }
 
+    // ========== INTERCAMBIAR CODE POR TOKEN ==========
     $postData = http_build_query([
         'code' => $code,
         'client_id' => $client_id,
         'client_secret' => $client_secret,
-        'redirect_uri' => 'http://localhost:4321',
+        'redirect_uri' => 'postmessage',
         'grant_type' => 'authorization_code'
     ]);
 
@@ -65,94 +95,141 @@ try {
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    
     $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
     curl_close($ch);
 
-    $tokenData = json_decode($response, true);
-
-    if (!isset($tokenData['access_token'])) {
-        throw new Exception('Error intercambiando code: ' . json_encode($tokenData));
+    if ($httpCode !== 200 || !$response) {
+        throw new Exception('Error intercambiando code con Google: ' . ($curlError ?: 'HTTP ' . $httpCode));
     }
 
-    $access_token = $tokenData['access_token'];
+    $tokenData = json_decode($response, true);
+    
+    if (!isset($tokenData['access_token'])) {
+        throw new Exception('Google no devolvió access_token: ' . ($tokenData['error_description'] ?? json_encode($tokenData)));
+    }
 
-    $ch = curl_init('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' . $access_token);
+    // ========== OBTENER INFO DEL USUARIO ==========
+    $access_token = $tokenData['access_token'];
+    $ch = curl_init('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' . urlencode($access_token));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    
     $userinfo_response = curl_exec($ch);
     curl_close($ch);
 
     $userInfo = json_decode($userinfo_response, true);
-
+    
     if (!isset($userInfo['email'])) {
-        throw new Exception('Token inválido');
+        throw new Exception('No se pudo obtener información del usuario de Google');
     }
 
     $email = $userInfo['email'];
     $nombre = $userInfo['name'] ?? 'Usuario';
     $photo = $userInfo['picture'] ?? null;
 
-    require_once __DIR__ . '/../config/db.php';
-
-    // Checar si usuario ya existe en BD
+    // ========== VERIFICAR SI USUARIO EXISTE ==========
     $stmt = $conn->prepare('SELECT id, nombre, correo, foto_url FROM usuarios WHERE correo = ?');
+    if (!$stmt) {
+        throw new Exception('Error preparando consulta: ' . $conn->error);
+    }
+    
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
+        // Usuario ya existe
         $user = $result->fetch_assoc();
-        $fotoFinal = $user['foto_url'];
-
+        $stmt->close();
+        
+        http_response_code(200);
         echo json_encode([
             'success' => true,
             'user_id' => $user['id'],
             'user_nombre' => $user['nombre'],
             'user_correo' => $user['correo'],
-            'user_photo' => $fotoFinal
+            'user_photo' => $user['foto_url'],
+            'mensaje' => 'Usuario encontrado'
         ]);
-    } else {
-        $id = uniqid('user_');
-        $codigo_acceso = bin2hex(random_bytes(8));
-        $pass = password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT);
-
-        // Descargar la imagen de Google si existe
-        if ($photo) {
-            $avatarFilename = $id . '.jpg';
-            $avatarPath = __DIR__ . '/../uploads/avatars/' . $avatarFilename;
-            $avatarUrl = '/uploads/avatars/' . $avatarFilename;
-
-            $descargaOk = descargarImagen($photo, $avatarPath);
-            $fotoFinal = $descargaOk ? $avatarUrl 
-                : 'https://ui-avatars.com/api/?name=' . urlencode($nombre) . '&background=4CAF50&color=fff';
-        } else {
-            $fotoFinal = 'https://ui-avatars.com/api/?name=' . urlencode($nombre) . '&background=4CAF50&color=fff';
-        }
-
-        $insert = $conn->prepare('INSERT INTO usuarios (id, nombre, correo, password, verificado, codigo_acceso, foto_url) VALUES (?, ?, ?, ?, 1, ?, ?)');
-        $insert->bind_param('ssssss', $id, $nombre, $email, $pass, $codigo_acceso, $fotoFinal);
-
-        if (!$insert->execute()) {
-            if ($insert->errno === 1062) {
-                throw new Exception('Ya existe una cuenta con este correo.');
-            } else {
-                throw new Exception('Error creando usuario: ' . $insert->error);
-            }
-        }
-
-        echo json_encode([
-            'success' => true,
-            'user_id' => $id,
-            'user_nombre' => $nombre,
-            'user_correo' => $email,
-            'user_photo' => $fotoFinal
-        ]);
+        exit;
     }
 
+    // ========== CREAR NUEVO USUARIO ==========
+    $stmt->close();
+    
+    $id = 'user_' . uniqid();
+    $codigo_acceso = bin2hex(random_bytes(8));
+    $pass = password_hash(bin2hex(random_bytes(16)), PASSWORD_BCRYPT);
+
+    // Imagen por defecto
+    $fotoFinal = 'https://ui-avatars.com/api/?name=' . urlencode($nombre) . '&background=4CAF50&color=fff';
+    
+    if ($photo) {
+        $avatarFilename = $id . '.jpg';
+        $avatarPath = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
+        $avatarUrl = '/uploads/avatars/' . $avatarFilename;
+        
+        // Crear directorio si no existe
+        if (!is_dir(__DIR__ . '/../../public/uploads/avatars/')) {
+            mkdir(__DIR__ . '/../../public/uploads/avatars/', 0755, true);
+        }
+        
+        // Intentar descargar imagen
+        $ch = curl_init($photo);
+        $fp = fopen($avatarPath, 'wb');
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
+        $success = curl_exec($ch);
+        curl_close($ch);
+        fclose($fp);
+        
+        if ($success) {
+            $fotoFinal = $avatarUrl;
+        }
+    }
+
+    // ========== INSERTAR USUARIO ==========
+    $insert = $conn->prepare('INSERT INTO usuarios (id, nombre, correo, password, verificado, codigo_acceso, foto_url) VALUES (?, ?, ?, ?, 1, ?, ?)');
+    if (!$insert) {
+        throw new Exception('Error preparando insert: ' . $conn->error);
+    }
+    
+    $insert->bind_param('ssssss', $id, $nombre, $email, $pass, $codigo_acceso, $fotoFinal);
+    
+    if (!$insert->execute()) {
+        if ($insert->errno === 1062) {
+            throw new Exception('Ya existe una cuenta con este correo.');
+        } else {
+            throw new Exception('Error creando usuario: ' . $insert->error);
+        }
+    }
+    
+    $insert->close();
+
+    http_response_code(201);
+    echo json_encode([
+        'success' => true,
+        'user_id' => $id,
+        'user_nombre' => $nombre,
+        'user_correo' => $email,
+        'user_photo' => $fotoFinal,
+        'mensaje' => 'Usuario creado exitosamente'
+    ]);
+    
     $conn->close();
 
 } catch (Exception $e) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo json_encode([
+        'success' => false, 
+        'message' => $e->getMessage()
+    ]);
 }
-
 ?>
