@@ -13,7 +13,9 @@ import "@styles/media-quearys/header-media-queary.css";
 <header>
     <div class="izquierda-header">
         <div class="contenedor-logo">
-            <img src="/logoVGS.svg" alt="LogoVGS" />
+            <a href="/">
+                <img src="/logoVGS.svg" alt="LogoVGS" />
+            </a>
         </div>
         <nav>
             <ul>
@@ -229,6 +231,12 @@ import "@styles/media-quearys/header-media-queary.css";
         position: relative;
         top: -20px;
         left: -50px;
+        transition: transform 0.3s ease;
+        transition-timing-function: ease-in-out;
+    }
+
+    .contenedor-logo img:hover {
+        transform: scale(1.1);
     }
 
     .izquierda-header button:hover .contenedor-opciones {

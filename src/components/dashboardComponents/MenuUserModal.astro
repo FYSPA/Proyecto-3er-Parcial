@@ -6,22 +6,45 @@ import '@styles/global-color-scheame.css'
   <div class="modal-backdrop"></div>
   <div class="modal-content">
     <div class="modal-header">
-      <span class="user-name" id="userGreeting">(User)</span>
-      <div class="user-circle" id="userAvatar" title="Perfil de usuario">
-        <img class="avatar-img" id="avatarImg" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+      <div class="contenedor-usuario">
+        <div class="user-circle" id="userAvatar" title="Perfil de usuario">
+          <img class="avatar-img" id="avatarImg-modal" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+        </div>
+        <span class="user-name" id="userGreeting-modal">(User)</span>
       </div>
       <button class="close-btn" id="closeMenuBtn">✕</button>
     </div>
     <div class="modal-body">
-      <!-- Aquí va el contenido de tu menú -->
-      <ul class="menu-list">
-        <li><a href="/perfil">Ver Perfil</a></li>
-        <li><a href="/configuracion">Configuración</a></li>
-        <li><a href="/logout">Cerrar Sesión</a></li>
-      </ul>
+      <!-- Menú principal -->
+      <div id="menuPrincipal">
+        <ul class="menu-list">
+          <li><a href="#" id="configBtn">Configuración</a></li>
+          <li><a href="#" id="ayudaBtn">Ayuda</a></li>
+          <li><a href="/logout" style="color: #f44336;">Cerrar Sesión</a></li>
+        </ul>
+      </div>
+      <!-- Menú de configuración (oculto al inicio) -->
+      <div id="menuConfiguracion" style="display:none; animation: slideIn 0.3s ease-out;">
+        <ul class="menu-list">
+          <li><a href="/perfil">Mi Perfil</a></li>
+          <li><a href="/cambiar-contraseña">Cambiar Contraseña</a></li>
+          <li><a href="/notificaciones">  Notificaciones</a></li>
+          <li><a href="/privacidad">Privacidad</a></li>
+          <li><a href="#" id="backBtn" style="color: #4CAF50;">← Volver al menú principal</a></li>
+        </ul>
+      </div>
+
+      <div id="menuAyuda" style="display:none; animation: slideIn 0.3s ease-out;">
+        <ul class="menu-list">
+          <li><a href="/contact">Contactanos</a></li>
+          <li><a href="#" id="backBtn" style="color: #4CAF50;">← Volver al menú principal</a></li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </div>
+
 
 <style>
   .user-menu-modal {
@@ -31,7 +54,46 @@ import '@styles/global-color-scheame.css'
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 999;
+    z-index: 999999;
+  }
+
+  .contenedor-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: bold;
+  }
+
+  .user-circle {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #4CAF50;
+    display: block;
+  }
+
+  .user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    text-transform: lowercase;
+    padding: 0;
+    margin: 0;
   }
 
   .user-menu-modal.active {
@@ -77,7 +139,7 @@ import '@styles/global-color-scheame.css'
 
   .modal-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #e0e0e0;
@@ -94,6 +156,9 @@ import '@styles/global-color-scheame.css'
     font-size: 1.5rem;
     cursor: pointer;
     color: #666;
+    position: absolute;
+    top: 20px;
+    right: 20px;
   }
 
   .close-btn:hover {
@@ -142,38 +207,107 @@ import '@styles/global-color-scheame.css'
 </style>
 
 <script type="module" src="/scripts/color-scheme.js"></script>
-<script type="module" src="/scripts/user-date.js"></script>
 <script is:inline>
   const modal = document.getElementById('userMenuModal');
   const closeBtn = document.getElementById('closeMenuBtn');
   const backdrop = document.querySelector('.modal-backdrop');
+  const configBtn = document.getElementById('configBtn');
+  const ayudaBtn = document.getElementById('ayudaBtn');
+  const backBtn = document.getElementById('backBtn');
 
-  // Función para abrir el modal
+  // NUEVA FUNCIÓN: Actualiza el contenido del menú al dar click en Configuración
+  const menuPrincipal = document.getElementById('menuPrincipal');
+  const menuAyuda = document.getElementById('menuAyuda');
+  const menuConfiguracion = document.getElementById('menuConfiguracion');
+
+  // Evento para ir al menú de configuración
+  configBtn?.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menuPrincipal.style.display = 'none';
+    menuConfiguracion.style.display = 'block';
+  });
+
+  ayudaBtn?.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menuPrincipal.style.display = 'none';
+    menuAyuda.style.display = 'block';
+  });
+
+  // Evento para regresar al menú principal
+  backBtn?.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menuAyuda.style.display = 'none';
+    menuConfiguracion.style.display = 'none';
+    menuPrincipal.style.display = 'block';
+  });
+
+
+
+  function cargarDatosUsuario() {
+    // Buscar de nuevo los elementos cada vez que se llama
+    const greeting = document.getElementById('userGreeting-modal');
+    const avatarImg = document.getElementById('avatarImg-modal');
+    
+    let userName = sessionStorage.getItem('user_nombre') || localStorage.getItem('user_nombre');
+    let userPhoto = sessionStorage.getItem('user_photo') || localStorage.getItem('user_photo');
+    
+    // console.log('Actualizando:', userName, userPhoto);
+    // console.log('Elementos encontrados:', greeting, avatarImg);
+
+    // Actualizar el nombre
+    if (greeting) {
+      greeting.textContent = userName || '(User)';
+      // console.log('Nombre actualizado a:', greeting.textContent);
+    }
+
+    // Actualizar el avatar
+    if (avatarImg && userPhoto) {
+      if (userPhoto.startsWith('/uploads/')) {
+        avatarImg.src = `http://localhost:8000${userPhoto}`;
+      } else {
+        avatarImg.src = userPhoto;
+      }
+      // console.log('Avatar actualizado a:', avatarImg.src);
+    } else if (avatarImg && userName) {
+      const initials = userName.split(' ').map(n => n[0]).join('');
+      avatarImg.src = `https://ui-avatars.com/api/?name=${initials}&background=4CAF50&color=fff&font-size=0.4&bold=true`;
+      // console.log('Avatar de iniciales:', avatarImg.src);
+    }
+  }
+
   window.openUserMenu = function() {
+    // console.log('Abriendo menú...');
+    cargarDatosUsuario(); // Llamar aquí
     modal?.classList.add('active');
     document.body.style.overflow = 'hidden';
   };
 
-  // Función para cerrar el modal
   window.closeUserMenu = function() {
     modal?.classList.remove('active');
     document.body.style.overflow = 'auto';
   };
 
-  // Cerrar al hacer click en el botón X
   closeBtn?.addEventListener('click', () => {
     window.closeUserMenu();
   });
 
-  // Cerrar al hacer click en el backdrop
   backdrop?.addEventListener('click', () => {
     window.closeUserMenu();
   });
 
-  // Cerrar al presionar ESC
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       window.closeUserMenu();
     }
   });
+
+  // Ejecutar también al cargar la página
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarDatosUsuario();
+  });
 </script>
+
+

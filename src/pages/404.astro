@@ -1,0 +1,28 @@
+---
+import Layout from '@layouts/Layout.astro';
+---
+<Layout title="VGS - 404">
+    <div>
+        <div class="fondo"></div>
+        <img src="/404.webp" alt="Logo VGS">
+    </div>
+</Layout>
+
+<style>
+    div {
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(201, 20, 20, 0.75)
+    }
+
+
+    img {
+        box-shadow: -2px 6px 400px 200px rgba(0, 0, 0, 0.678) inset;
+        -webkit-box-shadow: -2px 6px 400px 200px rgba(0,0,0,0.678) inset;
+        -moz-box-shadow: -2px 6px 400px 200px rgba(0,0,0,0.678) inset;
+    }
+</style>
