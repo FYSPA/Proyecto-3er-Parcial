@@ -3,12 +3,17 @@
 import LayoutGames from "@layouts/LayoutGames.astro";
 import { games } from "./gameData.js";
 
+export async function getStaticPaths() {
+    return games.map((game) => ({
+        params: { games: game.ruta },
+        props: { game },
+    }));
+}
+
 const { games: gameParam } = Astro.params;
+const { game: currentGame } = Astro.props;
 
-// Busca el juego que coincida con la ruta
-const currentGame = games.find((g) => g.ruta === gameParam);
-
-// Si no encuentra el juego, lanza error (página 404)
+// Si no encuentra el juego (aunque getStaticPaths debería prevenir esto en build), lanza error
 if (!currentGame) {
     throw new Error(`Juego no encontrado: ${gameParam}`);
 }
