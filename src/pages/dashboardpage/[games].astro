@@ -11,9 +11,11 @@ export async function getStaticPaths() {
 }
 
 const { games: gameParam } = Astro.params;
-const { game: currentGame } = Astro.props;
+const { game: propGame } = Astro.props;
 
-// Si no encuentra el juego (aunque getStaticPaths debería prevenir esto en build), lanza error
+const currentGame = propGame || games.find((g) => g.ruta === gameParam);
+
+// Si no encuentra el juego, lanza error (página 404)
 if (!currentGame) {
     throw new Error(`Juego no encontrado: ${gameParam}`);
 }
