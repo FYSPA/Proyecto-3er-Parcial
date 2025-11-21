@@ -10,7 +10,9 @@ try {
     $db_pass = $_ENV['DB_PASS'] ?? '';
     $db_name = $_ENV['DB_NAME'] ?? 'db_qr';
 
-    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    $db_port = $_ENV['DB_PORT'] ?? 3306;
+
+    $conn = new mysqli($db_host, $db_user, $db_pass, $db_name, (int)$db_port);
     $conn->set_charset('utf8mb4');
 
     if ($conn->connect_error) {

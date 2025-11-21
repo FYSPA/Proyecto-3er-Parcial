@@ -147,13 +147,54 @@ try {
         $user = $result->fetch_assoc();
         $stmt->close();
         
+        // Lógica para actualizar la foto si es necesario (ej: si tiene avatar por defecto pero ahora entra con Google)
+        // O si queremos asegurar que tenga la foto de Google guardada localmente
+        $fotoActual = $user['foto_url'];
+        $nuevaFoto = $fotoActual;
+
+        // Si la foto actual es de UI Avatars (default) y Google nos da una foto, la descargamos
+        // O si queremos forzar actualización de foto de Google
+        if ($photo && (strpos($fotoActual, 'ui-avatars.com') !== false || strpos($fotoActual, 'googleusercontent.com') !== false)) {
+             $avatarFilename = $user['id'] . '.jpg';
+             // Ruta absoluta del sistema de archivos para guardar
+             $avatarPath = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
+             // URL pública para guardar en BD (relativa a la raíz del servidor web)
+             // IMPORTANTE: Asegurar que esta ruta sea accesible desde el navegador
+             $avatarUrl = 'http://localhost:8000/uploads/avatars/' . $avatarFilename; 
+             
+             if (!is_dir(__DIR__ . '/../../public/uploads/avatars/')) {
+                 mkdir(__DIR__ . '/../../public/uploads/avatars/', 0755, true);
+             }
+
+             $ch = curl_init($photo);
+             $fp = fopen($avatarPath, 'wb');
+             if ($fp) {
+                curl_setopt($ch, CURLOPT_FILE, $fp);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                $success = curl_exec($ch);
+                curl_close($ch);
+                fclose($fp);
+
+                if ($success) {
+                    $nuevaFoto = $avatarUrl;
+                    // Actualizar en BD
+                    $update = $conn->prepare("UPDATE usuarios SET foto_url = ? WHERE id = ?");
+                    $update->bind_param("ss", $nuevaFoto, $user['id']);
+                    $update->execute();
+                    $update->close();
+                }
+             }
+        }
+
         http_response_code(200);
         echo json_encode([
             'success' => true,
             'user_id' => $user['id'],
             'user_nombre' => $user['nombre'],
             'user_correo' => $user['correo'],
-            'user_photo' => $user['foto_url'],
+            'user_photo' => $nuevaFoto,
             'mensaje' => 'Usuario encontrado'
         ]);
         exit;
@@ -172,7 +213,8 @@ try {
     if ($photo) {
         $avatarFilename = $id . '.jpg';
         $avatarPath = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
-        $avatarUrl = '/uploads/avatars/' . $avatarFilename;
+        // Usamos URL absoluta para evitar problemas de rutas relativas en el frontend
+        $avatarUrl = 'http://localhost:8000/uploads/avatars/' . $avatarFilename;
         
         // Crear directorio si no existe
         if (!is_dir(__DIR__ . '/../../public/uploads/avatars/')) {
@@ -182,16 +224,19 @@ try {
         // Intentar descargar imagen
         $ch = curl_init($photo);
         $fp = fopen($avatarPath, 'wb');
-        curl_setopt($ch, CURLOPT_FILE, $fp);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        
-        $success = curl_exec($ch);
-        curl_close($ch);
-        fclose($fp);
-        
-        if ($success) {
-            $fotoFinal = $avatarUrl;
+        if ($fp) {
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            
+            $success = curl_exec($ch);
+            curl_close($ch);
+            fclose($fp);
+            
+            if ($success) {
+                $fotoFinal = $avatarUrl;
+            }
         }
     }
 

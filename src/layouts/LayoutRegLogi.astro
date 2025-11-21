@@ -1,6 +1,5 @@
 ---
-const {title = "Pagina de Juegos"} = Astro.props;
-
+const { title = "Pagina de Juegos" } = Astro.props;
 ---
 
 <!doctype html>
@@ -8,7 +7,7 @@ const {title = "Pagina de Juegos"} = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml+ico" href="/logoVGS.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
@@ -27,11 +26,13 @@ const {title = "Pagina de Juegos"} = Astro.props;
 	html.modo-oscuro {
 		color-scheme: dark;
 	}
-	
+
 	body {
 		background-color: #ffffff;
 		color: #000000;
-		transition: background-color 0.3s, color 0.3s;
+		transition:
+			background-color 0.3s,
+			color 0.3s;
 		margin: 0;
 		padding: 0;
 		overflow-y: auto;

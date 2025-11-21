@@ -1,18 +1,24 @@
 ---
 interface Props {
   href: string;
-  icon?: any;
+  // si pasas un componente .astro
   iconComponent?: any;
+  // si pasas una ruta de imagen
+  iconSrc?: string;
   iconAlt?: string;
   label: string;
   title: string;
 }
 
-const { href, icon, iconComponent: IconComponent, iconAlt, label, title } = Astro.props;
+const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = Astro.props;
 ---
 
 <a href={href} class="nav-item" title={title}>
-  {IconComponent && <IconComponent />}
+  {IconComponent
+    ? <IconComponent />
+    : iconSrc
+      ? <img src={iconSrc} alt={iconAlt} class="icon" loading="lazy" decoding="async" />
+      : null}
   <span class="label">{label}</span>
 </a>
 
@@ -36,14 +42,19 @@ const { href, icon, iconComponent: IconComponent, iconAlt, label, title } = Astr
   }
 
   .nav-item:hover {
-    color: #fff;
+    color: #ffffff33;
     background-color: #252525;
   }
 
   .nav-item.active {
     color: #fff;
     background-color: #252525;
-    border-left: 3px solid #4CAF50;
+    border-left: 3px solid #25ac29; 
+    border-bottom: 1px solid #eeeeee56;
+  }
+
+  .nav-item.active:hover {
+    background-color: #ffffff1b;
   }
 
   .icon {

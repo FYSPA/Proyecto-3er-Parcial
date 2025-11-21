@@ -1,10 +1,11 @@
 ---
 // src/components/Header.astro
-import SunAnimated from "@components/icons/SunAnimated.astro"
-import MoonAnimated from "@components/icons/MoonAnimated.astro"
+import SunAnimated from "@components/icons/SunAnimated.astro";
+import MoonAnimated from "@components/icons/MoonAnimated.astro";
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
-import MenuUserModal from "@components/dashboardComponents/MenuUserModal.astro"
-import '@styles/global-color-scheame.css'
+import MenuUserModal from "@components/dashboardComponents/MenuUserModal.astro";
+import "@styles/global-color-scheame.css";
+import "/public/styles/theme-transition.css";
 ---
 
 <header>
@@ -15,7 +16,7 @@ import '@styles/global-color-scheame.css'
     </div>
 
     <div class="derecha-header">
-      <GlobeAnimated variant="desktop"/>
+      <GlobeAnimated variant="desktop" />
       <button id="modoLecturaBtn" class="btn-tema" title="Cambiar tema">
         <div id="moonIcon">
           <MoonAnimated />
@@ -26,7 +27,12 @@ import '@styles/global-color-scheame.css'
       </button>
       <button class="btn-user" id="user-btn-profile">
         <div class="user-circle" id="userAvatar" title="Perfil de usuario">
-          <img class="avatar-img" id="avatarImg" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+          <img
+            class="avatar-img"
+            id="avatarImg"
+            src="http://localhost:8000/uploads/avatars/user_XXXX.jpg"
+            ...
+          />
         </div>
       </button>
     </div>
@@ -127,7 +133,7 @@ import '@styles/global-color-scheame.css'
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #4CAF50;
+    background: #4caf50;
   }
 
   .avatar-img {
@@ -135,7 +141,7 @@ import '@styles/global-color-scheame.css'
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-    background: #4CAF50;
+    background: #4caf50;
     display: block;
   }
 
@@ -159,21 +165,19 @@ import '@styles/global-color-scheame.css'
     transition: background-color 0.3s ease;
     padding: 0;
   }
-
-
 </style>
 
 <script type="module" src="/scripts/color-scheme.js"></script>
 <script type="module" src="/scripts/user-date.js"></script>
 <script is:inline>
   // Abrir el menú flotante al hacer click en el botón
-  const userBtnProfile = document.getElementById('user-btn-profile');
-  userBtnProfile?.addEventListener('click', (e) => {
+  const userBtnProfile = document.getElementById("user-btn-profile");
+  userBtnProfile?.addEventListener("click", (e) => {
     e.stopPropagation();
     window.openUserMenu?.();
-    
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.user-circle')) {
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".user-circle")) {
         window.closeUserMenu?.();
       }
     });

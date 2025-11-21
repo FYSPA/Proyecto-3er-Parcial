@@ -1,0 +1,225 @@
+---
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout>
+    <section class="section-form">
+        <div class="contact-form-container">
+            <fieldset>
+                <legend>Envia una Solicitud</legend>
+                <form
+                    class="contact-form"
+                    action="https://formsubmit.co/vgsofficialmx@gmail.com"
+                    method="POST"
+                >
+                    <input
+                        type="hidden"
+                        name="_subject"
+                        value="Nueva Solicitud de Contacto"
+                    />
+
+                    <h2>Envía una Solicitud</h2>
+
+                    <div class="form-group">
+                        <label for="tipo">Tipo de Solicitud</label>
+                        <select id="tipo" name="tipo" required>
+                            <option value="" disabled selected
+                                >Selecciona un tipo de solicitud</option
+                            >
+                            <option value="tecnico">Problemas Técnicos</option>
+                            <option value="cuenta"
+                                >Recuperación de Cuenta</option
+                            >
+                            <option value="reporte"
+                                >Reportar a un Jugador</option
+                            >
+                            <option value="general">Duda General</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre">Nombre de Usuario (VSG ID)</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Ej: TuNombre#TAG"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="ejemplo@correo.com"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="asunto">Asunto</label>
+                        <input
+                            type="text"
+                            id="asunto"
+                            name="asunto"
+                            placeholder="Describe brevemente tu problema"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensaje">Mensaje</label>
+                        <textarea
+                            id="mensaje"
+                            name="mensaje"
+                            rows="5"
+                            placeholder="Detalla tu problema o duda aquí..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button"
+                        >Enviar Solicitud</button
+                    >
+                </form>
+            </fieldset>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    fieldset {
+        padding: 20px;
+    }
+    .section-form {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    /* Contenedor principal del formulario */
+    .contact-form-container {
+        width: 90%;
+        max-width: 500px;
+        padding: 30px;
+        background-color: #2b2b2b;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .contact-form h2 {
+        text-align: center;
+        color: #888888;
+        margin-bottom: 25px;
+        font-weight: 600;
+        padding-top: 0;
+        /* AJUSTE CLAVE: Hacer el título más sutil (como en la imagen) */
+        opacity: 0.7;
+    }
+
+    /* Agrupación de campos */
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95em;
+        font-weight: bold;
+        color: #f0f0f0;
+    }
+
+    /* Estilo para inputs, select y textarea */
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        /* AJUSTE: Quitamos el borde para un look más limpio, como en la imagen */
+        border: none;
+        border-radius: 4px;
+        background-color: #383838;
+        color: #f0f0f0;
+        box-sizing: border-box;
+        font-size: 1em;
+        line-height: 1.2;
+
+        /* Reglas para anular la apariencia nativa */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+        /* Mantenemos el box-shadow de enfoque para accesibilidad, pero sin borde */
+        box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+        outline: none;
+    }
+
+    /* Estilo para el botón de envío */
+    .submit-button {
+        width: 100%;
+        padding: 15px;
+        /* AJUSTE: Oscurecemos un poco el fondo del botón, como en la imagen */
+        background-color: #333333;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition:
+            background-color 0.3s,
+            transform 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        line-height: normal;
+        margin-top: 15px;
+    }
+
+    .submit-button:hover {
+        background-color: #444444;
+        transform: none; /* Quitamos el transform: translateY para un hover más sutil */
+    }
+
+    /* Estilo para el placeholder */
+    ::placeholder {
+        color: #ffffff;
+        opacity: 1;
+    }
+
+    /* Estilo específico para la flecha del SELECT (lo que faltaba) */
+    .form-group {
+        position: relative; /* Necesario para posicionar la flecha de forma absoluta */
+    }
+
+    select {
+        /* Añadimos un pequeño padding a la derecha para que no se superponga con la flecha */
+        padding-right: 30px;
+    }
+
+    .form-group::after {
+        content: "▼"; /* El carácter de flecha */
+        position: absolute;
+        top: 50%; /* Posicionamos a la mitad de la altura */
+        right: 15px; /* Separamos 15px del borde derecho */
+        transform: translateY(
+            12px
+        ); /* AJUSTE MANUAL: Para centrarla en el campo */
+        pointer-events: none; /* Permite hacer clic en el select a pesar de la flecha */
+        color: #aaaaaa; /* Color de la flecha */
+        font-size: 0.7em;
+    }
+
+    /* Excluimos la flecha de los demás form-group que no son select */
+    .form-group:not(:has(select))::after {
+        content: none;
+    }
+</style>

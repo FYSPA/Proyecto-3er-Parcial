@@ -2,6 +2,7 @@
 import "@styles/global-color-scheame.css";
 import "@styles/media-quearys/noticias-queary.css";
 ---
+
 <div class="container" id="noticias">
     <section class="news-section">
         <h2>Noticias</h2>
@@ -49,28 +50,40 @@ import "@styles/media-quearys/noticias-queary.css";
         <h2>Nuestros Juegos</h2>
         <div class="games-grid">
             <div class="game-item">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
-                    alt="Juego 1"
-                />
+                <figure>
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
+                        alt="Juego 1"
+                    />
+                    <figcaption>Juego 1</figcaption>
+                </figure>
             </div>
             <div class="game-item">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
-                    alt="Juego 2"
-                />
+                <figure>
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
+                        alt="Juego 2"
+                    />
+                    <figcaption>Juego 2</figcaption>
+                </figure>
             </div>
             <div class="game-item">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
-                    alt="Juego 3"
-                />
+                <figure>
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
+                        alt="Juego 3"
+                    />
+                    <figcaption>Juego 3</figcaption>
+                </figure>
             </div>
             <div class="game-item">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
-                    alt="Juego 4"
-                />
+                <figure>
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnS85DKMGrTt9mQwfRFTqzd5VOaK4Gb1KQvw&s"
+                        alt="Juego 4"
+                    />
+                    <figcaption>Juego 4</figcaption>
+                </figure>
             </div>
         </div>
     </section>
@@ -206,7 +219,10 @@ import "@styles/media-quearys/noticias-queary.css";
         filter: grayscale(100%);
         mix-blend-mode: overlay;
         opacity: 0.8;
-        transition: mix-blend-mode 2s, filter 1s, opacity 1s;
+        transition:
+            mix-blend-mode 2s,
+            filter 1s,
+            opacity 1s;
         clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
     }
 

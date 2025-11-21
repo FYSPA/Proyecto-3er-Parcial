@@ -2,19 +2,13 @@
 import NavItem from '@components/dashboardComponents/NavItem.astro';
 import { menuItems } from '@components/dashboardComponents/data/menu-items.js';
 import House from '@components/icons/House.astro';
-interface MenuItem {
-  titulo: string;
-  descripcion: string;
-  descripcion_icono: string;
-  texto_etiqueta: string;
-  ruta_dinamica: string;
-  icon: 'house' | 'dashboard' | 'logout';
-}
-
-const typedMenuItems: MenuItem[] = menuItems as MenuItem[];
+import GoogleIcon from '@components/icons/GoogleIcon.astro';
+import SunAnimated from '@components/icons/SunAnimated.astro';
 
 const iconMap = {
   house: House,
+  google: GoogleIcon,
+  sun: SunAnimated,
 } as const;
 
 function formatRoute(ruta: string): string {
@@ -23,21 +17,23 @@ function formatRoute(ruta: string): string {
 ---
 
 <aside class="sidebar">
-  <!-- Logo o branding -->
   <div class="sidebar-header">
     <img src="/logoVGS.svg" alt="LogoVGS" style="width: 60px; height: auto;">
   </div>
 
   <nav class="sidebar-nav">
     <ul class="menuList">
-      {menuItems.map((item: any) => {
-        const IconComponent = iconMap[item.icon as keyof typeof iconMap] as any;
+      {menuItems.map((item) => {
+        const IconComponent = item.tipoIcono === 'component' && item.iconKey
+          ? iconMap[item.iconKey as keyof typeof iconMap]
+          : null;
+
         return (
           <li>
-            <NavItem 
+            <NavItem
               href={formatRoute(item.ruta_dinamica)}
-              icon={item.icon}
               iconComponent={IconComponent}
+              iconSrc={item.iconSrc ?? undefined}
               iconAlt={item.descripcion_icono}
               label={item.texto_etiqueta}
               title={item.titulo}
@@ -48,7 +44,7 @@ function formatRoute(ruta: string): string {
     </ul>
   </nav>
 
-  <!-- Footer del sidebar -->
+  <!-- footer igual -->
   <div class="sidebar-footer">
     <button id="logoutBtn" class="nav-item logout" title="Cerrar sesión">
       <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

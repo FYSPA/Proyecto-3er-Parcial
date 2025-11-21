@@ -22,7 +22,7 @@ import "@styles/media-quearys/header-media-queary.css";
                 <li class="menu-item">
                     <button type="button">
                         Quiénes Somos
-                        <span class="icono-flecha">▼</span> 
+                        <span class="icono-flecha">▼</span>
                         <div class="contenedor-opciones">
                             <a class="opcion" href="/QuiénesSomos">test1</a>
                             <a class="opcion" href="/Bibliografía">test2</a>
@@ -30,22 +30,28 @@ import "@styles/media-quearys/header-media-queary.css";
                     </button>
                 </li>
 
-                <li><button type="button" onclick="mostrarSeccion('noticias')">
-                    Noticias
-                    <span class="icono-flecha">▼</span>
-                    <div class="contenedor-opciones">
-                        <a class="opcion" href="/Noticias">Más Noticias</a>
-                        <a class="opcion" href="/Blog">Nuestro Blog</a>
-                    </div>
-                </button></li>
+                <li>
+                    <button type="button" onclick="mostrarSeccion('noticias')">
+                        Noticias
+                        <span class="icono-flecha">▼</span>
+                        <div class="contenedor-opciones">
+                            <a class="opcion" href="/Noticias">Más Noticias</a>
+                            <a class="opcion" href="/Blog">Nuestro Blog</a>
+                        </div>
+                    </button>
+                </li>
 
-                <li><button type="button" onclick="mostrarSeccion('mapa')">
-                    Nuestras Ubicaciones
-                    <span class="icono-flecha">▼</span>
-                    <div class="contenedor-opciones">
-                        <a class="opcion" onclick="mostrarSeccion('mapa')">Más Ubicaciones</a>
-                    </div>
-                </button></li>
+                <li>
+                    <button type="button" onclick="mostrarSeccion('mapa')">
+                        Nuestras Ubicaciones
+                        <span class="icono-flecha">▼</span>
+                        <div class="contenedor-opciones">
+                            <a class="opcion" onclick="mostrarSeccion('mapa')"
+                                >Más Ubicaciones</a
+                            >
+                        </div>
+                    </button>
+                </li>
             </ul>
         </nav>
     </div>
@@ -64,9 +70,14 @@ import "@styles/media-quearys/header-media-queary.css";
             <div class="icono-buscador">
                 <SearchAnimated />
             </div>
-            <input type="text" placeholder="Buscar" class="input-buscador" id="transcription"/>
+            <input
+                type="text"
+                placeholder="Buscar"
+                class="input-buscador"
+                id="transcription"
+            />
         </div>
-        <a href="/LoginRegisterPages/LoginPage">Iniciar Sesion</a>
+        <a href="/LoginRegisterPages/loginPage">Iniciar Sesion</a>
     </div>
 </header>
 <HeaderComponentMovil />
@@ -203,7 +214,6 @@ import "@styles/media-quearys/header-media-queary.css";
         color: #ffffff;
     }
 
-
     input {
         color: #000000;
     }
@@ -212,7 +222,7 @@ import "@styles/media-quearys/header-media-queary.css";
         color: #ffffff;
     }
 
-    body.modo-oscuro header{
+    body.modo-oscuro header {
         background-color: #1a1a1a;
     }
 
@@ -270,7 +280,9 @@ import "@styles/media-quearys/header-media-queary.css";
         min-width: 150px;
         opacity: 0;
         visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
         background: rgba(255, 255, 255, 0.2);
         border-radius: 16px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -286,7 +298,9 @@ import "@styles/media-quearys/header-media-queary.css";
         padding: 5px 10px;
         text-decoration: none;
         color: inherit;
-        transition: background-color 0.2s, padding 0.2s;
+        transition:
+            background-color 0.2s,
+            padding 0.2s;
     }
 
     .opcion:hover {
@@ -303,18 +317,24 @@ import "@styles/media-quearys/header-media-queary.css";
 <script type="module" src="/scripts/color-scheme.js"></script>
 <script is:inline>
     function mostrarSeccion(valor) {
-        const esRuta = typeof valor === 'string' && valor.startsWith('/');
+        const esRuta = typeof valor === "string" && valor.startsWith("/");
         if (esRuta) {
             window.location.href = valor;
             return;
         }
         const id = valor;
-        const enMain = window.location.pathname.toLowerCase().includes('/mainpage');
+        const enMain = window.location.pathname
+            .toLowerCase()
+            .includes("/mainpage");
         if (enMain) {
             const el = document.getElementById(id);
             if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                history.replaceState(null, '', window.location.pathname + window.location.search);
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+                history.replaceState(
+                    null,
+                    "",
+                    window.location.pathname + window.location.search,
+                );
             } else {
                 window.location.href = `/mainPage#${id}`;
             }
@@ -323,14 +343,18 @@ import "@styles/media-quearys/header-media-queary.css";
         }
     }
 
-    document.addEventListener('astro:page-load', () => {
-        const hash = window.location.hash.replace('#', '');
+    document.addEventListener("astro:page-load", () => {
+        const hash = window.location.hash.replace("#", "");
         if (hash) {
             const el = document.getElementById(hash);
             if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
             }
-            history.replaceState(null, '', window.location.pathname + window.location.search);
+            history.replaceState(
+                null,
+                "",
+                window.location.pathname + window.location.search,
+            );
         }
     });
 </script>

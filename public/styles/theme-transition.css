@@ -1,0 +1,51 @@
+/* Animación de cambio de tema tipo "página de libro" */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+/* Si el navegador soporta View Transitions API */
+::view-transition-image-pair(root) {
+    isolation: isolate;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 2;
+    animation: page-turn 1.0s ease-in-out forwards;
+    /* Empezamos con un clip-path que oculta todo (arriba-izquierda) */
+    clip-path: circle(0% at 0% 0%);
+}
+
+@keyframes page-turn {
+    0% {
+        clip-path: circle(0% at 0% 0%);
+    }
+
+    100% {
+        /* Terminamos mostrando todo (el círculo crece hasta cubrir la pantalla) */
+        clip-path: circle(150% at 0% 0%);
+    }
+}
+
+/* Fallback o alternativa manual con overlay si no se usa View Transitions nativo */
+.theme-transition-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color-target);
+    z-index: 9999;
+    pointer-events: none;
+    clip-path: circle(0% at 0% 0%);
+    transition: clip-path 0.8s ease-in-out;
+}
+
+.theme-transition-active {
+    clip-path: circle(150% at 0% 0%);
+}

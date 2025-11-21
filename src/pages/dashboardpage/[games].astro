@@ -1,0 +1,86 @@
+---
+// src/pages/dashboardpage/[games].astro
+import LayoutGames from "@layouts/LayoutGames.astro";
+import { games } from "./gameData.js";
+
+const { games: gameParam } = Astro.params;
+
+// Busca el juego que coincida con la ruta
+const currentGame = games.find((g) => g.ruta === gameParam);
+
+// Si no encuentra el juego, lanza error (página 404)
+if (!currentGame) {
+    throw new Error(`Juego no encontrado: ${gameParam}`);
+}
+---
+
+<LayoutGames>
+    <section class="section-top">
+        <!-- Fondo (iconSrc) va primero en el DOM o posicionado absolutamente detrás -->
+        <div class="fondo">
+            {
+                currentGame.tipoIcono === "image" && (
+                    <img src={currentGame.iconSrc} alt={currentGame.titulo} />
+                )
+            }
+        </div>
+
+        <!-- Icono principal (iconGame) va encima -->
+        <div class="icon">
+            {
+                currentGame.tipoIcono === "image" && (
+                    <img src={currentGame.iconGame} alt={currentGame.titulo} />
+                )
+            }
+        </div>
+    </section>
+
+    <section class="section-midle">
+        <span>{currentGame.titulo}</span>
+        <p>{currentGame.description}</p>
+    </section>
+</LayoutGames>
+
+<style>
+    .section-top {
+        position: relative;
+        width: 100%;
+        height: 600px; /* Altura fija para el contenedor */
+        overflow: hidden;
+        display: flex;
+    }
+
+    .fondo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+
+    .fondo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.6);
+    }
+
+    .icon {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon img {
+        object-fit: contain;
+        height: 500px;
+        width: 500px;
+        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+    }
+    .section-midle {
+        margin: 30px;
+    }
+</style>

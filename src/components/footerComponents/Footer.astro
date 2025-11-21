@@ -1,45 +1,52 @@
 ---
-import SocialXAnimated from "@components/icons/SocialXAnimated.astro"
-import SocialInstagramAnimated from "@components/icons/SocialInstagramAnimated.astro"
-import SocialFacebookAnimated from "@components/icons/SocialFacebookAnimated.astro"
-import '@styles/global-color-scheame.css'
+import SocialXAnimated from "@components/icons/SocialXAnimated.astro";
+import SocialInstagramAnimated from "@components/icons/SocialInstagramAnimated.astro";
+import SocialFacebookAnimated from "@components/icons/SocialFacebookAnimated.astro";
+import "@styles/global-color-scheame.css";
 ---
 
 <footer class="main-footer">
     <div class="footer-content">
         <div class="footer-links">
-
             <div class="top-links">
-                <a href="#">PRENSA</a>
+                <a href="/contacPage/Contact">CONTACTANOS</a>
                 <a href="#">SEGURIDAD</a>
                 <a href="#">LEGAL</a>
                 <a href="#">AVISO DE PRIVACIDAD</a>
                 <a href="#">TÉRMINOS DE SERVICIO</a>
                 <a href="#">ASISTENCIA AL JUGADOR</a>
                 <a href="#">VERIFICAR EN LÍNEA</a>
-                
-                <img src="/logoVGS.svg" alt="LogoSVG">
-                
+
+                <img src="/logoVGS.svg" alt="LogoSVG" />
             </div>
         </div>
-        
-        <hr class="footer-divider">
+
+        <hr class="footer-divider" />
 
         <div class="footer-info">
             <div class="footer-social">
                 <a href="https://x.com/VGSOfficialMx" aria-label="X ">
                     <SocialXAnimated />
-                </a> 
-                <a href="https://www.instagram.com/vgsofficialmx/" aria-label="Instagram">
+                </a>
+                <a
+                    href="https://www.instagram.com/vgsofficialmx/"
+                    aria-label="Instagram"
+                >
                     <SocialInstagramAnimated />
                 </a>
-                <a href="https://www.facebook.com/profile.php?id=61583384074352" aria-label="Facebook">
+                <a
+                    href="https://www.facebook.com/profile.php?id=61583384074352"
+                    aria-label="Facebook"
+                >
                     <SocialFacebookAnimated />
                 </a>
             </div>
             <span class="copyright">
                 © 2025 VGS, Inc. Todos los derechos reservados.
             </span>
+            <address>
+                Polo Norte con los Enanitos Verdes lat 100° long 90°
+            </address>
             <a href="#" class="back-to-top">IR AL INICIO ▲</a>
         </div>
     </div>
@@ -139,7 +146,6 @@ import '@styles/global-color-scheame.css'
         font-weight: bold;
         text-transform: uppercase;
     }
-
 
     img {
         width: 100px;
