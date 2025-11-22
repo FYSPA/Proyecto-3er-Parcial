@@ -8,15 +8,12 @@ ini_set('error_log', __DIR__ . '/../error.log');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
 try {
-    require_once __DIR__ . '/funciones.php';
-    
     require_once __DIR__ . '/funciones.php';
     require_once __DIR__ . '/../config/db.php';
     
@@ -48,17 +45,10 @@ try {
 
     $stmt->close();
 
-    http_response_code(200);
-    echo json_encode([
-        'success' => true,
-        'message' => 'Registro exitoso',
-        'user_id' => $id_usuario,
-        'codigo_acceso' => $codigo_acceso
-    ]);
-    
-    ob_end_flush();
-    flush();
-    
+    // --- Generación de QR y Envío de Correo ---
+    $emailSent = false;
+    $emailError = null;
+
     try {
         require_once __DIR__ . '/../phpqrcode/qrlib.php';
         
@@ -69,42 +59,49 @@ try {
 
         $host_para_qr = $host_frontend === 'localhost' ? gethostbyname(gethostname()) : $host_frontend;
         
-        // Si es localhost, usamos puerto 8000 (backend) o 4321 (frontend) según corresponda
-        // Pero para el link del QR que lleva al login_qr.php, debe apuntar al BACKEND.
-        // En producción (Railway), el backend no usa puerto 8000 en la URL pública.
-        
+        // Lógica de URL del QR
         if ($host_frontend === 'localhost' || strpos($host_frontend, '127.0.0.1') !== false) {
              $qrUrl = 'http://' . $host_para_qr . ':8000/login_qr.php?code=' . urlencode($codigo_acceso);
         } else {
-             // En producción, usamos el host tal cual (https://...)
              $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
-             // Si host_frontend no tiene protocolo, lo añadimos. Pero host_frontend suele ser el hostname.
-             // Mejor usamos la URL del backend actual si es posible, o construimos con el host del frontend si es lo que queremos.
-             // Espera, login_qr.php está en el BACKEND.
-             // Así que deberíamos usar la URL del backend, no del frontend.
-             
-             // Usamos la variable de entorno PUBLIC_API_URL si existe, o construimos.
              $backendUrl = $_ENV['PUBLIC_API_URL'] ?? getenv('PUBLIC_API_URL');
              if (!$backendUrl) {
-                 // Fallback si no hay variable: intentar deducir o usar el host actual
                  $backendUrl = $protocol . "://" . $_SERVER['HTTP_HOST'];
              }
              $qrUrl = $backendUrl . '/login_qr.php?code=' . urlencode($codigo_acceso);
         }
 
-        error_log("QR URL generada: $qrUrl (host original: $host_frontend, convertido a: $host_para_qr)");
+        error_log("QR URL generada: $qrUrl");
         
         $filename = $dir . 'qr_' . $id_usuario . '.png';
         QRcode::png($qrUrl, $filename, QR_ECLEVEL_L, 4);
 
         require_once __DIR__ . '/enviar_correo.php';
-        enviarCorreoConQR($correo, $nombre, $codigo_acceso, $filename);
+        $emailSent = enviarCorreoConQR($correo, $nombre, $codigo_acceso, $filename);
+        
+        if (!$emailSent) {
+            $emailError = "La función devolvió false (posible error SMTP)";
+            error_log("Fallo el envio de correo a $correo");
+        }
+
     } catch (Exception $e) {
-        error_log("Background error: " . $e->getMessage());
+        error_log("Error generando QR o enviando correo: " . $e->getMessage());
+        $emailSent = false;
+        $emailError = $e->getMessage();
     }
 
-    
     $conn->close();
+    
+    // Enviar respuesta final
+    http_response_code(200);
+    echo json_encode([
+        'success' => true,
+        'message' => 'Registro exitoso',
+        'user_id' => $id_usuario,
+        'codigo_acceso' => $codigo_acceso,
+        'email_sent' => $emailSent,
+        'email_error' => $emailError
+    ]);
     exit(0);
 
 } catch (Exception $e) {
