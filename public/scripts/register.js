@@ -6,6 +6,9 @@ function initRegister() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const fd = new FormData();
+        fd.append('nombre', nombre);
+        fd.append('correo', correo);
         fd.append('password', password);
         fd.append('host_frontend', window.location.hostname);
 
