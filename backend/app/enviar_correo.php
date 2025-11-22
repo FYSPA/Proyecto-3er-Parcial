@@ -11,15 +11,18 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
     $mail = new PHPMailer(true);
     
     try {
+        // Cargar variables de entorno si es necesario (aunque ya deberían estar cargadas por el entry point)
+        // Si no, usamos getenv directamente o valores por defecto
+        
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'vgsofficialmx@gmail.com';
-        $mail->Password = 'lfyhwoeovhlmerwk';
+        $mail->Username = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER') ?? 'vgsofficialmx@gmail.com';
+        $mail->Password = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS') ?? 'lfyhwoeovhlmerwk';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         
-        $mail->setFrom('vgsofficialmx@gmail.com', 'VGS');
+        $mail->setFrom($mail->Username, 'VGS');
         $mail->addAddress($destinatario, $nombre);
         
         $mail->isHTML(true);

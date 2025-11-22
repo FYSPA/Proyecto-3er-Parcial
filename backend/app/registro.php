@@ -68,7 +68,29 @@ try {
         }
 
         $host_para_qr = $host_frontend === 'localhost' ? gethostbyname(gethostname()) : $host_frontend;
-        $qrUrl = 'http://' . $host_para_qr . ':8000/login_qr.php?code=' . urlencode($codigo_acceso);
+        
+        // Si es localhost, usamos puerto 8000 (backend) o 4321 (frontend) según corresponda
+        // Pero para el link del QR que lleva al login_qr.php, debe apuntar al BACKEND.
+        // En producción (Railway), el backend no usa puerto 8000 en la URL pública.
+        
+        if ($host_frontend === 'localhost' || strpos($host_frontend, '127.0.0.1') !== false) {
+             $qrUrl = 'http://' . $host_para_qr . ':8000/login_qr.php?code=' . urlencode($codigo_acceso);
+        } else {
+             // En producción, usamos el host tal cual (https://...)
+             $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https" : "http";
+             // Si host_frontend no tiene protocolo, lo añadimos. Pero host_frontend suele ser el hostname.
+             // Mejor usamos la URL del backend actual si es posible, o construimos con el host del frontend si es lo que queremos.
+             // Espera, login_qr.php está en el BACKEND.
+             // Así que deberíamos usar la URL del backend, no del frontend.
+             
+             // Usamos la variable de entorno PUBLIC_API_URL si existe, o construimos.
+             $backendUrl = $_ENV['PUBLIC_API_URL'] ?? getenv('PUBLIC_API_URL');
+             if (!$backendUrl) {
+                 // Fallback si no hay variable: intentar deducir o usar el host actual
+                 $backendUrl = $protocol . "://" . $_SERVER['HTTP_HOST'];
+             }
+             $qrUrl = $backendUrl . '/login_qr.php?code=' . urlencode($codigo_acceso);
+        }
 
         error_log("QR URL generada: $qrUrl (host original: $host_frontend, convertido a: $host_para_qr)");
         

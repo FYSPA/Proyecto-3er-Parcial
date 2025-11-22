@@ -236,6 +236,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                     const urlParams = new URLSearchParams(window.location.search);
                     const frontBase = urlParams.get('frontend') || 'http://localhost:4321';
                     
+                    // Redirigir al Dashboard pasando los datos para que el frontend pueda guardar la sesión
+                    // Usamos una página intermedia o directamente el dashboard si tiene lógica para leer URL params
+                    // Por seguridad y limpieza, lo ideal es login-success que guarda y redirige.
+                    // Si el usuario dice que login-success le manda al login, es que login-success está configurado así.
+                    // Voy a cambiar esto para que mande a login-success, y luego editaré login-success para que mande al Dashboard.
+                    
                     const url = frontBase + '/login-success?user=' + encodeURIComponent(data.user_id) + '&nombre=' + encodeURIComponent(data.user_nombre) + '&correo=' + encodeURIComponent(data.user_correo);
                     setTimeout(() => {
                         window.location.href = url;
