@@ -18,6 +18,9 @@ WORKDIR /var/www/html
 # Copiar archivos del proyecto (desde la carpeta backend porque el contexto es la raíz)
 COPY backend/ .
 
+# Eliminar la carpeta vendor si se copió (para evitar conflictos con la instalación limpia)
+RUN rm -rf vendor
+
 # Instalar dependencias de PHP
 RUN composer install --no-dev --optimize-autoloader
 
