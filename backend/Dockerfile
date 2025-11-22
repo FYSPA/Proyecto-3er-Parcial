@@ -15,8 +15,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Configurar el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copiar archivos del proyecto
-COPY . .
+# Copiar archivos del proyecto (desde la carpeta backend porque el contexto es la raíz)
+COPY backend/ .
 
 # Instalar dependencias de PHP
 RUN composer install --no-dev --optimize-autoloader
