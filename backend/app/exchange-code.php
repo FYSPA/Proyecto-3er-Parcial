@@ -156,14 +156,13 @@ try {
         // O si queremos forzar actualización de foto de Google
         if ($photo && (strpos($fotoActual, 'ui-avatars.com') !== false || strpos($fotoActual, 'googleusercontent.com') !== false)) {
              $avatarFilename = $user['id'] . '.jpg';
-             // Ruta absoluta del sistema de archivos para guardar
-             $avatarPath = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
-             // URL pública para guardar en BD (relativa a la raíz del servidor web)
-             // IMPORTANTE: Asegurar que esta ruta sea accesible desde el navegador
-             $avatarUrl = 'http://localhost:8000/uploads/avatars/' . $avatarFilename; 
+             // Ruta absoluta del sistema de archivos para guardar (en app/uploads)
+             $avatarPath = __DIR__ . '/uploads/avatars/' . $avatarFilename;
+             // URL pública para guardar en BD (relativa)
+             $avatarUrl = '/uploads/avatars/' . $avatarFilename; 
              
-             if (!is_dir(__DIR__ . '/../../public/uploads/avatars/')) {
-                 mkdir(__DIR__ . '/../../public/uploads/avatars/', 0755, true);
+             if (!is_dir(__DIR__ . '/uploads/avatars/')) {
+                 mkdir(__DIR__ . '/uploads/avatars/', 0755, true);
              }
 
              $ch = curl_init($photo);
@@ -212,13 +211,13 @@ try {
     
     if ($photo) {
         $avatarFilename = $id . '.jpg';
-        $avatarPath = __DIR__ . '/../../public/uploads/avatars/' . $avatarFilename;
-        // Usamos URL absoluta para evitar problemas de rutas relativas en el frontend
-        $avatarUrl = 'http://localhost:8000/uploads/avatars/' . $avatarFilename;
+        $avatarPath = __DIR__ . '/uploads/avatars/' . $avatarFilename;
+        // Usamos URL relativa
+        $avatarUrl = '/uploads/avatars/' . $avatarFilename;
         
         // Crear directorio si no existe
-        if (!is_dir(__DIR__ . '/../../public/uploads/avatars/')) {
-            mkdir(__DIR__ . '/../../public/uploads/avatars/', 0755, true);
+        if (!is_dir(__DIR__ . '/uploads/avatars/')) {
+            mkdir(__DIR__ . '/uploads/avatars/', 0755, true);
         }
         
         // Intentar descargar imagen

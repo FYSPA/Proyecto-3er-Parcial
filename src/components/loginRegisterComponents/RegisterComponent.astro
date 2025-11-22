@@ -1,10 +1,11 @@
 ---
-import '@styles/global-fonts.css'
-import GoogleIcon from "@components/icons/GoogleIcon.astro"
+import "@styles/global-fonts.css";
+import GoogleIcon from "@components/icons/GoogleIcon.astro";
 import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
-import BackAnimated from "@components/icons/BackAnimated.astro"
-import '@styles/media-quearys/login-media-queary.css'
+import BackAnimated from "@components/icons/BackAnimated.astro";
+import "@styles/media-quearys/login-media-queary.css";
 ---
+
 <body>
     <main>
         <h1 class="title">Registrate</h1>
@@ -15,26 +16,42 @@ import '@styles/media-quearys/login-media-queary.css'
                         <BackAnimated />
                     </button>
                 </a>
-                <div class=btn-globe>
+                <div class="btn-globe">
                     <GlobeAnimated />
                 </div>
             </div>
-            
+
             <label for="name">Nombre</label>
-            <input type="text" name="nombre" id="name" required>
-            
+            <input type="text" name="nombre" id="name" required />
+
             <label for="email">Email</label>
-            <input type="email" name="correo" id="email" required>
-            
+            <input type="email" name="correo" id="email" required />
+
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-            
-            <div id="errorDiv" style="display: none; background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px;"></div>
-            <div id="loadingDiv" style="display: none; text-align: center; color: #667eea; margin: 10px 0;">Registrando...</div>
-            
-            <span class="">¿Ya tienes cuenta? <a href="/LoginRegisterPages/LoginPage">Inicia Sesión</a></span>
-            <span style="text-align: center; margin-top: 20px; font-weight: bold;">Registrate con Aplicaciones</span>
-            
+            <input type="password" name="password" id="password" required />
+
+            <div
+                id="errorDiv"
+                style="display: none; background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px;"
+            >
+            </div>
+            <div
+                id="loadingDiv"
+                style="display: none; text-align: center; color: #667eea; margin: 10px 0;"
+            >
+                Registrando...
+            </div>
+
+            <span class=""
+                >¿Ya tienes cuenta? <a href="/LoginRegisterPages/loginPage"
+                    >Inicia Sesión</a
+                ></span
+            >
+            <span
+                style="text-align: center; margin-top: 20px; font-weight: bold;"
+                >Registrate con Aplicaciones</span
+            >
+
             <button class="btn-google" type="button" id="btn-google">
                 <span class="google-logo">
                     <GoogleIcon />
@@ -42,18 +59,22 @@ import '@styles/media-quearys/login-media-queary.css'
                 <span class="google-text">Google</span>
             </button>
 
-            
-            <button class="btn-login" type="submit" id="submitBtn">Registrate</button>
+            <button class="btn-login" type="submit" id="submitBtn"
+                >Registrate</button
+            >
         </form>
-        <div id="g_id_onload"
+        <div
+            id="g_id_onload"
             data-client_id="173744872751-9mrennmah063ulu8mn2c3m4n875rb1j7.apps.googleusercontent.com"
             data-callback="handleCredentialResponse"
-            data-auto_prompt="false"></div> 
+            data-auto_prompt="false"
+        >
+        </div>
         <div class="g_id_signin" data-type="standard"></div>
     </main>
 
     <style>
-        .title{
+        .title {
             position: relative;
             top: 30px;
         }
@@ -62,8 +83,8 @@ import '@styles/media-quearys/login-media-queary.css'
             height: 35px;
             border-radius: 10px;
             box-shadow: 10px 10px 34px 0px rgba(2, 9, 109, 0.75);
-            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
             background-color: transparent;
             color: white;
             cursor: pointer;
@@ -76,7 +97,7 @@ import '@styles/media-quearys/login-media-queary.css'
             opacity: 0;
             transition:
                 opacity 0.18s 0.12s,
-                transform 0.36s cubic-bezier(.45,1.6,.7,1);
+                transform 0.36s cubic-bezier(0.45, 1.6, 0.7, 1);
             white-space: nowrap;
             color: white;
             margin-left: 8px;
@@ -138,7 +159,7 @@ import '@styles/media-quearys/login-media-queary.css'
         }
 
         .seccion-utils {
-            position:relative;
+            position: relative;
             top: -70px;
             display: flex;
             justify-content: space-between;
@@ -171,8 +192,8 @@ import '@styles/media-quearys/login-media-queary.css'
             height: 35px;
             border-radius: 10px;
             box-shadow: 10px 10px 34px 0px rgba(2, 9, 109, 0.75);
-            -webkit-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 10px 10px 34px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 10px 10px 34px 0px rgba(0, 0, 0, 0.75);
             background-color: transparent;
             color: white;
             cursor: pointer;

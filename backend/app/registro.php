@@ -17,15 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 try {
     require_once __DIR__ . '/funciones.php';
     
-    $servername = "localhost";
-    $username = "root";
-    $password_db = "";
-    $dbname = "db_qr";
-
-    $conn = new mysqli($servername, $username, $password_db, $dbname);
-    if ($conn->connect_error) {
-        throw new Exception('BD: ' . $conn->connect_error);
-    }
+    require_once __DIR__ . '/funciones.php';
+    require_once __DIR__ . '/../config/db.php';
+    
+    // La conexión $conn ya está creada en db.php
 
     $nombre = $_POST['nombre'] ?? '';
     $correo = $_POST['correo'] ?? '';
