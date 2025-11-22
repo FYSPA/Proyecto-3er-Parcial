@@ -5,12 +5,12 @@ try {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
     $dotenv->safeLoad();
 
-    $db_host = $_ENV['DB_HOST'] ?? 'localhost';
-    $db_user = $_ENV['DB_USER'] ?? 'root';
-    $db_pass = $_ENV['DB_PASS'] ?? '';
-    $db_name = $_ENV['DB_NAME'] ?? 'db_qr';
+    $db_host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?? 'localhost';
+    $db_user = $_ENV['DB_USER'] ?? getenv('DB_USER') ?? 'root';
+    $db_pass = $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?? '';
+    $db_name = $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?? 'db_qr';
 
-    $db_port = $_ENV['DB_PORT'] ?? 3306;
+    $db_port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?? 3306;
 
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name, (int)$db_port);
     $conn->set_charset('utf8mb4');
