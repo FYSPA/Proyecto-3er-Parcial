@@ -35,13 +35,11 @@ function initRegister() {
             if (json.success) {
                 console.log('Éxito! Yendo a verificación...');
 
-                // Construir URL de verificación correctamente
-                // Si apiHost es localhost:8000, verifUrl será localhost:8000/login_qr.php...
-                const verifUrl = `${apiHost}/login_qr.php?code=${json.codigo_acceso}`;
-                console.log('URL verificación:', verifUrl);
-
                 setTimeout(() => {
-                    window.location.href = '/LoginRegisterPages/loginPage'; // Redirigir al login o a una página de éxito
+                    // Redirigir a la página de verificación del backend
+                    // Pasamos el origen del frontend para que sepa volver
+                    const frontUrl = window.location.origin;
+                    window.location.href = `${apiHost}/verificacion.php?frontend=${encodeURIComponent(frontUrl)}`;
                 }, 500);
             } else {
                 console.error('Error:', json.message);

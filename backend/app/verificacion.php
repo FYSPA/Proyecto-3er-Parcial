@@ -219,7 +219,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
                 formData.append('codigo', codigo);
 
                 console.log('Enviando código a api-login.php...');
-                const response = await fetch('http://localhost:8000/api-login.php', {
+                // Usar ruta relativa ya que estamos en el mismo dominio (backend)
+                const response = await fetch('api-login.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -230,8 +231,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
                 if (data.success) {
                     mostrarExito('Código verificado correctamente');
-                    const front = 'http://localhost:4321';
-                    const url = front + '/login-success?user=' + encodeURIComponent(data.user_id) + '&nombre=' + encodeURIComponent(data.user_nombre) + '&correo=' + encodeURIComponent(data.user_correo);
+                    
+                    // Obtener URL del frontend de los parámetros o usar fallback
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const frontBase = urlParams.get('frontend') || 'http://localhost:4321';
+                    
+                    const url = frontBase + '/login-success?user=' + encodeURIComponent(data.user_id) + '&nombre=' + encodeURIComponent(data.user_nombre) + '&correo=' + encodeURIComponent(data.user_correo);
                     setTimeout(() => {
                         window.location.href = url;
                     }, 800);
