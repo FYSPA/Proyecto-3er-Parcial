@@ -6,24 +6,6 @@ function initRegister() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        const nombre = form.querySelector('input[name="nombre"]').value;
-        const correo = form.querySelector('input[name="correo"]').value;
-        const password = form.querySelector('input[name="password"]').value;
-
-        console.log('Datos:', { nombre, correo });
-        console.log('Host:', window.location.hostname);
-
-        const apiHost = window.location.hostname === 'localhost'
-            ? 'http://localhost:8000'
-            : `http://${window.location.hostname}:8000`;
-
-        console.log('📡 API Host:', apiHost);
-
-        // Crear FormData CORRECTAMENTE
-        const fd = new FormData();
-        fd.append('nombre', nombre);
-        fd.append('correo', correo);
         fd.append('password', password);
         fd.append('host_frontend', window.location.hostname);
 

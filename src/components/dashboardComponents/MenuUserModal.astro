@@ -1,5 +1,5 @@
 ---
-import '@styles/global-color-scheame.css'
+import "@styles/global-color-scheame.css";
 ---
 
 <div class="user-menu-modal" id="userMenuModal">
@@ -8,7 +8,12 @@ import '@styles/global-color-scheame.css'
     <div class="modal-header">
       <div class="contenedor-usuario">
         <div class="user-circle" id="userAvatar" title="Perfil de usuario">
-          <img class="avatar-img" id="avatarImg-modal" src="http://localhost:8000/uploads/avatars/user_XXXX.jpg" ...>
+          <img
+            class="avatar-img"
+            id="avatarImg-modal"
+            src={`${import.meta.env.PUBLIC_API_URL || "http://localhost:8000"}/uploads/avatars/user_XXXX.jpg`}
+            ...
+          />
         </div>
         <span class="user-name" id="userGreeting-modal">(User)</span>
       </div>
@@ -24,27 +29,39 @@ import '@styles/global-color-scheame.css'
         </ul>
       </div>
       <!-- Menú de configuración (oculto al inicio) -->
-      <div id="menuConfiguracion" style="display:none; animation: slideIn 0.3s ease-out;">
+      <div
+        id="menuConfiguracion"
+        style="display:none; animation: slideIn 0.3s ease-out;"
+      >
         <ul class="menu-list">
           <li><a href="/perfil">Mi Perfil</a></li>
           <li><a href="/cambiar-contraseña">Cambiar Contraseña</a></li>
-          <li><a href="/notificaciones">  Notificaciones</a></li>
+          <li><a href="/notificaciones"> Notificaciones</a></li>
           <li><a href="/privacidad">Privacidad</a></li>
-          <li><a href="#" id="backBtn" style="color: #4CAF50;">← Volver al menú principal</a></li>
+          <li>
+            <a href="#" id="backBtn" style="color: #4CAF50;"
+              >← Volver al menú principal</a
+            >
+          </li>
         </ul>
       </div>
 
-      <div id="menuAyuda" style="display:none; animation: slideIn 0.3s ease-out;">
+      <div
+        id="menuAyuda"
+        style="display:none; animation: slideIn 0.3s ease-out;"
+      >
         <ul class="menu-list">
           <li><a href="/contact">Contactanos</a></li>
-          <li><a href="#" id="backBtn" style="color: #4CAF50;">← Volver al menú principal</a></li>
+          <li>
+            <a href="#" id="backBtn" style="color: #4CAF50;"
+              >← Volver al menú principal</a
+            >
+          </li>
         </ul>
       </div>
-
     </div>
   </div>
 </div>
-
 
 <style>
   .user-menu-modal {
@@ -82,7 +99,7 @@ import '@styles/global-color-scheame.css'
     height: 100%;
     object-fit: contain;
     border-radius: 50%;
-    background: #4CAF50;
+    background: #4caf50;
     display: block;
   }
 
@@ -168,7 +185,6 @@ import '@styles/global-color-scheame.css'
   body.modo-oscuro .close-btn:hover {
     color: #fff;
   }
-  
 
   .modal-body {
     padding: 20px;
@@ -208,106 +224,110 @@ import '@styles/global-color-scheame.css'
 
 <script type="module" src="/scripts/color-scheme.js"></script>
 <script is:inline>
-  const modal = document.getElementById('userMenuModal');
-  const closeBtn = document.getElementById('closeMenuBtn');
-  const backdrop = document.querySelector('.modal-backdrop');
-  const configBtn = document.getElementById('configBtn');
-  const ayudaBtn = document.getElementById('ayudaBtn');
-  const backBtn = document.getElementById('backBtn');
+  const modal = document.getElementById("userMenuModal");
+  const closeBtn = document.getElementById("closeMenuBtn");
+  const backdrop = document.querySelector(".modal-backdrop");
+  const configBtn = document.getElementById("configBtn");
+  const ayudaBtn = document.getElementById("ayudaBtn");
+  const backBtn = document.getElementById("backBtn");
 
   // NUEVA FUNCIÓN: Actualiza el contenido del menú al dar click en Configuración
-  const menuPrincipal = document.getElementById('menuPrincipal');
-  const menuAyuda = document.getElementById('menuAyuda');
-  const menuConfiguracion = document.getElementById('menuConfiguracion');
+  const menuPrincipal = document.getElementById("menuPrincipal");
+  const menuAyuda = document.getElementById("menuAyuda");
+  const menuConfiguracion = document.getElementById("menuConfiguracion");
 
   // Evento para ir al menú de configuración
-  configBtn?.addEventListener('click', function(e) {
+  configBtn?.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    menuPrincipal.style.display = 'none';
-    menuConfiguracion.style.display = 'block';
+    menuPrincipal.style.display = "none";
+    menuConfiguracion.style.display = "block";
   });
 
-  ayudaBtn?.addEventListener('click', function(e) {
+  ayudaBtn?.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    menuPrincipal.style.display = 'none';
-    menuAyuda.style.display = 'block';
+    menuPrincipal.style.display = "none";
+    menuAyuda.style.display = "block";
   });
 
   // Evento para regresar al menú principal
-  backBtn?.addEventListener('click', function(e) {
+  backBtn?.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
-    menuAyuda.style.display = 'none';
-    menuConfiguracion.style.display = 'none';
-    menuPrincipal.style.display = 'block';
+    menuAyuda.style.display = "none";
+    menuConfiguracion.style.display = "none";
+    menuPrincipal.style.display = "block";
   });
-
-
 
   function cargarDatosUsuario() {
     // Buscar de nuevo los elementos cada vez que se llama
-    const greeting = document.getElementById('userGreeting-modal');
-    const avatarImg = document.getElementById('avatarImg-modal');
-    
-    let userName = sessionStorage.getItem('user_nombre') || localStorage.getItem('user_nombre');
-    let userPhoto = sessionStorage.getItem('user_photo') || localStorage.getItem('user_photo');
-    
+    const greeting = document.getElementById("userGreeting-modal");
+    const avatarImg = document.getElementById("avatarImg-modal");
+
+    let userName =
+      sessionStorage.getItem("user_nombre") ||
+      localStorage.getItem("user_nombre");
+    let userPhoto =
+      sessionStorage.getItem("user_photo") ||
+      localStorage.getItem("user_photo");
+
     // console.log('Actualizando:', userName, userPhoto);
     // console.log('Elementos encontrados:', greeting, avatarImg);
 
     // Actualizar el nombre
     if (greeting) {
-      greeting.textContent = userName || '(User)';
+      greeting.textContent = userName || "(User)";
       // console.log('Nombre actualizado a:', greeting.textContent);
     }
 
     // Actualizar el avatar
     if (avatarImg && userPhoto) {
-      if (userPhoto.startsWith('/uploads/')) {
-        avatarImg.src = `http://localhost:8000${userPhoto}`;
+      if (userPhoto.startsWith("/uploads/")) {
+        const apiUrl = window.PUBLIC_API_URL || "http://localhost:8000";
+        avatarImg.src = `${apiUrl}${userPhoto}`;
       } else {
         avatarImg.src = userPhoto;
       }
       // console.log('Avatar actualizado a:', avatarImg.src);
     } else if (avatarImg && userName) {
-      const initials = userName.split(' ').map(n => n[0]).join('');
+      const initials = userName
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
       avatarImg.src = `https://ui-avatars.com/api/?name=${initials}&background=4CAF50&color=fff&font-size=0.4&bold=true`;
       // console.log('Avatar de iniciales:', avatarImg.src);
     }
   }
 
-  window.openUserMenu = function() {
+  window.openUserMenu = function () {
     // console.log('Abriendo menú...');
     cargarDatosUsuario(); // Llamar aquí
-    modal?.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    modal?.classList.add("active");
+    document.body.style.overflow = "hidden";
   };
 
-  window.closeUserMenu = function() {
-    modal?.classList.remove('active');
-    document.body.style.overflow = 'auto';
+  window.closeUserMenu = function () {
+    modal?.classList.remove("active");
+    document.body.style.overflow = "auto";
   };
 
-  closeBtn?.addEventListener('click', () => {
+  closeBtn?.addEventListener("click", () => {
     window.closeUserMenu();
   });
 
-  backdrop?.addEventListener('click', () => {
+  backdrop?.addEventListener("click", () => {
     window.closeUserMenu();
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
       window.closeUserMenu();
     }
   });
 
   // Ejecutar también al cargar la página
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     cargarDatosUsuario();
   });
 </script>
-
-

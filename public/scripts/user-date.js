@@ -15,23 +15,9 @@ function cargarDatosUsuario() {
                 const initials = userName.split(' ').map(n => n[0]).join('');
                 avatarImg.src = `https://ui-avatars.com/api/?name=${initials}&background=4CAF50&color=fff&font-size=0.4&bold=true`;
             } else {
-                avatarImg.src = `https://ui-avatars.com/api/?name=User&background=4CAF50&color=fff&font-size=0.4&bold=true`;
-            }
-        }
-
-        if (userPhoto && userPhoto !== 'null') {
-            if (userPhoto.startsWith('/uploads/')) {
-                avatarImg.src = `http://localhost:8000${userPhoto}`;
-            } else {
-                avatarImg.src = userPhoto;
-            }
-            avatarImg.onerror = function () {
                 setAvatarIniciales();
-            };
-        } else {
-            setAvatarIniciales();
+            }
         }
     }
-}
-document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
-cargarDatosUsuario();
+    document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
+    cargarDatosUsuario();

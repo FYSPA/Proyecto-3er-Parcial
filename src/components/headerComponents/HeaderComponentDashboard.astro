@@ -30,7 +30,7 @@ import "/public/styles/theme-transition.css";
           <img
             class="avatar-img"
             id="avatarImg"
-            src="http://localhost:8000/uploads/avatars/user_XXXX.jpg"
+            src={`${import.meta.env.PUBLIC_API_URL || "http://localhost:8000"}/uploads/avatars/user_XXXX.jpg`}
             ...
           />
         </div>
