@@ -36,8 +36,21 @@ try {
     $stmt = $conn->prepare("INSERT INTO usuarios (id, nombre, correo, password, codigo_acceso) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $id_usuario, $nombre, $correo, $password_hashed, $codigo_acceso);
 
-    if (!$stmt->execute()) {
-        throw new Exception('DB: ' . $stmt->error);
+    try {
+        if (!$stmt->execute()) {
+            throw new Exception($stmt->error);
+        }
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) { // Error code for duplicate entry
+            throw new Exception('El correo electrónico ya está registrado.');
+        } else {
+            throw $e;
+        }
+    } catch (Exception $e) {
+        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+             throw new Exception('El correo electrónico ya está registrado.');
+        }
+        throw $e;
     }
 
     $stmt->close();

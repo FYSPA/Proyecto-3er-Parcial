@@ -19,22 +19,6 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         $smtp_user = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
         $smtp_pass = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
         
-        if (!$smtp_user || !$smtp_pass) {
-            error_log("ADVERTENCIA: Credenciales SMTP no encontradas en variables de entorno. Usando fallback.");
-            $smtp_user = 'vgsofficialmx@gmail.com';
-            $smtp_pass = 'lfyhwoeovhlmerwk';
-        }
-
-        $mail->Username = $smtp_user;
-        $mail->Password = $smtp_pass;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-        
-        $mail->setFrom($mail->Username, 'VGS');
-        $mail->addAddress($destinatario, $nombre);
-        
-        $mail->isHTML(true);
-        $mail->CharSet = 'UTF-8';
         $mail->Subject = 'Bienvenido - Tu código de acceso';
         
         $mail->Body = "
