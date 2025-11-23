@@ -17,22 +17,6 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         
         // Try to find the variable in multiple places
         $smtp_user = $_ENV['SMTP_USER'] ?? $_SERVER['SMTP_USER'] ?? getenv('SMTP_USER');
-        $smtp_pass = $_ENV['SMTP_PASS'] ?? $_SERVER['SMTP_PASS'] ?? getenv('SMTP_PASS');
-
-        if (empty($smtp_user)) {
-            throw new Exception("La variable de entorno SMTP_USER no se está leyendo correctamente. Asegúrate de haberla agregado en Railway.");
-        }
-
-        $mail->Username = $smtp_user;
-        $mail->Password = $smtp_pass;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
-        
-        $mail->Subject = 'Bienvenido - Tu código de acceso';
-        
-        $mail->setFrom($mail->Username, 'VGS');
-        $mail->addAddress($destinatario, $nombre);
-        
         $mail->Body = "
             <html>
             <head>
