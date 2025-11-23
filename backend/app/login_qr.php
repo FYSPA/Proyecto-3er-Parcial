@@ -1,8 +1,5 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once __DIR__ . '/../config/cors.php';
 header('Content-Type: text/html; charset=utf-8');
 
 require_once __DIR__ . '/../config/db.php';
@@ -96,22 +93,16 @@ if ($result->num_rows > 0) {
             };
 
             console.log('✅ Usuario:', usuario);
-            console.log('🌐 Host detectado:', window.location.hostname);
 
-            // Guardar en localStorage
-            localStorage.setItem('user_id', usuario.id);
-            localStorage.setItem('user_nombre', usuario.nombre);
-            localStorage.setItem('user_correo', usuario.correo);
-            localStorage.setItem('logged_in', 'true');
-
-            // Redirigir a mainPage (detecta automáticamente el host)
+            // Injected from PHP
+            const envFrontendUrl = "<?php echo $_ENV['FRONTEND_URL'] ?? getenv('FRONTEND_URL') ?? 'https://proyecto-3er-parcial.vercel.app'; ?>";
+            
+            // Redirigir al frontend pasando los datos
             setTimeout(() => {
-                const astroHost = window.location.hostname === 'localhost'
-                    ? 'http://localhost:4321'
-                    : `http://${window.location.hostname}:4321`;
+                const url = envFrontendUrl + '/login-success?user=' + encodeURIComponent(usuario.id) + '&nombre=' + encodeURIComponent(usuario.nombre) + '&correo=' + encodeURIComponent(usuario.correo);
                 
-                console.log('📍 Redirigiendo a:', astroHost + '/mainPage');
-                window.location.href = astroHost + '/mainPage';
+                console.log('📍 Redirigiendo a:', url);
+                window.location.href = url;
             }, 500);
         </script>
     </body>

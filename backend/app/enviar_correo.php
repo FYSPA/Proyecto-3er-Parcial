@@ -11,14 +11,22 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
     $mail = new PHPMailer(true);
     
     try {
-        // Cargar variables de entorno si es necesario (aunque ya deberían estar cargadas por el entry point)
-        // Si no, usamos getenv directamente o valores por defecto
-        
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER') ?? 'vgsofficialmx@gmail.com';
-        $mail->Password = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS') ?? 'lfyhwoeovhlmerwk';
+        
+        // Prioritize ENV vars, fallback to getenv, then hardcoded (not recommended for prod)
+        $smtp_user = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
+        $smtp_pass = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
+        
+        if (!$smtp_user || !$smtp_pass) {
+            error_log("ADVERTENCIA: Credenciales SMTP no encontradas en variables de entorno. Usando fallback.");
+            $smtp_user = 'vgsofficialmx@gmail.com';
+            $smtp_pass = 'lfyhwoeovhlmerwk';
+        }
+
+        $mail->Username = $smtp_user;
+        $mail->Password = $smtp_pass;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
         
@@ -82,3 +90,4 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         return false;
     }
 }
+?>
