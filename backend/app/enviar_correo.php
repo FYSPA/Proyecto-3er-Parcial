@@ -74,6 +74,8 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         $mail->send();
         return true;
     } catch (Exception $e) {
+        echo "<h3>FATAL ERROR: " . $e->getMessage() . "</h3>";
+        echo "ErrorInfo: " . $mail->ErrorInfo;
         error_log("Error al enviar correo: {$mail->ErrorInfo}");
         return false;
     }
