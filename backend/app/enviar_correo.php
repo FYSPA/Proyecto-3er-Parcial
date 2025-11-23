@@ -21,6 +21,9 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
         
         $mail->Subject = 'Bienvenido - Tu código de acceso';
         
+        $mail->setFrom($mail->Username, 'VGS');
+        $mail->addAddress($destinatario, $nombre);
+        
         $mail->Body = "
             <html>
             <head>
