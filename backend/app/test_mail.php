@@ -4,6 +4,24 @@ ini_set('display_errors', 1);
 
 echo "Iniciando prueba de correo...<br>";
 
+echo "<h3>Diagnóstico de Red:</h3>";
+$host = 'smtp.gmail.com';
+$ip = gethostbyname($host);
+echo "DNS Lookup ($host): " . ($ip != $host ? "OK ($ip)" : "FALLÓ") . "<br>";
+
+$ports = [587, 465];
+foreach ($ports as $port) {
+    echo "Probando conexión a $host:$port... ";
+    $fp = @fsockopen($host, $port, $errno, $errstr, 5);
+    if ($fp) {
+        echo "EXITO (Conectado)<br>";
+        fclose($fp);
+    } else {
+        echo "FALLÓ (Error $errno: $errstr)<br>";
+    }
+}
+echo "<hr>";
+
 try {
     require_once __DIR__ . '/enviar_correo.php';
     echo "enviar_correo.php incluido correctamente.<br>";
