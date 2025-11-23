@@ -9,21 +9,6 @@ use PHPMailer\PHPMailer\Exception;
 
 function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr) {
     $mail = new PHPMailer(true);
-    
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        
-        // Prioritize ENV vars, fallback to getenv, then hardcoded (not recommended for prod)
-        $smtp_user = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
-        $smtp_pass = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
-        
-        $mail->Subject = 'Bienvenido - Tu código de acceso';
-        
-        $mail->setFrom($mail->Username, 'VGS');
-        $mail->addAddress($destinatario, $nombre);
-        
         $mail->Body = "
             <html>
             <head>
