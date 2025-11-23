@@ -27,7 +27,7 @@ async function loginHandler(response) {
       if (data.user_photo) {
         localStorage.setItem('user_photo', data.user_photo);
       }
-      window.location.href = '/dashboardpage/Dashboard'; 
+      window.location.href = '/dashboardpage/Dashboard';
     } else {
       console.error('Login fallido:', data.message);
     }
@@ -40,11 +40,11 @@ async function loginHandler(response) {
 function logout() {
   sessionStorage.clear();
   localStorage.clear();
-  window.location.href = '/LoginRegisterPages/LoginPage'; // cambia si usas otra ruta para login
+  window.location.href = '/LoginRegisterPages/loginPage'; // cambia si usas otra ruta para login
 }
 
 // Inicializa evento de logout en botón si existe
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const btnLogout = document.getElementById('logoutBtn');
   if (btnLogout) {
     btnLogout.addEventListener('click', e => {

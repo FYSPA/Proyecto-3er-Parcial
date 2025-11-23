@@ -8,7 +8,10 @@ ini_set('error_log', __DIR__ . '/../error.log');
 require_once __DIR__ . '/../config/cors.php';
 
 try {
+    if (!file_exists(__DIR__ . '/funciones.php')) throw new Exception('Falta funciones.php');
     require_once __DIR__ . '/funciones.php';
+    
+    if (!file_exists(__DIR__ . '/../config/db.php')) throw new Exception('Falta db.php');
     require_once __DIR__ . '/../config/db.php';
     
     // La conexión $conn ya está creada en db.php
@@ -44,11 +47,17 @@ try {
     $emailError = null;
 
     try {
-        require_once __DIR__ . '/../phpqrcode/qrlib.php';
+        $qrlib = __DIR__ . '/../phpqrcode/qrlib.php';
+        if (!file_exists($qrlib)) {
+            throw new Exception('Librería QR no encontrada en: ' . $qrlib);
+        }
+        require_once $qrlib;
         
         $dir = __DIR__ . '/../qrcodes/';
         if (!file_exists($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                throw new Exception('No se pudo crear directorio qrcodes');
+            }
         }
 
         $host_para_qr = $host_frontend === 'localhost' ? gethostbyname(gethostname()) : $host_frontend;
@@ -70,7 +79,11 @@ try {
         $filename = $dir . 'qr_' . $id_usuario . '.png';
         QRcode::png($qrUrl, $filename, QR_ECLEVEL_L, 4);
 
+        if (!file_exists(__DIR__ . '/enviar_correo.php')) {
+             throw new Exception('Script enviar_correo.php no encontrado');
+        }
         require_once __DIR__ . '/enviar_correo.php';
+        
         $emailSent = enviarCorreoConQR($correo, $nombre, $codigo_acceso, $filename);
         
         if (!$emailSent) {
@@ -82,6 +95,10 @@ try {
         error_log("Error generando QR o enviando correo: " . $e->getMessage());
         $emailSent = false;
         $emailError = $e->getMessage();
+    } catch (Throwable $t) {
+        error_log("Error fatal en QR/Correo: " . $t->getMessage());
+        $emailSent = false;
+        $emailError = "Error fatal: " . $t->getMessage();
     }
 
     $conn->close();

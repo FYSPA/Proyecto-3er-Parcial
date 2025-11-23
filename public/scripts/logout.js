@@ -15,5 +15,5 @@ function logout() {
     localStorage.removeItem('logged_in');
 
     // Redirigir al login
-    window.location.href = '/LoginRegisterPages/LoginPage';
+    window.location.href = '/LoginRegisterPages/loginPage';
 }
