@@ -1,14 +1,31 @@
-@media (max-width: 768px) {
-    header {
-        width: calc(100% - 70px);
-        left: 70px;
-    }
+ /* Media Queries for Responsiveness */
+ @media (max-width: 600px) {
+     header {
+         width: calc(100% - 70px);
+         left: 70px;
+     }
 
-    .header-content {
-        padding: 0 1rem;
-    }
+     .header-content {
+         padding: 0 1rem;
+     }
 
-    .izquierda-header span {
-        font-size: 0.9rem;
-    }
-}
+     .izquierda-header span:first-child {
+         display: none;
+         /* Ocultar "Hola" en móviles */
+     }
+
+     .derecha-header {
+         gap: 0.8rem;
+     }
+
+     .user-name {
+         max-width: 60px;
+     }
+ }
+
+ @media (max-width: 380px) {
+     .user-name {
+         display: none;
+         /* Ocultar nombre de usuario en pantallas muy pequeñas */
+     }
+ }

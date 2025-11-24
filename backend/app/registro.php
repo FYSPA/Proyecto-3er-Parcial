@@ -1,4 +1,7 @@
 <?php
+// Iniciar buffer de salida para atrapar cualquier "basura" (BOM, espacios, warnings)
+ob_start();
+
 header('Content-Type: application/json; charset=utf-8');
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
@@ -57,7 +60,7 @@ try {
 
     // --- Generación de QR y Envío de Correo ---
     $emailSent = false;
-    $emailError = null;
+    $emailError = "Desactivado temporalmente para depuración";
 
     try {
         $qrlib = __DIR__ . '/../phpqrcode/qrlib.php';
@@ -116,6 +119,9 @@ try {
 
     $conn->close();
     
+    // Limpiar cualquier salida previa (BOM, espacios, etc.)
+    ob_clean();
+    
     // Enviar respuesta final
     http_response_code(200);
     echo json_encode([
@@ -129,6 +135,8 @@ try {
     exit(0);
 
 } catch (Exception $e) {
+    // Limpiar salida previa antes de enviar error
+    ob_clean();
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     exit(0);

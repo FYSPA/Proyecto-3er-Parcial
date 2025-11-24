@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+
+    .video-bg,
+    .video-spacer {
+        height: 100vh;
+        /* Fallback */
+        height: 100dvh;
+    }
+
+    .video-bg video {
+        object-position: center;
+    }
+}

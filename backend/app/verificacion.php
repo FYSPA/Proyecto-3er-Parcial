@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificación de Código</title>
-    <link rel="favicon" href="/logoVGS.ico">
+    <link rel="icon" type="image/svg+xml+ico" href="../../public/logoVGS.ico" />
     <style>
         * {
             margin: 0;

@@ -1,10 +1,10 @@
 ---
-import '@styles/global-fonts.css'
-import '@styles/media-quearys/header-movil.css'
-import MoonAnimated from '@components/icons/MoonAnimated.astro'
-import SunAnimated from '@components/icons/SunAnimated.astro'
+import "@styles/global-fonts.css";
+import "@styles/media-quearys/header-movil.css";
+import MoonAnimated from "@components/icons/MoonAnimated.astro";
+import SunAnimated from "@components/icons/SunAnimated.astro";
 import "@styles/global-color-scheame.css";
-import GlobeAnimated from '@components/icons/GlobeAnimated.astro'
+import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
 ---
 
 <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -27,76 +27,87 @@ import GlobeAnimated from '@components/icons/GlobeAnimated.astro'
     </button>
     <span>Idioma</span>
     <div class="container-globe">
-    <GlobeAnimated variant="mobile" />
+        <GlobeAnimated variant="mobile" />
     </div>
-    <a href="/LoginRegisterPages/LoginPage" class="btn-login-mobile">Iniciar Sesión</a>
+    <a href="/LoginRegisterPages/LoginPage" class="btn-login-mobile"
+        >Iniciar Sesión</a
+    >
 </nav>
-
 
 <style>
     .hamburger {
         color: white;
     }
 
+    .nav-mobile {
+        color: rgb(255, 255, 255);
+    }
     #modoLecturaBtn {
         background-color: transparent;
         border: none;
         cursor: pointer;
-        box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-        -webkit-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-        -moz-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+        -webkit-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
         padding: 10px;
         border-radius: 10px;
     }
-
+    a {
+        color: rgb(255, 255, 255);
+    }
     .container-globe {
         background-color: transparent;
         border: none;
         cursor: pointer;
-        box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-        -webkit-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-        -moz-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+        box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+        -webkit-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
         padding: 5px;
         border-radius: 10px;
         display: flex;
         justify-content: center;
-        align-items: center;    
+        align-items: center;
     }
 </style>
 
 <script type="text/javascript">
-    const hamburger = document.getElementById('hamburger');
-    const navMobile = document.getElementById('navMobile');
+    const hamburger = document.getElementById("hamburger");
+    const navMobile = document.getElementById("navMobile");
     function lockScroll() {
         const y = window.scrollY || document.documentElement.scrollTop || 0;
-        document.body.style.position = 'fixed';
+        document.body.style.position = "fixed";
         document.body.style.top = `-${y}px`;
-        document.body.style.width = '100%';
+        document.body.style.width = "100%";
     }
     function unlockScroll() {
-        const y = parseInt((document.body.style.top || '0').replace('px','')) * -1;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
+        const y =
+            parseInt((document.body.style.top || "0").replace("px", "")) * -1;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
         window.scrollTo(0, y);
     }
-    hamburger?.addEventListener('click', () => {
-        const active = hamburger.classList.toggle('active');
-        navMobile.classList.toggle('active', active);
-        if (active) lockScroll(); else unlockScroll();
+    hamburger?.addEventListener("click", () => {
+        const active = hamburger.classList.toggle("active");
+        navMobile.classList.toggle("active", active);
+        if (active) lockScroll();
+        else unlockScroll();
     });
-    navMobile?.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('active');
-            navMobile.classList.remove('active');
+    navMobile?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMobile.classList.remove("active");
             unlockScroll();
         });
     });
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('#hamburger') && !e.target.closest('.nav-mobile')) {
-            if (hamburger?.classList.contains('active')) {
-                hamburger.classList.remove('active');
-                navMobile?.classList.remove('active');
+    document.addEventListener("click", (e) => {
+        if (
+            !e.target.closest("#hamburger") &&
+            !e.target.closest(".nav-mobile")
+        ) {
+            if (hamburger?.classList.contains("active")) {
+                hamburger.classList.remove("active");
+                navMobile?.classList.remove("active");
                 unlockScroll();
             }
         }

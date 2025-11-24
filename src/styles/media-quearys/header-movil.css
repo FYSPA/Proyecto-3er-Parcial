@@ -66,6 +66,7 @@
     from {
         transform: translateX(-100%);
     }
+
     to {
         transform: translateX(0);
     }
@@ -79,9 +80,9 @@
     transition: all 0.3s ease;
     display: block;
     color: black;
-    box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
-    -moz-box-shadow: 11px 10px 59px 20px rgba(0,0,0,0.75);
+    box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 11px 10px 59px 20px rgba(0, 0, 0, 0.75);
 }
 
 .nav-mobile a:hover {
@@ -118,9 +119,6 @@ body.modo-oscuro .nav-mobile a {
     color: #ffffff;
 }
 
-/* ========================================
-   MOSTRAR MENÚ MÓVIL SOLO EN CELULARES
-   ======================================== */
 
 /* Móviles pequeños (< 380px) */
 @media (max-width: 380px) {
@@ -144,7 +142,7 @@ body.modo-oscuro .nav-mobile a {
         display: none !important;
         color: white;
     }
-    
+
     .nav-mobile {
         display: none !important;
     }

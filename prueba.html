@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comidas Tradicionales del Día de Muertos - México</title>
+  <!--Se crea el estilo de la pagina utilizando css(style)-->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #8f8f8d;
+      color: #4b2e05;
+      position: relative;
+      z-index: 1;
+      transition: background-image 0.6s ease-in-out;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+
+      pointer-events: none;
+      z-index: -1;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    header h1 {
+      font-size: 2.8em;
+      margin-bottom: 0.2em;
+    }
+    header .intro {
+      font-style: italic;
+      color: #a5602f;
+      font-size: 1.2em;
+    }
+    h2 {
+      color: #bf5500;
+      margin-top: 40px;
+      border-bottom: 2px solid #bf5500;
+      padding-bottom: 8px;
+    }
+    h3 {
+      color: #a14a00;
+      margin-bottom: 8px;
+      margin-top: 15px;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 0;
+    }
+    p {
+      line-height: 1.5;
+    }
+    .info-block {
+      margin-bottom: 25px;
+      padding-left: 10px;
+      border-left: 4px solid #bf5500;
+      background: rgba(255 255 255 / 0.85);
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .no-bullets {
+      list-style-type: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+  </style>
+</head>
+<!--lo que se diseña como se visualizaran las secciones, los colores que tendran, la tipografia que tendra el texto, y la 
+transparencia de las seciones, para poder ver las imagenes estaticas de fondo-->
+<body>
+
+  <!-- Abrimos Header para hacer el encabezado de la pagina web-->
+<header>
+  <h1>Comidas Tradicionales del Día de Muertos en México</h1>
+  <p class="intro">Una exploración profunda de los platillos que honran a los difuntos en esta emblemática celebración mexicana.</p>
+</header>
+
+<main>
+
+ <!-- Abrimos seccion  de la 1ra comida-->
+<section id="pan-de-muerto" class="food-section">
+  <h2>Pan de Muerto</h2>
+
+  <!-- asignamos a la informacion la clase info block (que los encierra en contenedores) -->
+
+  <div class="info-block">
+    <h3>Descripción</h3>
+    <p>El pan de muerto es un pan dulce, blando y aromático que representa la comunión entre vivos y muertos durante la celebración del Día de Muertos. La decoración del pan —las "huesitos" y la bola central— representa al cráneo y los huesos del difunto.</p>
+  
+    <h3>Historia y Origen</h3>
+    <p>Antes de la llegada de los españoles, los pueblos indígenas como mexicas y purépechas ya ofrecían panes y alimentos en sus ceremonias funerarias. Sin embargo, el pan de muerto tal cual lo conocemos es una mezcla entre estas tradiciones y la panadería europea introducida por los españoles. Con el tiempo, cada región de México fue adaptando la receta según sus productos locales y costumbres.</p>
+
+    <h3>Ingredientes principales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Harina de trigo</li>
+      <li>Azúcar</li>
+      <li>Mantequilla o manteca</li>
+      <li>Huevos</li>
+      <li>Ralladura de naranja</li>
+      <li>Esencia de anís</li>
+      <li>Levadura</li>
+      <li>Azúcar para espolvorear</li>
+    </ul>
+    <h3>Preparación tradicional</h3>
+    <p>Se forma una masa suave que se deja fermentar para obtener un pan esponjoso. Antes de hornear se forman tiras de masa que representan los huesos, que se colocan encima del pan junto a una bola central. El pan se hornea y después se barniza con mantequilla y azúcar, dándole un brillo característico.</p>
+
+    <h3>Significado cultural</h3>
+    <p>Simboliza el ciclo de la vida y la muerte, la eternidad y el recuerdo. El pan es un elemento esencial en las ofrendas, donde se coloca para alimentar el alma del difunto en su visita.</p>
+
+    <h3>Variantes regionales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>En Michoacán, es tradicional que el pan tenga ajonjolí (semillas de sésamo).</li>
+      <li>En Oaxaca, el pan suele ser más grande y alargado.</li>
+      <li>En el centro de México se aromatiza con agua de azahar o esencia de anís.</li>
+      <li>Algunas regiones lo preparan con formas animales o figuras relacionadas con el fallecido.</li>
+    </ul>
+    <h3>Curiosidades</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>En México existe la tradición de partir el pan en familia para compartir y recordar a los seres queridos.</li>
+      <li>En algunos lugares, se cree que el aroma del pan recién horneado invita a las almas a regresar.</li>
+      <li>Hay concursos y festivales de pan de muerto donde panaderos compiten por la mejor receta.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Abrimos seccion  de la 2da comida-->
+<section id="mole-poblano" class="food-section">
+  <h2>Mole Poblano</h2>
+
+  <!-- asignamos a la informacion la clase info block (que los encierra en contenedores) -->
+  <div class="info-block">
+    <h3>Descripción</h3>
+    <p>El mole poblano es una salsa espesa, compleja y deliciosa que combina entre 20 y 30 ingredientes, entre ellos varios tipos de chile seco y chocolate, que se sirve generalmente con pollo o pavo.</p>
+
+    <h3>Historia y Origen</h3>
+    <p>Se cree que la receta fue creada en conventos de Puebla durante la época colonial, combinando ingredientes indígenas con especias traídas de España. Se convirtió en un platillo de lujo que se servía en festividades importantes como el Día de Muertos. Representa la fusión cultural entre España y México.</p>
+    <h3>Ingredientes principales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Chiles mulato, ancho, pasilla, chipotle</li>
+      <li>Chocolate amargo</li>
+      <li>Semillas como ajonjolí</li>
+      <li>Almendras, cacahuates</li>
+      <li>Frutas secas</li>
+      <li>Especias: canela, clavo, pimienta</li>
+      <li>Tomate, ajo, cebolla</li>
+      <li>Caldo de pollo o pavo</li>
+    </ul>
+    <h3>Preparación tradicional</h3>
+    <p>Los ingredientes se tuestan y muelen finamente, luego se cocinan juntos lentamente hasta formar una salsa espesa, rica y compleja. Requiere paciencia y dedicación.</p>
+
+    <h3>Significado cultural</h3>
+    <p>Simboliza la riqueza cultural y la identidad mexicana. En el Día de Muertos, preparar mole es un acto de amor y respeto hacia los difuntos, compartiendo sabores ancestrales.</p>
+
+    <h3>Variantes regionales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Mole negro (Oaxaca), más oscuro y ahumado.</li>
+      <li>Mole rojo, más picante.</li>
+      <li>Mole amarillo, más ligero y con ingredientes diferentes.</li>
+    </ul>
+    <h3>Curiosidades</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>El mole es uno de los platillos más laboriosos, a veces requiere días para preparar.</li>
+      <li>Hay festivales dedicados al mole en Puebla y Oaxaca.</li>
+      <li>El chocolate en el mole no es para hacerlo dulce, sino para aportar profundidad y sabor.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Abrimos seccion  de la 3ra comida-->
+<section id="calaveritas-de-azucar" class="food-section">
+  <h2>Calaveritas de Azúcar</h2>
+
+  <!-- asignamos a la informacion la clase info block (que los encierra en contenedores) -->
+  <div class="info-block">
+    <h3>Descripción</h3>
+    <p>Las calaveritas de azúcar son pequeñas figuras en forma de cráneo hechas con azúcar, decoradas con colores brillantes y utilizadas para adornar las ofrendas del Día de Muertos.</p>
+
+    <h3>Historia y Origen</h3>
+    <p>Derivan de la tradición indígena y se fusionaron con técnicas europeas de azúcar. Representan la muerte y la vida, recordando con alegría y respeto a los difuntos.</p>
+
+    <h3>Ingredientes principales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Azúcar refinada</li>
+      <li>Colorantes comestibles</li>
+      <li>Jugo de limón o vinagre (para dar consistencia)</li>
+    </ul>
+    <h3>Preparación tradicional</h3>
+    <p>El azúcar se mezcla con jugo de limón hasta formar una pasta moldeable, luego se prensa en moldes para darle forma de calavera. Después se deja secar y se decora con glasé de colores.</p>
+
+    <h3>Significado cultural</h3>
+    <p>Simbolizan el ciclo de la vida y la muerte, y se usan para honrar a los difuntos con alegría y color. Son una muestra de la creatividad y tradición mexicana.</p>
+    <h3>Curiosidades</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>A menudo llevan el nombre del difunto escrito en la frente.</li>
+      <li>Se colocan en las ofrendas para recibir a las almas con dulzura.</li>
+      <li>Existen variantes con chocolate o amaranto.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Abrimos seccion  de la 4ta comida-->
+<section id="atole" class="food-section">
+  <h2>Atole</h2>
+
+  <!-- asignamos a la informacion la clase info block (que los encierra en contenedores) -->
+  <div class="info-block">
+    <h3>Descripción</h3>
+    <p>El atole es una bebida caliente y espesa hecha a base de masa de maíz, aromatizada con canela, vainilla y endulzada con piloncillo o azúcar.</p>
+    <h3>Historia y Origen</h3>
+    <p>Es una bebida prehispánica consumida en Mesoamérica, especialmente en festividades. Acompaña tradicionalmente al pan de muerto y otros platillos del Día de Muertos.</p>
+    <h3>Ingredientes principales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Masa de maíz nixtamalizado</li>
+      <li>Agua o leche</li>
+      <li>Canela</li>
+      <li>Vainilla</li>
+      <li>Piloncillo o azúcar</li>
+    </ul>
+    <h3>Preparación tradicional</h3>
+    <p>La masa se disuelve en agua o leche y se cocina lentamente mientras se revuelve, hasta espesar. Se añade canela, vainilla y el endulzante al gusto.</p>
+    <h3>Significado cultural</h3>
+    <p>El atole calienta el cuerpo y el alma durante la época fresca de noviembre, siendo parte importante de las ofrendas y reuniones familiares.</p>
+    <h3>Curiosidades</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Existen variantes con sabores como chocolate, fresa, arroz o piña.</li>
+      <li>Se sirve tradicionalmente en jarritos o tazas de barro.</li>
+      <li>Es una bebida que une generaciones y tradiciones.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Abrimos seccion  de la 5ta comida-->
+<section id="tamales" class="food-section">
+  <h2>Tamales</h2>
+
+  <!-- asignamos a la informacion la clase info block (que los encierra en contenedores) -->
+  <div class="info-block">
+    <h3>Descripción</h3>
+    <p>Los tamales son masas de maíz rellenas con carne, chile, frutas o verduras, envueltos en hojas de maíz o plátano y cocidos al vapor.</p>
+    <h3>Historia y Origen</h3>
+    <p>Platillo prehispánico que ha acompañado rituales y festividades mexicanas por siglos, incluyendo el Día de Muertos.</p>
+    <h3>Ingredientes principales</h3>
+    <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Masa de maíz</li>
+      <li>Rellenos variados: pollo, cerdo, chile, frutas, queso</li>
+      <li>Hojas de maíz o plátano para envolver</li>
+    </ul>
+      <h3>Preparación tradicional</h3>
+      <p>Se unta la masa en las hojas, se coloca el relleno y se envuelve formando paquetes que se cuecen al vapor hasta estar firmes y cocidos.</p>
+      <h3>Significado cultural</h3>
+      <p>Se preparan en familia para compartir en las festividades, simbolizando unión, memoria y alimento espiritual para los muertos.</p>
+
+      <h3>Curiosidades</h3>
+      <!-- aplicamos la clase "no bullets" para que se elimine el contraste de los "<li>" -->
+    <ul class="no-bullets">
+      <li>Existen tamales dulces y salados.</li>
+      <li>Cada región de México tiene su tipo y forma de tamal.</li>
+      <li>Prepararlos en familia es una tradición que fortalece lazos.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+<!--se crea la parte para la logica de las imagenes de fondo-->
+<!--se crea una variable para guardar las imagenes-->
+<!--se crea una funcion que elige la seccion de comida, se ajusta la imagen al tamaño de los pixeles del monutor-->
+<!--cada imagen tiene una id que esta relacionada con una seccion, cuando pasa hacia otra imagen, hace una transicion-->
+<!--por ultima, se pone una funcion en el que se pone un evento, en el que si el raton gira para abajo, la pagina va para abajo
+pero las imagenes se quedan estaticas-->
+<script>
+  const backgrounds = {
+    "pan-de-muerto": "pan.jpg",
+    "mole-poblano": "mole.jpg",
+    "calaveritas-de-azucar": "calaveritas.jpg",
+    "atole": "atole.jpg",
+    "tamales": "tamales.jpg"
+  };
+
+  function cambiarFondo() {
+    const sections = document.querySelectorAll(".food-section");
+    const windowHeight = window.innerHeight;
+    let found = false;
+
+    for (const section of sections) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top < windowHeight * 0.5 && rect.bottom > windowHeight * 0.3) {
+        const id = section.id;
+        const url = backgrounds[id];
+        if (url && !found) {
+          document.body.style.backgroundImage = `url('${url}')`;
+          found = true;
+        }
+      }
+    }
+    if (!found) {
+      document.body.style.backgroundImage = "";
+    }
+  }
+
+  window.addEventListener("scroll", cambiarFondo);
+  window.addEventListener("load", cambiarFondo);
+</script>
+
+</body>
+</html>

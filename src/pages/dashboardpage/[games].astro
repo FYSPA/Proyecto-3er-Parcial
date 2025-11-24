@@ -2,6 +2,7 @@
 // src/pages/dashboardpage/[games].astro
 import LayoutGames from "@layouts/LayoutGames.astro";
 import { games } from "./gameData.js";
+import "@styles/media-quearys/games-queary.css";
 
 export async function getStaticPaths() {
     return games.map((game) => ({
@@ -40,11 +41,53 @@ if (!currentGame) {
                 )
             }
         </div>
+
+        <div class="button">
+            <button>Comprar {currentGame.pricing}</button>
+        </div>
     </section>
 
     <section class="section-midle">
-        <span>{currentGame.titulo}</span>
-        <p>{currentGame.description}</p>
+        <span class="title-game">{currentGame.titulo}</span>
+        <p class="description-game">{currentGame.description}</p>
+        <div class="container-img-game">
+            <img
+                class="img-game"
+                src={currentGame.imgGame}
+                alt={currentGame.titulo}
+            />
+        </div>
+    </section>
+
+    <section class="section-bottom">
+        <span class="requeriments-title">
+            Requerimientos
+            <div class="line"></div>
+        </span>
+        <div class="requeriments">
+            <div class="requeriments-lows">
+                <span>Requerimientos Mínimos</span>
+                <ul>
+                    {
+                        currentGame.requererimentsLows &&
+                            currentGame.requererimentsLows
+                                .split(",")
+                                .map((req) => <li>{req.trim()}</li>)
+                    }
+                </ul>
+            </div>
+            <div class="requeriments-high">
+                <span>Requerimientos Recomendados</span>
+                <ul>
+                    {
+                        currentGame.requererimentsHigh &&
+                            currentGame.requererimentsHigh
+                                .split(",")
+                                .map((req) => <li>{req.trim()}</li>)
+                    }
+                </ul>
+            </div>
+        </div>
     </section>
 </LayoutGames>
 
@@ -57,6 +100,16 @@ if (!currentGame) {
         display: flex;
     }
 
+    .title-game {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+    }
+    .description-game {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
     .fondo {
         position: absolute;
         top: 0;
@@ -81,6 +134,28 @@ if (!currentGame) {
         align-items: center;
     }
 
+    .button {
+        position: relative;
+        top: 40%;
+        left: 11%;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .button button {
+        padding: 20px 90px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition-duration: 0.9s background-color ease;
+    }
+
+    .button button:hover {
+        background-color: #4caf50;
+    }
     .icon img {
         object-fit: contain;
         height: 500px;
@@ -89,5 +164,110 @@ if (!currentGame) {
     }
     .section-midle {
         margin: 30px;
+        display: flex;
+        flex-direction: column;
+    }
+    .container-img-game {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .img-game {
+        width: 20%;
+        height: 20%;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid #ffffff;
+    }
+    .section-bottom {
+        display: flex;
+        min-width: 50%;
+        width: 30%;
+        margin: 0 auto;
+        padding-bottom: 70px;
+        flex-direction: column;
+    }
+
+    .requeriments {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+    .requeriments-title {
+        font-size: 1.3rem;
+        position: relative;
+        left: 13%;
+    }
+
+    .line {
+        position: relative;
+        left: 18%;
+        top: -10px;
+        width: 56%;
+        height: 1px;
+        background-color: #ffffff;
+    }
+
+    .section-bottom span {
+        font-size: 1.3rem;
+    }
+
+    .section-bottom ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .section-bottom li {
+        padding-bottom: 1rem;
+    }
+    .requeriments-lows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        border-right: 1px solid #ffffff;
+    }
+    .requeriments-high {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        border-left: 1px solid #ffffff;
     }
 </style>
+
+<script>
+    function initScrollEffect() {
+        const fondoImg = document.querySelector(".fondo img");
+        const sectionTop = document.querySelector(".section-top");
+
+        if (fondoImg && sectionTop) {
+            const handleScroll = () => {
+                const scrollY = window.scrollY;
+                const sectionHeight = sectionTop.clientHeight;
+
+                // Calculate opacity: 1 at top, 0 when scrolled past section
+                let opacity = 1 - scrollY / sectionHeight;
+
+                // Clamp opacity between 0 and 1
+                opacity = Math.max(0, Math.min(1, opacity));
+
+                if (fondoImg instanceof HTMLElement) {
+                    fondoImg.style.opacity = opacity.toString();
+                }
+            };
+
+            window.addEventListener("scroll", handleScroll);
+            // Initial check
+            handleScroll();
+        }
+    }
+
+    // Run on load
+    initScrollEffect();
+
+    // If using Astro View Transitions
+    document.addEventListener("astro:after-swap", initScrollEffect);
+</script>

@@ -42,3 +42,8 @@ Thumbs.db
 
 # Vercel
 .vercel/
+
+# Local Credentials
+backend/app/local_env.php
+dummy_qr.png
+email_debug.log

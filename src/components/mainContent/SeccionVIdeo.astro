@@ -1,5 +1,6 @@
 ---
-import videosSequence from '../../scripts-src/videos.js';
+import videosSequence from "../../scripts-src/videos.js";
+import "@styles/media-quearys/video-section-queary.css";
 ---
 
 <div class="video-bg">
@@ -12,29 +13,29 @@ import videosSequence from '../../scripts-src/videos.js';
 <div class="video-spacer"></div>
 
 <script define:vars={{ videos: videosSequence }} is:inline>
-  console.log('Videos disponibles:', videos);
-  console.log('Cantidad de videos:', videos.length);
-  
+  console.log("Videos disponibles:", videos);
+  console.log("Cantidad de videos:", videos.length);
+
   let currentVideoIndex = 0;
 
   function setupVideoSequence() {
-    const video = document.querySelector('.video-bg video');
+    const video = document.querySelector(".video-bg video");
     if (!video) return;
 
-    const source = video.querySelector('source');
+    const source = video.querySelector("source");
     source.src = videos[0];
     video.load();
 
-    video.addEventListener('timeupdate', () => {
+    video.addEventListener("timeupdate", () => {
       // Si la duración menos el tiempo actual es menor a 1 segundo, cambiar video
       if (video.duration - video.currentTime < 1 && video.duration > 0) {
-        console.log('Cambiando video...');
+        console.log("Cambiando video...");
         currentVideoIndex++;
         if (currentVideoIndex >= videos.length) {
           currentVideoIndex = 0;
         }
-        
-        console.log('Nuevo índice:', currentVideoIndex);
+
+        console.log("Nuevo índice:", currentVideoIndex);
         source.src = videos[currentVideoIndex];
         video.load();
         video.play();
@@ -42,8 +43,8 @@ import videosSequence from '../../scripts-src/videos.js';
     });
   }
 
-  document.addEventListener('DOMContentLoaded', setupVideoSequence);
-  document.addEventListener('astro:page-load', setupVideoSequence);
+  document.addEventListener("DOMContentLoaded", setupVideoSequence);
+  document.addEventListener("astro:page-load", setupVideoSequence);
 </script>
 
 <style>
@@ -66,11 +67,16 @@ import videosSequence from '../../scripts-src/videos.js';
     height: 100%;
     object-fit: cover;
   }
-  
+
   .video-bg .overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.15) 40%, rgba(0,0,0,0));
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.35),
+      rgba(0, 0, 0, 0.15) 40%,
+      rgba(0, 0, 0, 0)
+    );
     pointer-events: none;
   }
 </style>

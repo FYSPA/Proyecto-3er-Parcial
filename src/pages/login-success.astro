@@ -4,7 +4,7 @@ const nombre = Astro.url.searchParams.get("nombre");
 const correo = Astro.url.searchParams.get("correo");
 
 if (!userId) {
-    return Astro.redirect("/LoginRegisterPages/LoginPage");
+    return Astro.redirect("/LoginRegisterPages/loginPage");
 }
 ---
 
@@ -39,7 +39,7 @@ if (!userId) {
                     window.location.href = "/dashboardpage/Dashboard";
                 }, 500);
             } else {
-                window.location.href = "/LoginRegisterPages/LoginPage";
+                window.location.href = "/LoginRegisterPages/loginPage";
             }
         </script>
     </body>
