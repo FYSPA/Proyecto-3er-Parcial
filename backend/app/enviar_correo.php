@@ -11,13 +11,23 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
 
     $log("Iniciando enviarCorreoConQR para: $destinatario");
 
-    // Load local credentials if file exists (for localhost)
+    // Cargar variables de entorno si no están cargadas
+    if (!isset($_ENV['RESEND_API_KEY']) && file_exists(__DIR__ . '/../vendor/autoload.php')) {
+        try {
+            // Intentar cargar .env desde la raíz del proyecto (dos niveles arriba de app/)
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+            $dotenv->safeLoad();
+            $log(".env cargado desde " . realpath(__DIR__ . '/../../'));
+        } catch (Exception $e) {
+            $log("Error cargando .env: " . $e->getMessage());
+        }
+    }
+
+    // Ya no necesitamos local_env.php si usamos .env correctamente
+    // Pero lo dejamos como fallback opcional por si acaso
     if (file_exists(__DIR__ . '/local_env.php')) {
         include __DIR__ . '/local_env.php';
-        $log("local_env.php cargado");
-        $log("Claves en \$_ENV: " . implode(', ', array_keys($_ENV)));
-    } else {
-        $log("local_env.php no encontrado en " . __DIR__);
+        $log("local_env.php cargado (override)");
     }
 
     $resend_api_key = $_ENV['RESEND_API_KEY'] ?? $_SERVER['RESEND_API_KEY'] ?? getenv('RESEND_API_KEY');
@@ -100,32 +110,7 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
 
         $log("Intentando enviar correo...");
         
-        // Codificar el contenido del archivo QR en base64 para el adjunto
-        // Resend espera el contenido como un string, pero para imágenes incrustadas o adjuntos seguros, base64 es mejor si hay problemas de encoding.
-        // Sin embargo, la librería Resend PHP usa Guzzle y debería manejar el body.
-        // El error "Malformed UTF-8 characters" sugiere que json_encode falló al serializar el body del request.
-        // La solución es codificar el contenido del archivo en base64 antes de pasarlo a la librería si esta no lo hace automáticamente,
-        // O asegurarnos de que el array de attachments esté bien formado.
-        
-        // Revisando la documentación de Resend PHP SDK, los attachments se pasan como array de objetos/arrays.
-        // Si el contenido es binario, json_encode fallará.
-        // Debemos convertirlo a una lista de enteros o base64.
-        // La librería Resend PHP parece esperar que 'content' sea un buffer (array de enteros) o string.
-        // Si es string binario, json_encode falla.
-        
-        // Vamos a convertir el contenido binario a un array de bytes (enteros) que es lo que suele funcionar con JSON,
-        // O mejor, usaremos base64 y esperamos que Resend lo decodifique?
-        // La API de Resend acepta 'content' como buffer.
-        
-        // Intentemos con base64 pero chunk_split no es necesario para JSON.
-        // Simplemente base64_encode.
-        
-        // NOTA: Si usamos 'cid:codigo_qr' en el HTML, el attachment debe tener 'content_id' => 'codigo_qr' (si la librería lo soporta)
-        // O 'filename' => 'codigo_qr.png' y referenciarlo.
-        // Resend API soporta 'content_id' para inline images?
-        // Si no, simplemente lo adjuntamos.
-        
-        // Para solucionar el error de JSON, convertimos a array de bytes.
+        // Convertir contenido binario a array de bytes para evitar errores de codificación JSON
         $qr_bytes = array_values(unpack('C*', $qr_content));
 
         $result = $resend->emails->send([
@@ -136,7 +121,7 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
             'attachments' => [
                 [
                     'filename' => 'codigo_qr.png',
-                    'content' => $qr_bytes, // Enviar como array de bytes para evitar error UTF-8 en json_encode
+                    'content' => $qr_bytes,
                 ]
             ]
         ]);
