@@ -40,6 +40,10 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
         $mail->Password   = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS según el puerto
         $mail->Port       = $_ENV['SMTP_PORT'] ?? getenv('SMTP_PORT') ?? 587;
+        
+        // Timeout settings (para evitar que se quede colgado)
+        $mail->Timeout  = 10; // Timeout de conexión en segundos
+        $mail->Timelimit = 10; // Límite de tiempo de ejecución en segundos
 
         // Debug settings
         if ($debug) {
