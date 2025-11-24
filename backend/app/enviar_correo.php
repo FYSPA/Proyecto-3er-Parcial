@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-// use Resend\Resend; // La clase Resend está en el namespace global
+require_once __DIR__ . '/../vendor/autoload.php';
 
 function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = false) {
     $logFile = __DIR__ . '/../email_debug.log';
@@ -9,12 +10,11 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
         file_put_contents($logFile, date('[Y-m-d H:i:s] ') . $msg . PHP_EOL, FILE_APPEND);
     };
 
-    $log("Iniciando enviarCorreoConQR para: $destinatario");
+    $log("Iniciando enviarCorreoConQR (PHPMailer) para: $destinatario");
 
     // Cargar variables de entorno si no están cargadas
-    if (!isset($_ENV['RESEND_API_KEY']) && file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    if (!isset($_ENV['SMTP_HOST']) && file_exists(__DIR__ . '/../vendor/autoload.php')) {
         try {
-            // Intentar cargar .env desde la raíz del proyecto (dos niveles arriba de app/)
             $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
             $dotenv->safeLoad();
             $log(".env cargado desde " . realpath(__DIR__ . '/../../'));
@@ -23,46 +23,52 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
         }
     }
 
-    // Ya no necesitamos local_env.php si usamos .env correctamente
-    // Pero lo dejamos como fallback opcional por si acaso
+    // Fallback local_env.php (opcional)
     if (file_exists(__DIR__ . '/local_env.php')) {
         include __DIR__ . '/local_env.php';
         $log("local_env.php cargado (override)");
     }
 
-    $resend_api_key = $_ENV['RESEND_API_KEY'] ?? $_SERVER['RESEND_API_KEY'] ?? getenv('RESEND_API_KEY');
-
-    if (empty($resend_api_key)) {
-        $log("ERROR: RESEND_API_KEY está vacía");
-        error_log("Error: RESEND_API_KEY no está configurada.");
-        if ($debug) echo "<h3>FATAL ERROR: RESEND_API_KEY no está configurada.</h3>";
-        return false;
-    } else {
-        $log("RESEND_API_KEY encontrada (longitud: " . strlen($resend_api_key) . ")");
-    }
+    $mail = new PHPMailer(true);
 
     try {
-        $log("Inicializando cliente Resend...");
-        // La clase Resend está en el namespace global, así que usamos \Resend o simplemente Resend si no hay namespace actual.
-        // Como este archivo no tiene namespace, Resend se refiere a \Resend.
-        $resend = Resend::client($resend_api_key);
-        $log("Cliente Resend inicializado.");
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = $_ENV['SMTP_HOST'] ?? getenv('SMTP_HOST');
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
+        $mail->Password   = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // O ENCRYPTION_SMTPS según el puerto
+        $mail->Port       = $_ENV['SMTP_PORT'] ?? getenv('SMTP_PORT') ?? 587;
 
-        // Leer el contenido del archivo QR
-        $log("Verificando archivo QR en: $ruta_qr");
-        if (!file_exists($ruta_qr)) {
-            $log("ERROR: Archivo QR no existe: $ruta_qr");
-            throw new Exception("El archivo QR no existe en la ruta: $ruta_qr");
+        // Debug settings
+        if ($debug) {
+            $mail->SMTPDebug = 2; // Verbose debug output
+            $mail->Debugoutput = function($str, $level) use ($log) {
+                $log("SMTP: $str");
+            };
         }
-        $log("Archivo QR encontrado.");
+
+        // Recipients
+        $mail->setFrom($mail->Username, 'VGS System');
+        $mail->addAddress($destinatario, $nombre);
+
+        // Attachments
+        if (file_exists($ruta_qr)) {
+            $mail->addAttachment($ruta_qr, 'codigo_qr.png');
+            $log("Adjuntando QR desde: $ruta_qr");
+        } else {
+            $log("ERROR: Archivo QR no encontrado en $ruta_qr");
+        }
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Bienvenido - Tu código de acceso';
         
-        // Leer el contenido binario del archivo
-        $qr_content = file_get_contents($ruta_qr);
-        if ($qr_content === false) {
-             $log("ERROR: No se pudo leer el archivo QR");
-             throw new Exception("No se pudo leer el archivo QR");
+        // Embed image for HTML body using CID
+        if (file_exists($ruta_qr)) {
+            $mail->addEmbeddedImage($ruta_qr, 'codigo_qr', 'codigo_qr.png');
         }
-        $log("Contenido QR leído (" . strlen($qr_content) . " bytes).");
 
         $htmlContent = "
             <html>
@@ -108,40 +114,20 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
             </html>
         ";
 
+        $mail->Body = $htmlContent;
+        $mail->AltBody = "Bienvenido $nombre. Tu código de acceso es: $codigo";
+
         $log("Intentando enviar correo...");
-        
-        // Convertir contenido binario a array de bytes para evitar errores de codificación JSON
-        $qr_bytes = array_values(unpack('C*', $qr_content));
-
-        $result = $resend->emails->send([
-            'from' => 'VGS <onboarding@resend.dev>',
-            'to' => [$destinatario],
-            'subject' => 'Bienvenido - Tu código de acceso',
-            'html' => $htmlContent,
-            'attachments' => [
-                [
-                    'filename' => 'codigo_qr.png',
-                    'content' => $qr_bytes,
-                ]
-            ]
-        ]);
-
-        $log("Correo enviado exitosamente. ID: " . ($result->id ?? 'N/A'));
-
-        if ($debug) {
-            echo "<pre>";
-            print_r($result);
-            echo "</pre>";
-        }
-
+        $mail->send();
+        $log("Correo enviado exitosamente.");
         return true;
 
     } catch (Exception $e) {
-        $log("EXCEPCIÓN: " . $e->getMessage());
+        $log("EXCEPCIÓN PHPMailer: " . $mail->ErrorInfo);
         if ($debug) {
-            echo "<h3>FATAL ERROR: " . $e->getMessage() . "</h3>";
+            echo "<h3>FATAL ERROR: " . $mail->ErrorInfo . "</h3>";
         }
-        error_log("Error al enviar correo con Resend: " . $e->getMessage());
+        error_log("Error al enviar correo con PHPMailer: " . $mail->ErrorInfo);
         return false;
     }
 }
