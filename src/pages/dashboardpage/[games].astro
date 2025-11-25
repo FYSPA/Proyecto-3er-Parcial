@@ -2,6 +2,7 @@
 // src/pages/dashboardpage/[games].astro
 import LayoutGames from "@layouts/LayoutGames.astro";
 import { games } from "./gameData.js";
+import Footer from "@components/footerComponents/Footer.astro";
 import "@styles/media-quearys/games-queary.css";
 
 export async function getStaticPaths() {
@@ -43,7 +44,7 @@ if (!currentGame) {
         </div>
 
         <div class="button">
-            <button>Comprar {currentGame.pricing}</button>
+            <button id="buy-btn">Descargar</button>
         </div>
     </section>
 
@@ -89,6 +90,8 @@ if (!currentGame) {
             </div>
         </div>
     </section>
+    <Footer />
+    <canvas id="purchase-particles"></canvas>
 </LayoutGames>
 
 <style>
@@ -236,9 +239,23 @@ if (!currentGame) {
         padding: 30px;
         border-left: 1px solid #ffffff;
     }
+
+    #purchase-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
 </style>
 
 <script>
+    import { initPurchaseInteraction } from "../../scripts-src/purchaseInteraction.js";
+
     function initScrollEffect() {
         const fondoImg = document.querySelector(".fondo img");
         const sectionTop = document.querySelector(".section-top");
@@ -267,7 +284,9 @@ if (!currentGame) {
 
     // Run on load
     initScrollEffect();
+    initPurchaseInteraction();
 
     // If using Astro View Transitions
     document.addEventListener("astro:after-swap", initScrollEffect);
+    document.addEventListener("astro:after-swap", initPurchaseInteraction);
 </script>

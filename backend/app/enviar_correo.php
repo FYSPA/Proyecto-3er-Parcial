@@ -32,6 +32,28 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
     $mail = new PHPMailer(true);
 
     try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host       = $_ENV['SMTP_HOST'] ?? getenv('SMTP_HOST');
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USER'] ?? getenv('SMTP_USER');
+        $mail->Password   = $_ENV['SMTP_PASS'] ?? getenv('SMTP_PASS');
+        
+        $port = $_ENV['SMTP_PORT'] ?? getenv('SMTP_PORT') ?? 587;
+        $mail->Port = $port;
+
+        // Ajustar encriptación según el puerto
+        if ($port == 465) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } else {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        }
+        
+        // Timeout settings (para evitar que se quede colgado)
+        $mail->Timeout  = 10; // Timeout de conexión en segundos
+        $mail->Timelimit = 10; // Límite de tiempo de ejecución en segundos
+
+        // Debug settings
         if ($debug) {
             $mail->SMTPDebug = 2; // Verbose debug output
             $mail->Debugoutput = function($str, $level) use ($log) {
@@ -113,12 +135,14 @@ function enviarCorreoConQR($destinatario, $nombre, $codigo, $ruta_qr, $debug = f
         return true;
 
     } catch (Exception $e) {
-        $log("EXCEPCIÓN PHPMailer: " . $mail->ErrorInfo);
+        $errorMsg = "Error PHPMailer: " . $mail->ErrorInfo;
+        $log("EXCEPCIÓN: " . $errorMsg);
         if ($debug) {
-            echo "<h3>FATAL ERROR: " . $mail->ErrorInfo . "</h3>";
+            echo "<h3>FATAL ERROR: " . $errorMsg . "</h3>";
         }
-        error_log("Error al enviar correo con PHPMailer: " . $mail->ErrorInfo);
-        return false;
+        error_log($errorMsg);
+        // Lanzar la excepción para que registro.php pueda capturar el mensaje real
+        throw new Exception($errorMsg);
     }
 }
 ?>

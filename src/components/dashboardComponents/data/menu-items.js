@@ -15,10 +15,10 @@ export const menuItems = [
     descripcion: "Panel de usuario", //Se especifica la descripcion
     tipoIcono: "image", //Se especifica el tipo si es 'component' o 'image'
     iconKey: null, //Se coloca null si es image ya que no hay component
-    iconSrc: "/logoVGS.svg", //Se especifica la ruta de la imagen
+    iconSrc: "/gamesImg/CrucibleLamentIcon.jpg", //Se especifica la ruta de la imagen
     descripcion_icono: "Icono dashboard", //Se especifica la descripcion del icono
     texto_etiqueta: "Juego", //Se especifica el texto de la etiqueta
-    ruta_dinamica: "dashboardpage/juego1" //Se especifica la ruta dinamica
+    ruta_dinamica: "dashboardpage/TheCrucibleLaments" //Se especifica la ruta dinamica
   },
   {
     titulo: "Hola", //Se especifica el titulo
@@ -28,6 +28,6 @@ export const menuItems = [
     iconSrc: "/icons/minecraft.svg", //Se especifica la ruta de la imagen
     descripcion_icono: "Icono dashboard", //Se especifica la descripcion del icono
     texto_etiqueta: "Hola", //Se especifica el texto de la etiqueta
-    ruta_dinamica: "dashboardpage/minecraft" //Se especifica la ruta dinamica
+    ruta_dinamica: "dashboardpage/" //Se especifica la ruta dinamica
   },
 ];
