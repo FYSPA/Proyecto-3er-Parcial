@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: astro_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: proyecto
+      MYSQL_USER: userphp
+      MYSQL_PASSWORD: passphp
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - astra_net
+
+  php:
+    build: ./backend
+    container_name: astro_php
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: userphp
+      MYSQL_PASSWORD: passphp
+      MYSQL_DATABASE: proyecto
+    ports:
+      - "8088:80"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - astra_net
+
+  astro:
+    build: .
+    container_name: astro_front
+    restart: always
+    depends_on:
+      - php
+    ports:
+      - "8089:80"
+    networks:
+      - astra_net
+
+networks:
+  astra_net:
+    driver: bridge
