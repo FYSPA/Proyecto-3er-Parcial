@@ -1,0 +1,110 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="About Us">
+    <section class="about-section">
+        <h1>About Us</h1>
+        <div class="people-grid">
+            <article class="person-card">
+                <h2>Fernando Yahel Suarez Flores</h2>
+                <details>
+                    <summary>View Details</summary>
+                    <p>
+                        Estudiante de la Preparatoria CBTis225 en la
+                        especialidad de programación, fue uno de contribuyentes
+                        mas valiosos del proyecto.
+                    </p>
+                </details>
+            </article>
+            <article class="person-card">
+                <h2>Jose Carlos Oliva Sandoval</h2>
+                <details>
+                    <summary>View Details</summary>
+                    <p>
+                        Estudiante de la Preparatoria CBTis225 en la
+                        especialidad de programación, fue uno de contribuyentes
+                        mas valiosos en la creación de manuales tecnicos y
+                        codigo.
+                    </p>
+                </details>
+            </article>
+            <article class="person-card">
+                <h2>Salazar Diaz Infante Yadhir</h2>
+                <details>
+                    <summary>View Details</summary>
+                    <p>
+                        Estudiante de la Preparatoria CBTis225 en la
+                        especialidad de programación, fue uno de contribuyentes
+                        mas valiosos en los aspectos estéticos del proyecto, y
+                        assets.
+                    </p>
+                </details>
+            </article>
+            <article class="person-card">
+                <h2>Isaac Alonso Medina Orozco</h2>
+                <details>
+                    <summary>View Details</summary>
+                    <p>
+                        Estudiante de la Preparatoria CBTis225 en la
+                        especialidad de programación, fue uno de contribuyentes
+                        mas valiosos en los aspectos estéticos del proyecto, y
+                        assets.
+                    </p>
+                </details>
+            </article>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .about-section {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+    .people-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+    .person-card {
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #eee;
+        background-color: var(--card-bg, #fff);
+        color: var(--text-color, inherit);
+    }
+
+    h2 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    summary {
+        cursor: pointer;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        padding: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+    }
+    details[open] summary {
+        margin-bottom: 1rem;
+    }
+
+    /* Dark mode adjustments based on Layout class */
+    :global(.modo-oscuro) .person-card {
+        background-color: #2a2a2a;
+        border-color: #444;
+        color: #fff;
+    }
+    :global(.modo-oscuro) summary {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+</style>

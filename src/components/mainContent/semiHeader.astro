@@ -1,34 +1,47 @@
 ---
-import { games } from '../../scripts-src/games-carrusel.js';
-import ArrowAnimated from '@components/icons/ArrowAnimated.astro';
-import '@styles/global-color-scheame.css'
-import '@styles/media-quearys/semi-header-queary.css'
+import { games } from "../../scripts-src/games-carrusel.js";
+import ArrowAnimated from "@components/icons/ArrowAnimated.astro";
+import "@styles/global-color-scheame.css";
+import "@styles/media-quearys/semi-header-queary.css";
 ---
 
 <section class="contenedor-main" id="carrusel-juegos">
-    <img src={games[0].image} alt={games[0].title}>
+    <img
+        src={games[0].image}
+        alt={games[0].title}
+        class="media-element"
+        style={games[0].type === "video" ? "display: none;" : ""}
+    />
+    <video
+        src={games[0].type === "video" ? games[0].image : ""}
+        class="media-element"
+        autoplay
+        muted
+        loop
+        style={games[0].type === "image" ? "display: none;" : ""}></video>
     <div class="contenedor-contenido">
         <h1>{games[0].title}</h1>
         <p>{games[0].description}</p>
         <a href={games[0].link} target="_blank" class="contenedor-btn">
             <button class="btn-jugar"><ArrowAnimated />Jugar</button>
         </a>
-        
+
         <!-- Indicadores de slide -->
         <ol class="slide-indicador">
-            {games.map((_, index) => (
-                <li>
-                    <button 
-                        class="slide-circulo" 
-                        data-slide={index}
-                        title={`Ir al juego ${index + 1}`}
-                    >
-                        •
-                    </button>
-                </li>
-            ))}
+            {
+                games.map((_, index) => (
+                    <li>
+                        <button
+                            class="slide-circulo"
+                            data-slide={index}
+                            title={`Ir al juego ${index + 1}`}
+                        >
+                            •
+                        </button>
+                    </li>
+                ))
+            }
         </ol>
-        
     </div>
 </section>
 
@@ -56,7 +69,7 @@ import '@styles/media-quearys/semi-header-queary.css'
         overflow: hidden;
     }
 
-    .contenedor-main img {
+    .contenedor-main .media-element {
         position: absolute;
         top: 0;
         left: 0;
@@ -82,7 +95,7 @@ import '@styles/media-quearys/semi-header-queary.css'
         width: 180px;
         margin-top: 10px;
     }
-    
+
     .btn-jugar {
         padding: 10px;
         width: 100%;
@@ -96,15 +109,16 @@ import '@styles/media-quearys/semi-header-queary.css'
         align-items: center;
         font-weight: bold;
         transition: all 0.3s ease;
-        box-shadow: 15px 17px 42px 3px rgba(0,0,0,0.6);
-        -webkit-box-shadow: 15px 17px 42px 3px rgba(0,0,0,0.6);
-        -moz-box-shadow: 15px 17px 42px 3px rgba(0,0,0,0.6);
+        box-shadow: 15px 17px 42px 3px rgba(0, 0, 0, 0.6);
+        -webkit-box-shadow: 15px 17px 42px 3px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 15px 17px 42px 3px rgba(0, 0, 0, 0.6);
         background-color: rgb(37, 37, 155);
         color: white;
         background-color: rgb(37, 37, 155);
         color: white;
-        transition: all 0.3s ease, box-shadow 0.25s;
-        
+        transition:
+            all 0.3s ease,
+            box-shadow 0.25s;
     }
 
     .btn-jugar:hover {
@@ -155,72 +169,86 @@ import '@styles/media-quearys/semi-header-queary.css'
         background: white;
         color: rgb(0, 0, 0);
     }
-
 </style>
 
 <script is:inline define:vars={{ games }}>
-  let current = 0;
-  const total = games.length;
-  let autoplayInterval;
+    let current = 0;
+    const total = games.length;
+    let autoplayInterval;
 
-  function actualizarCarrusel() {
-    document.querySelector('.contenedor-main img').src = games[current].image;
-    document.querySelector('.contenedor-main img').alt = games[current].title;
-    document.querySelector('.contenedor-contenido h1').textContent = games[current].title;
-    document.querySelector('.contenedor-contenido p').textContent = games[current].description;
-    document.querySelector('.contenedor-contenido a').href = games[current].link;
-    
-    actualizarIndicadores();
-  }
+    function actualizarCarrusel() {
+        const game = games[current];
+        const imgElement = document.querySelector(".contenedor-main img");
+        const videoElement = document.querySelector(".contenedor-main video");
 
-  function actualizarIndicadores() {
-    document.querySelectorAll('.slide-circulo').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    const btnActivo = document.querySelector(`[data-slide="${current}"]`);
-    if (btnActivo) {
-        btnActivo.classList.add('active');
+        if (game.type === "video") {
+            imgElement.style.display = "none";
+            videoElement.style.display = "block";
+            videoElement.src = game.image;
+        } else {
+            videoElement.style.display = "none";
+            imgElement.style.display = "block";
+            imgElement.src = game.image;
+            imgElement.alt = game.title;
+        }
+
+        document.querySelector(".contenedor-contenido h1").textContent =
+            game.title;
+        document.querySelector(".contenedor-contenido p").textContent =
+            game.description;
+        document.querySelector(".contenedor-contenido a").href = game.link;
+
+        actualizarIndicadores();
     }
-  }
 
-  function resetearAutoplay() {
-    clearInterval(autoplayInterval);
-    
-    autoplayInterval = setInterval(() => {
-      current = (current + 1) % total;
-      actualizarCarrusel();
-    }, 5000);
-  }
+    function actualizarIndicadores() {
+        document.querySelectorAll(".slide-circulo").forEach((btn) => {
+            btn.classList.remove("active");
+        });
 
-  window.anterior = function () {
-    current = (current - 1 + total) % total;
-    actualizarCarrusel();
-    resetearAutoplay();
-  };
+        const btnActivo = document.querySelector(`[data-slide="${current}"]`);
+        if (btnActivo) {
+            btnActivo.classList.add("active");
+        }
+    }
 
-  window.siguiente = function () {
-    current = (current + 1) % total;
-    actualizarCarrusel();
-    resetearAutoplay();
-  };
+    function resetearAutoplay() {
+        clearInterval(autoplayInterval);
 
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.slide-circulo').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const index = parseInt(this.getAttribute('data-slide'));
-        current = index;
+        autoplayInterval = setInterval(() => {
+            current = (current + 1) % total;
+            actualizarCarrusel();
+        }, 7000);
+    }
+
+    window.anterior = function () {
+        current = (current - 1 + total) % total;
         actualizarCarrusel();
         resetearAutoplay();
-        
-        document.getElementById('carrusel-juegos').scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center' 
-        });
-      });
-    });
-  });
+    };
 
-  actualizarIndicadores();
-  resetearAutoplay();
+    window.siguiente = function () {
+        current = (current + 1) % total;
+        actualizarCarrusel();
+        resetearAutoplay();
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".slide-circulo").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                const index = parseInt(this.getAttribute("data-slide"));
+                current = index;
+                actualizarCarrusel();
+                resetearAutoplay();
+
+                document.getElementById("carrusel-juegos").scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            });
+        });
+    });
+
+    actualizarIndicadores();
+    resetearAutoplay();
 </script>

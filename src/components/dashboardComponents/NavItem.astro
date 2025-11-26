@@ -10,18 +10,32 @@ interface Props {
   title: string;
 }
 
-const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = Astro.props;
+const {
+  href,
+  iconComponent: IconComponent,
+  iconSrc,
+  iconAlt,
+  label,
+  title,
+} = Astro.props;
 ---
 
 <a href={href} class="nav-item" title={title}>
-  {IconComponent
-    ? <IconComponent />
-    : iconSrc
-      ? <img src={iconSrc} alt={iconAlt} class="icon" loading="lazy" decoding="async" />
-      : null}
+  {
+    IconComponent ? (
+      <IconComponent />
+    ) : iconSrc ? (
+      <img
+        src={iconSrc}
+        alt={iconAlt}
+        class="icon"
+        loading="lazy"
+        decoding="async"
+      />
+    ) : null
+  }
   <span class="label">{label}</span>
 </a>
-
 
 <style>
   .nav-item {
@@ -33,7 +47,9 @@ const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = A
     padding: 1rem 0;
     color: #999;
     text-decoration: none;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease;
     position: relative;
     background: none;
     border: none;
@@ -49,7 +65,7 @@ const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = A
   .nav-item.active {
     color: #fff;
     background-color: #252525;
-    border-left: 3px solid #25ac29; 
+    border-left: 3px solid #25ac29;
     border-bottom: 1px solid #eeeeee56;
   }
 
@@ -58,8 +74,8 @@ const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = A
   }
 
   .icon {
-    width: clamp(20px, 2.5vw, 24px);
-    height: clamp(20px, 2.5vw, 24px);
+    width: clamp(60px, 2.5vw, 60px);
+    height: clamp(60px, 2.5vw, 60px);
     aspect-ratio: 1 / 1;
     object-fit: contain;
     object-position: center;
@@ -104,7 +120,7 @@ const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = A
   body.modo-claro .nav-item.active {
     color: #333;
     background-color: #e0e0e0;
-    border-left-color: #4CAF50;
+    border-left-color: #4caf50;
   }
 
   body.modo-claro .nav-item::before {
@@ -118,10 +134,16 @@ const { href, iconComponent: IconComponent, iconSrc, iconAlt, label, title } = A
       max-width: 60px;
     }
 
-    .icon { width: 20px; height: 20px; }
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .nav-item, .nav-item::before { transition: none; }
+    .nav-item,
+    .nav-item::before {
+      transition: none;
+    }
   }
 </style>

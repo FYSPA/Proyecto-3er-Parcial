@@ -50,49 +50,84 @@ if (!currentGame) {
 
     <section class="section-midle">
         <span class="title-game">{currentGame.titulo}</span>
-        <p class="description-game">{currentGame.description}</p>
-        <div class="container-img-game">
-            <img
-                class="img-game"
-                src={currentGame.imgGame}
-                alt={currentGame.titulo}
-            />
-        </div>
+        {
+            currentGame.subtitulos && currentGame.subtitulos[0] && (
+                <span style="font-size: 1.2rem; font-weight: bold">
+                    {currentGame.subtitulos[0]}
+                </span>
+            )
+        }
+        {
+            currentGame.descriptions && currentGame.descriptions[0] && (
+                <p class="description-game">{currentGame.descriptions[0]}</p>
+            )
+        }
+        {
+            currentGame.subtitulos && currentGame.subtitulos[1] && (
+                <span style="font-size: 1.2rem; font-weight: bold">
+                    {currentGame.subtitulos[1]}
+                </span>
+            )
+        }
+        {
+            currentGame.descriptions && currentGame.descriptions[1] && (
+                <p class="description-game">{currentGame.descriptions[1]}</p>
+            )
+        }
+        {
+            currentGame.subtitulos && currentGame.subtitulos[2] && (
+                <span style="font-size: 1.2rem; font-weight: bold">
+                    {currentGame.subtitulos[2]}
+                </span>
+            )
+        }
+        {
+            currentGame.descriptions && currentGame.descriptions[2] && (
+                <p class="description-game">{currentGame.descriptions[2]}</p>
+            )
+        }
     </section>
-
-    <section class="section-bottom">
-        <span class="requeriments-title">
-            Requerimientos
-            <div class="line"></div>
-        </span>
-        <div class="requeriments">
-            <div class="requeriments-lows">
-                <span>Requerimientos Mínimos</span>
-                <ul>
-                    {
-                        currentGame.requererimentsLows &&
-                            currentGame.requererimentsLows
-                                .split(",")
-                                .map((req) => <li>{req.trim()}</li>)
-                    }
-                </ul>
-            </div>
-            <div class="requeriments-high">
-                <span>Requerimientos Recomendados</span>
-                <ul>
-                    {
-                        currentGame.requererimentsHigh &&
-                            currentGame.requererimentsHigh
-                                .split(",")
-                                .map((req) => <li>{req.trim()}</li>)
-                    }
-                </ul>
-            </div>
-        </div>
-    </section>
-    <Footer />
-    <canvas id="purchase-particles"></canvas>
+    <div class="container-img-game">
+        <img
+            class="img-game"
+            src={currentGame.imgGame}
+            alt={currentGame.titulo}
+        />
+    </div>
 </LayoutGames>
+
+<section class="section-bottom">
+    <span class="requeriments-title">
+        Requerimientos
+        <div class="line"></div>
+    </span>
+    <div class="requeriments">
+        <div class="requeriments-lows">
+            <span>Requerimientos Mínimos</span>
+            <ul>
+                {
+                    currentGame.requererimentsLows &&
+                        currentGame.requererimentsLows
+                            .split(",")
+                            .map((req) => <li>{req.trim()}</li>)
+                }
+            </ul>
+        </div>
+        <div class="requeriments-high">
+            <span>Requerimientos Recomendados</span>
+            <ul>
+                {
+                    currentGame.requererimentsHigh &&
+                        currentGame.requererimentsHigh
+                            .split(",")
+                            .map((req) => <li>{req.trim()}</li>)
+                }
+            </ul>
+        </div>
+    </div>
+</section>
+<Footer />
+<canvas id="purchase-particles"></canvas>
 
 <style>
     .section-top {

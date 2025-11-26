@@ -1,10 +1,12 @@
 ---
-import Layout from '@layouts/Layout.astro';
+import Layout from "@layouts/Layout.astro";
+import "@styles/media-quearys/404-queary.css";
 ---
+
 <Layout title="VGS - 404">
-    <div>
+    <div class="main-container">
         <div class="fondo"></div>
-        <img src="/404.webp" alt="Logo VGS">
+        <img src="/404.webp" alt="Logo VGS" />
     </div>
 </Layout>
 
@@ -16,13 +18,13 @@ import Layout from '@layouts/Layout.astro';
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: rgba(201, 20, 20, 0.75)
+        background-color: rgba(201, 20, 20, 0.75);
+        overflow: hidden;
     }
-
 
     img {
         box-shadow: -2px 6px 400px 200px rgba(0, 0, 0, 0.678) inset;
-        -webkit-box-shadow: -2px 6px 400px 200px rgba(0,0,0,0.678) inset;
-        -moz-box-shadow: -2px 6px 400px 200px rgba(0,0,0,0.678) inset;
+        -webkit-box-shadow: -2px 6px 400px 200px rgba(0, 0, 0, 0.678) inset;
+        -moz-box-shadow: -2px 6px 400px 200px rgba(0, 0, 0, 0.678) inset;
     }
 </style>
