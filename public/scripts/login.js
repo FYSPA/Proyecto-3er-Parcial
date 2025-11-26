@@ -1,15 +1,11 @@
 function initLogin() {
     const form = document.getElementById('loginForm');
     if (!form) {
-        console.log('Formulario de login no encontrado');
         return;
     }
 
-    console.log('Formulario de login encontrado');
-
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log('Enviando login...');
 
         const correo = form.querySelector('input[name="correo"]').value;
         const password = form.querySelector('input[name="password"]').value;

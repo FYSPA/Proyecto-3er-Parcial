@@ -13,9 +13,6 @@ import "@styles/media-quearys/video-section-queary.css";
 <div class="video-spacer"></div>
 
 <script define:vars={{ videos: videosSequence }} is:inline>
-  console.log("Videos disponibles:", videos);
-  console.log("Cantidad de videos:", videos.length);
-
   let currentVideoIndex = 0;
 
   function setupVideoSequence() {
@@ -29,13 +26,11 @@ import "@styles/media-quearys/video-section-queary.css";
     video.addEventListener("timeupdate", () => {
       // Si la duración menos el tiempo actual es menor a 1 segundo, cambiar video
       if (video.duration - video.currentTime < 1 && video.duration > 0) {
-        console.log("Cambiando video...");
         currentVideoIndex++;
         if (currentVideoIndex >= videos.length) {
           currentVideoIndex = 0;
         }
 
-        console.log("Nuevo índice:", currentVideoIndex);
         source.src = videos[currentVideoIndex];
         video.load();
         video.play();

@@ -2,7 +2,6 @@ function initRegister() {
     const form = document.getElementById('registerForm');
     if (!form) return;
 
-    console.log('Formulario de Registro encontrado');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -11,10 +10,8 @@ function initRegister() {
         const correo = form.querySelector('input[name="correo"]').value;
         const password = form.querySelector('input[name="password"]').value;
 
-        console.log('Datos:', { nombre, correo });
 
         const apiHost = window.PUBLIC_API_URL || 'http://localhost:8000';
-        console.log('📡 API Host:', apiHost);
 
         const fd = new FormData();
         fd.append('nombre', nombre);
@@ -28,12 +25,9 @@ function initRegister() {
                 body: fd
             });
 
-            console.log('Status:', res.status);
             const json = await res.json();
-            console.log('Respuesta:', json);
 
             if (json.success) {
-                console.log('Éxito! Yendo a verificación...');
 
                 setTimeout(() => {
                     // Redirigir a la página de verificación del backend
