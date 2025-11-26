@@ -1,89 +1,66 @@
 <?php
 
-namespace FYS\App\Controllers;
+namespace FYS\App\Controllers\Auth;
 
-use FYS\Core\DatabaseManager;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use FYS\App\Models\User;
+use FYS\Helpers\Error;
 
+class Login {
 
-class ApiController {
+    private User $user;
 
-    private DatabaseManager $db;
-
-    public function __construct(DatabaseManager $db) {
-        $this->db = $db;
+    public function __construct(User $user) {
+        $this->user = $user;
     }
 
 
-    public function login(?Request $request = null) {
-        header('Content-Type: application/json; charset=utf-8');
-
-        $conn = $this->db->getConnection();
-
-        // Error en conexión
-        if ($conn instanceof \FYS\Helpers\Error) {
-            return [
-                'success' => false,
-                'message' => $conn->getMessage(),
-                'fecha'   => date('Y-m-d H:i:s')
-            ];
-        }
-
-        // Obtener datos del request (PSR-7)
-        $parsed = $request?->getParsedBody() ?? [];
-
-        $correo = $parsed['correo'] ?? '';
-        $password = $parsed['password'] ?? '';
+    public function login() {
+        $correo = $_POST['correo'] ?? '';
+        $password = $_POST['password'] ?? '';
 
         if (empty($correo) || empty($password)) {
             return [
                 'success' => false,
                 'message' => 'Email y contraseña requeridos',
-                'fecha'   => date('Y-m-d H:i:s')
+                'fecha'   => date(FYS_FORMAT_DATE)
             ];
         }
 
         // Preparar statement
-        $stmt = $conn->prepare("SELECT id, nombre, correo, password FROM usuarios WHERE correo = ?");
-        if (!$stmt) {
+        $result = $this->user->getUserByEmail($correo);
+
+        if($result instanceof Error){
             return [
                 'success' => false,
-                'message' => 'Error interno al preparar consulta',
-                'fecha'   => date('Y-m-d H:i:s')
+                'message' => $result->getMessage(),
+                'fecha'   => date(FYS_FORMAT_DATE)
             ];
         }
 
-        $stmt->bind_param("s", $correo);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $usuario = $result->fetch_assoc();
 
-        // Usuario encontrado
-        if ($result && $result->num_rows > 0) {
-            $usuario = $result->fetch_assoc();
-
-            if (password_verify($password, $usuario['password'])) {
-                return [
-                    'success'      => true,
-                    'user_id'      => $usuario['id'],
-                    'user_nombre'  => $usuario['nombre'],
-                    'user_correo'  => $usuario['correo'],
-                    'fecha'        => date('Y-m-d H:i:s')
-                ];
-            } else {
-                return [
-                    'success' => false,
-                    'message' => 'Contraseña incorrecta',
-                    'fecha'   => date('Y-m-d H:i:s')
-                ];
-            }
+        if( !isset($usuario['email_verified_at']) || empty($usuario['email_verified_at']) ) {
+            return [
+                'success' => false,
+                'message' => 'Su correo no esta verificado',
+                'fecha'   => date(FYS_FORMAT_DATE)
+            ];
         }
 
-        // Usuario no encontrado
-        return [
-            'success' => false,
-            'message' => 'Usuario no encontrado',
-            'fecha'   => date('Y-m-d H:i:s')
-        ];
+        if (password_verify($password, $usuario['password'])) {
+            return [
+                'success'      => true,
+                'user_id'      => $usuario['id'],
+                'user_nombre'  => $usuario['nombre'],
+                'user_correo'  => $usuario['correo'],
+                'fecha'        => date(FYS_FORMAT_DATE)
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Contraseña incorrecta',
+                'fecha'   => date(FYS_FORMAT_DATE)
+            ];
+        }
     }
-
 }

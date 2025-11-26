@@ -23,7 +23,7 @@ function initRegister() {
         fd.append('host_frontend', window.location.hostname);
 
         try {
-            const res = await fetch(`${apiHost}/registro.php`, {
+            const res = await fetch(`${apiHost}/api/auth/registro`, {
                 method: 'POST',
                 body: fd
             });
@@ -43,6 +43,14 @@ function initRegister() {
                 }, 500);
             } else {
                 console.error('Error:', json.message);
+                if (json.message.includes("Duplicate entry")) {
+                    const res = await fetch(`${apiHost}/api/auth/resendlogin`, {
+                        method: 'POST',
+                        body: fd
+                    });
+                    console.log(res)
+                    return
+                }
                 alert(json.message || 'Error');
             }
         } catch (err) {
