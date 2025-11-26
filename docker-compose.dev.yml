@@ -1,0 +1,59 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: dev_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: proyecto
+      MYSQL_USER: userphp
+      MYSQL_PASSWORD: passphp
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - dev_net
+
+  php:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: dev_php
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: userphp
+      MYSQL_PASSWORD: passphp
+      MYSQL_DATABASE: proyecto
+    ports:
+      - "8081:80"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - dev_net
+
+  astro:
+    image: node:18
+    container_name: dev_astro
+    working_dir: /app
+    restart: always
+    depends_on:
+      - php
+    ports:
+      - "4321:4321"
+    volumes:
+      - .:/app:cached
+    environment:
+      - PUBLIC_BACKEND_URL=http://localhost:8081
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: bash -c "npm install && npm run dev -- --host --port 4321"
+    networks:
+      - dev_net
+
+networks:
+  dev_net:
+    driver: bridge

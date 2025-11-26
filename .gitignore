@@ -1,3 +1,6 @@
+# Docker data
+db_data/
+
 # build output
 dist/
 

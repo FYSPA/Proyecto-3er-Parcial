@@ -1,8 +1,18 @@
 {
     "require": {
-        "phpmailer/phpmailer": "^7.0",
+        "php-di/php-di": "dev-master",
+        "nikic/fast-route": "^2.0@dev",
         "vlucas/phpdotenv": "^5.6",
+        "phpmailer/phpmailer": "^7.0",
         "resend/resend-php": "^1.0",
         "ext-gd": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "FYS\\": "src/",
+            "FYS\\Core\\": "src/core",
+            "FYS\\App\\": "src/app",
+            "FYS\\Helpers\\": "src/helpers"
+        }
     }
 }
