@@ -12,7 +12,7 @@ class QrController {
      * @return string Ruta absoluta del archivo generado.
      * @throws \Exception Si falla la generación.
      */
-    public function genQRCode(string $codigo_acceso, string $newId): string {
+    public function genQRCode(string $codigo_acceso, string $newId, string $correo): string {
         // Definir directorio
         $qrDir = FYS_DIR . '/qrcodes/';
 
@@ -26,7 +26,7 @@ class QrController {
         }
         
         $frontendUrl = rtrim(FYS_PUBLIC_FRONTEND_URL ?? "http://localhost.com", '/');
-        $qrUrl = "{$frontendUrl}/qr-login?token={$codigo_acceso}";
+        $qrUrl = "{$frontendUrl}/verificacion?codigo={$codigo_acceso}&correo={$correo}";
 
         
         $qrFilename = $qrDir . "qr_{$newId}.png";

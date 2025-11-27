@@ -3,6 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+            is:inline
+            define:vars={{
+                apiUrl: import.meta.env.PUBLIC_API_URL || "http://localhost:8000",
+            }}
+            >
+            window.PUBLIC_API_URL = apiUrl;
+        </script>
         <title>Verificación de Código</title>
         <link
             rel="icon"
@@ -172,9 +180,9 @@
                         autocomplete="off"
                     />
                 </div>
-                <button type="submit" class="btn-submit" id="submitBtn"
-                    >Verificar</button
-                >
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Verificar
+                </button>
             </form>
 
             <div class="loading" id="loadingDiv">
@@ -197,96 +205,88 @@
         </div>
 
         <script is:inline>
-            const form = document.getElementById("verificacionForm");
-            const codigoInput = document.getElementById("codigo");
-            const submitBtn = document.getElementById("submitBtn");
-            const errorDiv = document.getElementById("errorDiv");
-            const successDiv = document.getElementById("successDiv");
-            const loadingDiv = document.getElementById("loadingDiv");
+            document.addEventListener("DOMContentLoaded", () => {
+                const params = new URLSearchParams(window.location.search);
+                const codigo = params.get("codigo");
+                const correo = params.get("correo");
 
-            form.addEventListener("submit", async (e) => {
-                e.preventDefault();
+                const form = document.getElementById("verificacionForm");
+                const codigoInput = document.getElementById("codigo");
+                const submitBtn = document.getElementById("submitBtn");
+                const errorDiv = document.getElementById("errorDiv");
+                const successDiv = document.getElementById("successDiv");
+                const loadingDiv = document.getElementById("loadingDiv");
+                const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8000';
 
-                const codigo = codigoInput.value.trim().toUpperCase();
-                console.log("Código ingresado:", codigo);
-
-                if (!codigo) {
-                    mostrarError("Por favor ingresa un código");
-                    return;
+                if(codigo && codigoInput) {
+                    codigoInput.value = codigo;
                 }
+                
+                form.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const codigo = codigoInput.value.trim().toUpperCase();
+                    console.log("Código ingresado:", codigo);
 
-                submitBtn.disabled = true;
-                loadingDiv.style.display = "block";
-                errorDiv.style.display = "none";
-                successDiv.style.display = "none";
-
-                try {
-                    const formData = new FormData();
-                    formData.append("codigo", codigo);
-
-                    console.log("Enviando código a verificacion.php...");
-                    const response = await fetch(
-                        "http://localhost:8000/src/app/verificacion.php",
-                        {
-                            method: "POST",
-                            body: formData,
-                        },
-                    );
-
-                    console.log("Respuesta:", response.status);
-                    const data = await response.json();
-                    console.log("Datos recibidos:", data);
-
-                    if (data.success) {
-                        mostrarExito("Código verificado correctamente");
-
-                        // Obtener URL del frontend de los parámetros o usar fallback
-                        const urlParams = new URLSearchParams(
-                            window.location.search,
-                        );
-                        const envFrontendUrl =
-                            import.meta.env.PUBLIC_FRONTEND_URL ||
-                            "https://proyecto-3er-parcial.vercel.app";
-                        const frontBase =
-                            urlParams.get("frontend") || envFrontendUrl;
-
-                        // Redirigir al Dashboard
-                        const url =
-                            frontBase +
-                            "/login-success?user=" +
-                            encodeURIComponent(data.user_id) +
-                            "&nombre=" +
-                            encodeURIComponent(data.user_nombre) +
-                            "&correo=" +
-                            encodeURIComponent(data.user_correo);
-                        setTimeout(() => {
-                            window.location.href = url;
-                        }, 800);
-                    } else {
-                        console.log("Error:", data.message);
-                        mostrarError(data.message || "Código no válido");
-                        submitBtn.disabled = false;
+                    if (!codigo) {
+                        mostrarError("Por favor ingresa un código");
+                        return;
                     }
-                } catch (error) {
-                    console.error("Error catch:", error);
-                    mostrarError("Error: " + error.message);
-                    submitBtn.disabled = false;
-                } finally {
-                    loadingDiv.style.display = "none";
+
+                    submitBtn.disabled = true;
+                    loadingDiv.style.display = "block";
+                    errorDiv.style.display = "none";
+                    successDiv.style.display = "none";
+
+                    try {
+                        const formData = new FormData();
+                        formData.append("codigo", codigo);
+                        formData.append("correo", correo);
+
+                        console.log("Enviando código a verificacion.php...");
+
+                        const response = await fetch(`${apiUrl}/api/auth/verifyemail`,
+                            {
+                                method: "POST",
+                                body: formData,
+                            },
+                        );
+
+                        console.log("Respuesta:", response.status);
+                        const data = await response.json();
+                        console.log("Datos recibidos:", data);
+
+                        if (data.success) {
+                            mostrarExito(data.message);
+                           
+                            setTimeout(() => {
+                                window.location.href = 'http://localhost:4321/LoginRegisterPages/loginPage';
+                            }, 800);
+                        } else {
+                            console.log("Error:", data.message);
+                            mostrarError(data.message || "Código no válido");
+                            submitBtn.disabled = false;
+                        }
+                    } catch (error) {
+                        console.error("Error catch:", error);
+                        mostrarError("Error: " + error.message);
+                        submitBtn.disabled = false;
+                    } finally {
+                        loadingDiv.style.display = "none";
+                    }
+                });
+
+                function mostrarError(mensaje) {
+                    errorDiv.textContent = mensaje;
+                    errorDiv.style.display = "block";
                 }
+
+                function mostrarExito(mensaje) {
+                    successDiv.textContent = mensaje;
+                    successDiv.style.display = "block";
+                }
+
+                codigoInput.focus();
             });
-
-            function mostrarError(mensaje) {
-                errorDiv.textContent = mensaje;
-                errorDiv.style.display = "block";
-            }
-
-            function mostrarExito(mensaje) {
-                successDiv.textContent = mensaje;
-                successDiv.style.display = "block";
-            }
-
-            codigoInput.focus();
         </script>
     </body>
 </html>

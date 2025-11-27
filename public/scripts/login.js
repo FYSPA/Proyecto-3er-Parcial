@@ -1,3 +1,26 @@
+async function resendValidate (correo) {
+    const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8000';
+    const formData = new FormData();
+    formData.append('correo', correo);
+
+    const res = await fetch(`${apiUrl}/api/auth/resendtoken`, {
+        method: 'POST',
+        body: formData
+    });
+
+    console.log('Respuesta status:', res.status);
+    const json = await res.json();
+    console.log(json);
+    if (json.success) {
+        alert("Reenvio de validación correcto");
+        return;
+    }
+
+    alert("Sucedio algo");
+    
+}
+
+
 function initLogin() {
     const form = document.getElementById('loginForm');
     if (!form) {
@@ -57,6 +80,17 @@ function initLogin() {
                 }, 500);
             } else {
                 console.log('Error:', json.message);
+                if ( json.code === 'email_not_validate') {
+                    const confirmar = confirm(
+                        "Tu correo aún no está validado. ¿Deseas reenviar el correo de validación?"
+                    );
+
+                    if (confirmar) {
+                        await resendValidate(correo);
+                    } else {
+                        alert("Validación cancelada.");
+                    }
+                }
                 errorDiv.textContent = json.message || 'Email o contraseña incorrectos';
                 errorDiv.style.display = 'block';
                 submitBtn.disabled = false;

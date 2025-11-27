@@ -118,6 +118,72 @@ class User extends DatabaseManager {
     }
 
 
+    public function updateUser(string $id, ?string $nombre, ?string $correo, ?string $password, ?string $email_verified_at): array|Error {
+        $conn = $this->getConnection();
+        if ($conn instanceof \FYS\Helpers\Error) {
+            return $conn;
+        }
+
+        // 1. Construcción dinámica de campos
+        $fields = [];
+        $types = "";
+        $params = [];
+
+        if ($nombre !== null) {
+            $fields[] = "nombre = ?";
+            $types .= "s";
+            $params[] = $nombre;
+        }
+
+        if ($correo !== null) {
+            $fields[] = "correo = ?";
+            $types .= "s";
+            $params[] = $correo;
+        }
+
+        if ($password !== null) {
+            $fields[] = "password = ?";
+            $types .= "s";
+            $params[] = $password;
+        }
+
+        // AGREGADO: Lógica para email_verified_at
+        if ($email_verified_at !== null) {
+            $fields[] = "email_verified_at = ?";
+            $types .= "s";
+            $params[] = $email_verified_at;
+        }
+
+        if (empty($fields)) {
+            return new Error('No se enviaron datos para actualizar', 400);
+        }
+
+        $sql = "UPDATE usuarios SET " . implode(", ", $fields) . " WHERE id = ?";
+        $types .= "s";
+        $params[] = $id;
+
+        $stmt = $conn->prepare($sql);
+        if (!$stmt) {
+            return new Error('Error interno al preparar actualización', 500);
+        }
+
+        $stmt->bind_param($types, ...$params);
+
+        // 4. Ejecutar
+        if (!$stmt->execute()) {
+            if ($stmt->errno == 1062) {
+                return new Error('El correo electrónico ya está en uso', 400);
+            }
+            return new Error('Error al actualizar usuario: ' . $stmt->error, 500);
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Usuario actualizado correctamente',
+            'id' => $id
+        ];
+    }
+
     public function generarCodigoUnico() {
         $conn = $this->getConnection();
         // Error en conexión

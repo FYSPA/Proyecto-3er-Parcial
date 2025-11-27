@@ -8,11 +8,13 @@ namespace FYS\Helpers;
 class Error {
     private string $message;
     private int $code;
+    private ?string $errorcode;
     private ?array $context;
 
-    public function __construct(string $message, int $code = 0, ?array $context = []) {
+    public function __construct(string $message, int $code = 0, ?array $context = [], ?string $errorcode = null) {
         $this->message = $message;
         $this->code = $code;
+        $this->errorcode = $errorcode;
         $this->context = $context;
     }
 
@@ -24,6 +26,10 @@ class Error {
     public function getCode(): int {
         return $this->code;
     }
+    
+    public function getErrorCode(): string {
+        return $this->errorcode;
+    }
 
     public function getContext(): array {
         return $this->context ?? [];
@@ -32,10 +38,11 @@ class Error {
     /** Convierte a array (útil para devolver en JSON) */
     public function toArray(): array {
         return [
-            'error'   => true,
-            'message' => $this->message,
-            'code'    => $this->code,
-            'context' => $this->context,
+            'error'     => true,
+            'message'   => $this->message,
+            'code'      => $this->code,
+            'errorcode' => $this->errorcode,
+            'context'   => $this->context,
         ];
     }
 

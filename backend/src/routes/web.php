@@ -14,7 +14,8 @@ return function(RouteCollector $r){
     // AUTH ROUTES
     $r->addRoute('POST',     '/api/auth/login',         ['FYS\App\Controllers\Auth\Login', 'login']);
     $r->addRoute('POST',     '/api/auth/registro',      ['FYS\App\Controllers\Auth\Register', 'register']);
-    $r->addRoute('POST',     '/api/auth/resendlogin',   ['FYS\App\Controllers\Auth\ResendLogin', 'resendLogin']);
+    $r->addRoute('POST',     '/api/auth/resendtoken',   ['FYS\App\Controllers\Auth\EmailEvents', 'resendToken']);
+    $r->addRoute('POST',     '/api/auth/verifyemail',   ['FYS\App\Controllers\Auth\EmailEvents', 'verifyEmail']);
     // Rutas API calendario
     // $r->addRoute('GET',     '/api/events',          ['App\Controllers\EventController', 'list']);
     // $r->addRoute('POST',    '/api/events',          ['App\Controllers\EventController', 'store']);

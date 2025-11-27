@@ -50,6 +50,8 @@ class EmailSender {
 
             $this->mail->addAddress($to, $name);
             $this->mail->isHTML(true);
+            $this->mail->CharSet = 'UTF-8';
+            $this->mail->Encoding = 'base64';
             $this->mail->Subject = $subject;
             $this->mail->Body    = $body;
             $this->mail->AltBody = strip_tags(str_replace(['<br>', '</p>'], "\n", $body));

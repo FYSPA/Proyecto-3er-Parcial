@@ -28,7 +28,6 @@ class Login {
 
         // Preparar statement
         $result = $this->user->getUserByEmail($correo);
-
         if($result instanceof Error){
             return [
                 'success' => false,
@@ -38,10 +37,10 @@ class Login {
         }
 
         $usuario = $result->fetch_assoc();
-
         if( !isset($usuario['email_verified_at']) || empty($usuario['email_verified_at']) ) {
             return [
                 'success' => false,
+                'code'    => 'email_not_validate',
                 'message' => 'Su correo no esta verificado',
                 'fecha'   => date(FYS_FORMAT_DATE)
             ];
@@ -58,6 +57,7 @@ class Login {
         } else {
             return [
                 'success' => false,
+                'code'    => 'incorrect_password',
                 'message' => 'Contraseña incorrecta',
                 'fecha'   => date(FYS_FORMAT_DATE)
             ];
