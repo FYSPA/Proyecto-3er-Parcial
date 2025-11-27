@@ -25,7 +25,7 @@ import "@styles/global-color-scheame.css";
         <ul class="menu-list">
           <li><a href="#" id="configBtn">Configuración</a></li>
           <li><a href="#" id="ayudaBtn">Ayuda</a></li>
-          <li><a href="/logout" style="color: #f44336;">Cerrar Sesión</a></li>
+          <li><a href="#" id="logoutBtn" style="color: #f44336;">Cerrar Sesión</a></li>
         </ul>
       </div>
       <!-- Menú de configuración (oculto al inicio) -->
@@ -39,7 +39,7 @@ import "@styles/global-color-scheame.css";
           <li><a href="/notificaciones"> Notificaciones</a></li>
           <li><a href="/privacidad">Privacidad</a></li>
           <li>
-            <a href="#" id="backBtn" style="color: #4CAF50;"
+            <a href="#" id="backListBtn" style="color: #4CAF50;"
               >← Volver al menú principal</a
             >
           </li>
@@ -53,7 +53,7 @@ import "@styles/global-color-scheame.css";
         <ul class="menu-list">
           <li><a href="/contact">Contactanos</a></li>
           <li>
-            <a href="#" id="backBtn" style="color: #4CAF50;"
+            <a href="#" id="backAyudaBtn" style="color: #4CAF50;"
               >← Volver al menú principal</a
             >
           </li>
@@ -222,14 +222,15 @@ import "@styles/global-color-scheame.css";
   }
 </style>
 
-<script type="module" src="/scripts/color-scheme.js"></script>
 <script is:inline>
   const modal = document.getElementById("userMenuModal");
   const closeBtn = document.getElementById("closeMenuBtn");
   const backdrop = document.querySelector(".modal-backdrop");
   const configBtn = document.getElementById("configBtn");
   const ayudaBtn = document.getElementById("ayudaBtn");
-  const backBtn = document.getElementById("backBtn");
+  const backListBtn = document.getElementById("backListBtn");
+  const backAyudaBtn = document.getElementById("backAyudaBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
   // NUEVA FUNCIÓN: Actualiza el contenido del menú al dar click en Configuración
   const menuPrincipal = document.getElementById("menuPrincipal");
@@ -243,6 +244,15 @@ import "@styles/global-color-scheame.css";
     menuPrincipal.style.display = "none";
     menuConfiguracion.style.display = "block";
   });
+  
+  logoutBtn?.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('HOLA')
+    sessionStorage.clear();
+    localStorage.clear();
+    window.location.href = '/LoginRegisterPages/loginPage'; 
+  });
 
   ayudaBtn?.addEventListener("click", function (e) {
     e.preventDefault();
@@ -252,7 +262,15 @@ import "@styles/global-color-scheame.css";
   });
 
   // Evento para regresar al menú principal
-  backBtn?.addEventListener("click", function (e) {
+  backAyudaBtn?.addEventListener("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    menuAyuda.style.display = "none";
+    menuConfiguracion.style.display = "none";
+    menuPrincipal.style.display = "block";
+  });
+ 
+  backListBtn?.addEventListener("click", function (e) {
     e.preventDefault();
     e.stopPropagation();
     menuAyuda.style.display = "none";
@@ -272,13 +290,9 @@ import "@styles/global-color-scheame.css";
       sessionStorage.getItem("user_photo") ||
       localStorage.getItem("user_photo");
 
-    // console.log('Actualizando:', userName, userPhoto);
-    // console.log('Elementos encontrados:', greeting, avatarImg);
-
     // Actualizar el nombre
     if (greeting) {
       greeting.textContent = userName || "(User)";
-      // console.log('Nombre actualizado a:', greeting.textContent);
     }
 
     // Actualizar el avatar

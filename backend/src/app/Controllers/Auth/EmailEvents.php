@@ -162,9 +162,9 @@ class EmailEvents {
 
 
         return[
-            'status'    => true,
-            'resultado' => 'Correo validado correctamente',
-            'fecha'      => date(FYS_FORMAT_DATE)
+            'success'       => true,
+            'resultado'     => 'Correo validado correctamente',
+            'fecha'         => date(FYS_FORMAT_DATE)
         ];
 
     }

@@ -7,9 +7,11 @@
             is:inline
             define:vars={{
                 apiUrl: import.meta.env.PUBLIC_API_URL || "http://localhost:8000",
+                frontUrl: import.meta.env.PUBLIC_FRONTEND_URL || "http://localhost:4321",
             }}
             >
             window.PUBLIC_API_URL = apiUrl;
+            window.PUBLIC_FRONTEND_URL = frontUrl;
         </script>
         <title>Verificación de Código</title>
         <link
@@ -259,7 +261,7 @@
                             mostrarExito(data.message);
                            
                             setTimeout(() => {
-                                window.location.href = 'http://localhost:4321/LoginRegisterPages/loginPage';
+                                window.location.href = `${PUBLIC_FRONTEND_URL}/LoginRegisterPages/loginPage`;
                             }, 800);
                         } else {
                             console.log("Error:", data.message);

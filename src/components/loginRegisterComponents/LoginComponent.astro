@@ -5,6 +5,10 @@ import GlobeAnimated from "@components/icons/GlobeAnimated.astro";
 import BackAnimated from "@components/icons/BackAnimated.astro"
 import '@styles/media-quearys/login-media-queary.css'
 ---
+
+<script>
+    import "@scripts/login";
+</script>
 <body>
     <main>
         <h1 class="title">Iniciar Sesión</h1>
@@ -183,5 +187,4 @@ import '@styles/media-quearys/login-media-queary.css'
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script type="module" src="/scripts/google-login.js"></script>
-    <script type="module" src="/scripts/login.js"></script>
 </body>

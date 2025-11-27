@@ -37,6 +37,15 @@ class Login {
         }
 
         $usuario = $result->fetch_assoc();
+        if( empty($usuario['correo']) ) {
+            return [
+                'success' => false,
+                'code'    => 'not_user',
+                'message' => 'Usuario no encontrado. Registra una cuenta para continuar.',
+                'fecha'   => date(FYS_FORMAT_DATE)
+            ];
+        }
+        
         if( !isset($usuario['email_verified_at']) || empty($usuario['email_verified_at']) ) {
             return [
                 'success' => false,

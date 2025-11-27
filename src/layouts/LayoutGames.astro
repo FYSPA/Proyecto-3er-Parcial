@@ -3,6 +3,8 @@
 const {title = "Pagina de Juegos"} = Astro.props;
 import Sidebar from "@components/dashboardComponents/Sidebar.astro";
 import HeaderComponentDashboard from "@components/headerComponents/HeaderComponentDashboard.astro";
+
+import "@styles/global.css";
 ---
 
 <!doctype html>
@@ -14,6 +16,11 @@ import HeaderComponentDashboard from "@components/headerComponents/HeaderCompone
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
         <script is:inline src="/scripts/auth-check.js"></script>
+        <script>
+            import "@scripts/init-storage";
+            import "@scripts/route-protection";
+            import "@scripts/theme-toggle";
+        </script>
     </head>
     <body>
         <Sidebar />
@@ -21,82 +28,5 @@ import HeaderComponentDashboard from "@components/headerComponents/HeaderCompone
         <main>
             <slot />
         </main>
-        <script is:inline src="/scripts/route-protection.js"></script>
     </body>
 </html>
-
-<style is:global>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  html {
-    color-scheme: light dark;
-    overflow-y: auto;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
-
-  body {
-    background-color: #ffffff;
-    color: #000000;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin: 0;
-    padding: 0;
-    margin-left: 80px;
-    margin-top: 70px;
-  }
-
-  body.modo-oscuro {
-    background-color: #1a1a1a;
-    color: #ffffff;
-  }
-
-  body.modo-claro {
-    background-color: #ffffff;
-    color: #000000;
-  }
-
-  main {
-    min-height: calc(100vh - 70px);
-  }
-
-  /* Móviles pequeños (< 380px) */
-  @media (max-width: 380px) {
-    html {
-      font-size: 12px;
-    }
-    
-    body {
-      overflow-x: hidden;
-      margin-left: 70px;
-    }
-  }
-
-  /* Teléfonos (381px - 600px) */
-  @media (min-width: 381px) and (max-width: 600px) {
-    html {
-      font-size: 13px;
-    }
-    
-    body {
-      overflow-x: hidden;
-      margin-left: 70px;
-    }
-  }
-
-  /* Tablets (601px - 900px) */
-  @media (min-width: 601px) and (max-width: 900px) {
-    html {
-      font-size: 14px;
-    }
-  }
-
-  /* Desktop (901px+) */
-  @media (min-width: 901px) {
-    html {
-      font-size: 16px;
-    }
-  }
-</style>
