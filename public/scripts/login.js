@@ -29,7 +29,7 @@ function initLogin() {
 
         try {
             console.log('Haciendo POST a login.php...');
-            const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8000';
+            const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8081';
             const res = await fetch(`${apiUrl}/api/auth/login`, {
                 method: 'POST',
                 body: formData

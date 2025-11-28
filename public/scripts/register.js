@@ -11,7 +11,7 @@ function initRegister() {
         const password = form.querySelector('input[name="password"]').value;
 
 
-        const apiHost = window.PUBLIC_API_URL || 'http://localhost:8000';
+        const apiHost = window.PUBLIC_API_URL || 'http://localhost:8081';
 
         const fd = new FormData();
         fd.append('nombre', nombre);
