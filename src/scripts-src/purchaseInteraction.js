@@ -16,7 +16,7 @@ export function initPurchaseInteraction() {
     const RADIO_REPULSION = 35;
     const FUERZA_REPULSION = 10;
     const IMAGEN = new Image();
-    IMAGEN.src = '/hoja.png'; // Assuming in public/
+    IMAGEN.src = '/logoVGS.ico'; // Assuming in public/
 
     // Coordenadas del ratón
     let mouse = {
@@ -125,7 +125,7 @@ export function initPurchaseInteraction() {
         animar();
 
         // Play Audio
-        audio = new Audio('/mim.mp3'); // Assuming in public/
+        audio = new Audio('/sound-buy.wav');
         audio.play().catch(e => console.error("Audio play failed", e));
 
         // Stop after 5 seconds

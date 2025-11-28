@@ -1,15 +1,15 @@
 // Data de datos de Sidebar.astro de DashboardPage.astro
 export const menuItems = [
-  {
-    titulo: "Inicio", //Se especifica el titulo
-    descripcion: "Página principal", //Se especifica la descripcion
-    tipoIcono: "component", //Se especifica el tipo si es 'component' o 'image'
-    iconKey: "house", //Se especifica el nombre de la varibale si es component
-    iconSrc: null, //Se coloca null si es component ya que no hay imagen
-    descripcion_icono: "Icono casa", //Se especifica la descripcion del icono
-    texto_etiqueta: "Inicio", //Se especifica el texto de la etiqueta
-    ruta_dinamica: "dashboardpage/Dashboard" //Se especifica la ruta dinamica
-  },
+  // {
+  //   titulo: "Inicio", //Se especifica el titulo
+  //   descripcion: "Página principal", //Se especifica la descripcion
+  //   tipoIcono: "component", //Se especifica el tipo si es 'component' o 'image'
+  //   iconKey: "house", //Se especifica el nombre de la varibale si es component
+  //   iconSrc: null, //Se coloca null si es component ya que no hay imagen
+  //   descripcion_icono: "Icono casa", //Se especifica la descripcion del icono
+  //   texto_etiqueta: "Inicio", //Se especifica el texto de la etiqueta
+  //   ruta_dinamica: "dashboardpage/Dashboard" //Se especifica la ruta dinamica
+  // },
   {
     titulo: "Crucible Lament", //Se especifica el titulo
     descripcion: "GameCrucibleLament", //Se especifica la descripcion

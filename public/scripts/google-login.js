@@ -14,7 +14,7 @@ window.handleCodeResponse = function (response) {
         }
         return;
     }
-    const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8000';
+    const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8081';
     fetch(`${apiUrl}/exchange-code.php`, {
         method: 'POST',
         body: new URLSearchParams({ code: response.code })
