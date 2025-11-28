@@ -1,8 +1,13 @@
 ---
-const {title = "Pagina de Juegos"} = Astro.props;
 import { ClientRouter } from "astro:transitions";   
-import HeaderComponent from "../components/headerComponents/HeaderComponent.astro"
+import HeaderComponent from "@components/headerComponents/HeaderComponent.astro";
 import Footer from "@components/footerComponents/Footer.astro";
+
+import "@styles/global.css";
+interface Props {
+    title?: string;
+}
+const { title = "Pagina de Juegos" } = Astro.props;
 ---
 
 <!doctype html>
@@ -13,8 +18,13 @@ import Footer from "@components/footerComponents/Footer.astro";
         <link rel="icon" type="image/svg+xml+ico" href="/logoVGS.ico" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        
         <ClientRouter />
-        <script is:inline src="/scripts/auth-check.js"></script>
+        <script>
+            import "@scripts/init-storage";
+            import "@scripts/route-protection";
+            import "@scripts/theme-toggle";
+        </script>
     </head>
     <body>
         <HeaderComponent />
@@ -22,88 +32,5 @@ import Footer from "@components/footerComponents/Footer.astro";
             <slot />
         </main>
         <Footer />
-        <script is:inline src="/scripts/route-protection.js"></script>
     </body>
 </html>
-
-<style is:global>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-
-    html {
-        color-scheme: light;
-        height: 100%;
-    }
-
-    html.modo-oscuro {
-        color-scheme: dark;
-    }
-
-  body {
-        background-color: #ffffff;
-        color: #000000;
-        transition: background-color 0.3s, color 0.3s;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        margin: 0;
-        padding: 0;
-  }
-
-    body.modo-oscuro {
-        background-color: #1a1a1a;
-        color: #ffffff;
-    }
-
-    main {
-        flex: 1;
-    }
-
-    header {
-        flex-shrink: 0;
-    }
-
-    footer {
-        flex-shrink: 0;
-    }
-
-    /* Móviles pequeños (< 380px) */
-    @media (max-width: 380px) {
-        html {
-            font-size: 12px;
-        }
-        
-        body {
-            overflow-x: hidden;
-        }
-    }
-
-    /* Teléfonos (381px - 600px) */
-    @media (min-width: 381px) and (max-width: 600px) {
-        html {
-            font-size: 13px;
-        }
-        
-        body {
-            overflow-x: hidden;
-        }
-    }
-
-    /* Tablets (601px - 900px) */
-    @media (min-width: 601px) and (max-width: 900px) {
-        html {
-            font-size: 14px;
-        }
-    }
-
-    /* Desktop (901px+) */
-    @media (min-width: 901px) {
-        html {
-            font-size: 16px;
-        }
-    }
-</style>

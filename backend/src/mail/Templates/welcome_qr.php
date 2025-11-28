@@ -1,6 +1,7 @@
 <!-- Variables esperadas: $nombre, $codigo -->
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
         body { font-family: Arial, sans-serif; background: #f5f5f5; }
         .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
@@ -17,13 +18,14 @@
             <h1>¡Bienvenido, <?php echo htmlspecialchars($nombre); ?>!</h1>
         </div>
         <div class='content'>
-            <p>Tu cuenta ha sido creada exitosamente. Puedes iniciar sesión de dos formas:</p>
+            <p>Tu cuenta ha sido creada exitosamente. Para iniciar sesión necesitas validar.</p>
+            <p>Para validar tu correo, puedes hacerlo de dos formas:</p>
             
             <div class='qr-section'>
                 <h2>Escanea este código QR</h2>
                 <!-- Notar el cid:codigo_qr que coincide con lo que enviará el controller -->
                 <img src='cid:codigo_qr' alt='Código QR' style='max-width: 250px;'>
-                <p style='color: #666; font-size: 14px;'>Escanea con tu cámara para iniciar sesión automáticamente</p>
+                <p style='color: #666; font-size: 14px;'>Escanea con tu cámara te llevará a validar tu correo</p>
             </div>
             
             <h2 style='text-align: center;'>O usa tu código de acceso:</h2>

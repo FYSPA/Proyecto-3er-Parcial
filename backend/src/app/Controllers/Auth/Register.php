@@ -117,7 +117,7 @@ class Register {
 
         try {
             // Generar imagen física
-            $rutaQr = $this->qrController->genQRCode($codigo_acceso, $newId);
+            $rutaQr = $this->qrController->genQRCode($codigo_acceso, $newId, $correo);
             
             // Enviar correo
             $emailSent = $this->notificationController->enviarBienvenidaQR(

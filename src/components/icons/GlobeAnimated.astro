@@ -3,6 +3,9 @@ export interface Props { variant?: 'mobile' | 'desktop' }
 const { variant = 'desktop' } = Astro.props;
 import '@styles/global-color-scheame.css'
 ---
+<script>
+    import "@scripts/google-translate";
+</script>
 <body>
     <div class={"menu-container " + (variant === 'mobile' ? 'menu-container--mobile' : 'menu-container--desktop')}>
         <div id="google_translate_element"></div>
@@ -14,7 +17,7 @@ import '@styles/global-color-scheame.css'
             <a href="#" class="lang-link" data-lang="de">Deutsch</a>
             <a href="#" class="lang-link" data-lang="pt">Português</a>
         </div>
-        <button id="btn-globo">
+        <button id="btn-globo" type="button">
             <svg
                 class="icon-tema"
                 xmlns="http://www.w3.org/2000/svg"
@@ -218,6 +221,4 @@ import '@styles/global-color-scheame.css'
             height: 28px;
         }
     </style>
-
-    <script type="module" src="/scripts/menu-idiomas.js"></script>
 </body>
