@@ -22,7 +22,7 @@ function cargarDatosUsuario() {
         if (userPhoto && userPhoto !== 'null') {
             if (userPhoto.startsWith('/uploads/')) {
                 const apiUrl = window.PUBLIC_API_URL || 'http://localhost:8000';
-                avatarImg.src = `${apiUrl}${userPhoto}`;
+                avatarImg.src = `/src${apiUrl}${userPhoto}`;
             } else {
                 avatarImg.src = userPhoto;
             }

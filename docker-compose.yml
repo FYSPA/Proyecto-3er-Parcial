@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: astro_mysql
+    container_name: prod_mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -10,38 +10,47 @@ services:
       MYSQL_PASSWORD: passphp
     volumes:
       - ./db_data:/var/lib/mysql
+      - ./dbinit.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - astra_net
+      - prod_net
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   php:
-    build: ./backend
-    container_name: astro_php
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: prod_php
     restart: always
     depends_on:
       - mysql
     environment:
       MYSQL_HOST: mysql
-      MYSQL_USER: userphp
-      MYSQL_PASSWORD: passphp
-      MYSQL_DATABASE: proyecto
-    ports:
-      - "8088:80"
-    volumes:
-      - ./backend:/var/www/html
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
     networks:
-      - astra_net
+      - prod_net
 
-  astro:
-    build: .
-    container_name: astro_front
+  nginx:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: prod_nginx
     restart: always
     depends_on:
       - php
     ports:
-      - "8089:80"
+      - "80:80"
+      - "443:443"
     networks:
-      - astra_net
+      - prod_net
+
+volumes:
+  db_data:
 
 networks:
-  astra_net:
+  prod_net:
     driver: bridge
